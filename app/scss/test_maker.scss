@@ -1,0 +1,140 @@
+@use "sass:list";
+@use "sass:math";
+@use "helper";
+
+$sections-width: [20%, 50%, 30%];
+$selector-box-height: 50px;
+$selector-box-padding: 5px;
+
+@mixin section_default {
+  height: 100vh;
+  border: solid 3px blueviolet;
+  margin: 0;
+  box-sizing: border-box;
+
+  // 1. Změníme sekci na jednobuňkový Grid
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+
+  header {
+    @include helper.heading_default_font;
+
+    // 2. Umístíme nadpis do první buňky
+    grid-area: 1 / 1 / 2 / 2;
+
+    // 3. Aktivujeme sticky chování s tvým požadovaným posunem
+    position: sticky;
+    top: 1vh;
+    left: 1vw;
+    margin-top: 1vh;
+    margin-left: 1vw;
+
+    // Ukotvíme nadpis vlevo nahoře uvnitř grid buňky
+    align-self: start;
+    justify-self: start;
+
+    z-index: 5; // Vysoce postavená vrstva, aby nadpis překrýval skrolující text
+    font-size: 1.5rem;
+    text-decoration: underline solid 3px;
+    background-color: transparent; // Text je průhledný, takže za ním uvidíš projíždět obsah
+    pointer-events: none; // Zajistí, že uživatel může kliknout na tlačítka pod textem nadpisu
+  }
+
+  .content {
+    border: solid 3px coral;
+
+    // 4. Umístíme obsah do ÚPLNĚ STEJNÉ buňky gridu (tím vznikne overlay vrstva)
+    grid-area: 1 / 1 / 2 / 2;
+
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    z-index: 1;
+
+    // 5. Zapneme vertikální skrolování pro otázky
+    overflow-y: auto;
+
+    // 6. PRIDÁME PADDING, aby první otázky nezačínaly schované přímo pod nadpisem
+    padding-top: calc(1.5rem + 4vh);
+    padding-left: 1vw;
+    padding-right: 1vw;
+  }
+}
+@mixin selector_box_base {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+
+  height: calc($selector-box-height - (2 * $selector-box-padding));
+  padding: 5px;
+}
+
+body {
+  width: 100vw;
+  height: 200vh;
+
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+main {
+  @include helper.random_bg;
+
+  width: 100vw;
+  height: 200vh;
+
+  display: flex;
+  flex-direction: row;
+
+  // shows every variant of this test
+  .variant-select-wrapper {
+    @include helper.random_bg;
+    @include section_default;
+
+    width: list.nth($sections-width, 1);
+  }
+
+  // used to add and find questions from sections of each subjects
+  .question-select-wrapper {
+    @include helper.random_bg;
+    @include section_default;
+
+    width: list.nth($sections-width, 2);
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      align-items: end;
+      row-gap: 5px;
+
+      .subject{
+        @include helper.random_bg;
+        @include selector_box_base;
+        border: 2px greenyellow solid;
+        border-radius: 5px;
+
+        width: calc(100% - 10px) ;
+      }
+
+      .category {
+        @include helper.random_bg;
+        @include selector_box_base;
+        border: 2px dodgerblue dotted;
+        border-radius: 5px;
+
+        width: calc(90% - 10px);
+      }
+    }
+  }
+
+  // displays the current selected variant as a table
+  .preview-wrapper {
+    @include helper.random_bg;
+    @include section_default;
+
+    width: list.nth($sections-width, 3);
+  }
+}
