@@ -1,0 +1,5 @@
+@use "helper";
+
+.subject {
+  @include helper.random_bg;
+}
