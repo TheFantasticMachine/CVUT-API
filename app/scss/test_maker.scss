@@ -122,10 +122,19 @@ main {
       .category {
         @include helper.random_bg;
         @include selector_box_base;
-        border: 2px dodgerblue dotted;
+        border: 2px dodgerblue solid;
         border-radius: 5px;
 
         width: calc(90% - 10px);
+      }
+
+      .question {
+        @include helper.random_bg;
+        @include selector_box_base;
+        border: 2px deeppink solid;
+        border-radius: 5px;
+
+        width: calc(80% - 10px);
       }
     }
   }
