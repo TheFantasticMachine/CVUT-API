@@ -1,4 +1,4 @@
-package com.testgen.restapi.ui.htmlControllers;
+package com.testgen.restapi.ui.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

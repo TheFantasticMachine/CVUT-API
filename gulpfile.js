@@ -24,7 +24,7 @@ function jsTask() {
 // browser sync task
 function browserSyncServe(cb) {
     browser_sync.init({
-        proxy: "localhost:3006", // FIXED: Napojení na tvůj běžící Spring Boot (Tomcat)
+        proxy: "localhost:8080", // FIXED: Napojení na tvůj běžící Spring Boot (Tomcat)
         port: 8080,
         notify: false
     });
