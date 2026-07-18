@@ -2,14 +2,40 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Test maker </title>
+    <title>test maker</title>
+    <link rel="stylesheet" href="dist/test_maker.css">
+    <script src="https://kit.fontawesome.com/636db4ca92.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
-<h1> Test maker </h1>
+<main>
+    <section class="variant-select-wrapper">
+        <header>Varianty</header>
 
+        <div class="content"></div>
+    </section>
 
-<!-- Scripts -->
+    <section class="question-select-wrapper">
+        <header>Otázky</header>
+
+        <div id="question_display" class="content">
+            <div class="subject">
+                <span> Subject </span>
+            </div>
+            <div class="category">
+                <span> Category </span>
+            </div>
+        </div>
+    </section>
+
+    <section class="preview-wrapper">
+        <header>Ukázka vybrané varianty</header>
+
+        <div class="content"></div>
+    </section>
+</main>
+
+<script src="dist/preview_manager.js"></script>
 <script src="dist/question_fetch.js"></script>
 
 </body>
