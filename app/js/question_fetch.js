@@ -1,31 +1,6 @@
 const port = 8080; //prompt("insert current port");
 const questionContainerElement = document.getElementById("question_display");
-
-
-let savedTests = [];
-localStorage.setItem("test_variant", 1);
-
-class Test {
-    test_variant = 1;
-    questions = [];
-
-    constructor() {
-        this.test_variant = localStorage.getItem("test_variant");
-        localStorage.setItem("test_variant", this.test_variant+1);
-    }
-
-    addQuestion(question) {
-        if (!this.questions.includes(question)) {
-            this.questions.push(question);
-        }
-    }
-}
-
-let defaultTestVariant = new Test();
-savedTests.push(defaultTestVariant);
-
-let currentTestVariant = defaultTestVariant;
-
+export let questionPool = [];
 
 // fetch question
 async function getQuestion() {
@@ -60,6 +35,8 @@ async function getQuestion() {
             parent.appendChild(heading);
             questionContainerElement.appendChild(parent);
 
+            questionPool.push(question);
+
             // increase id
             id++;
         }
@@ -67,13 +44,4 @@ async function getQuestion() {
         console.error('Error:', error);
     }
 }
-getQuestion()
-    .then(() => {
-        document.querySelectorAll(".question").forEach((element) => {
-            element.addEventListener("click", (e) => {
-                currentTestVariant.addQuestion(element);
-                console.log(currentTestVariant.questions);
-            });
-        })
-    }
-);
+getQuestion();

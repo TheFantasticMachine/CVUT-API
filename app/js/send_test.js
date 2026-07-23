@@ -1,3 +1,3 @@
-async function submitTestToJava() {}
+import { questionPool} from "./question_fetch";
 
-document.querySelector("#send").addEventListener("click", (e) => {submitTestToJava()});
+console.log(questionPool);
