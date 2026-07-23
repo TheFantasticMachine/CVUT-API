@@ -21,10 +21,19 @@ class Test {
         // create element
         this.rootElement  = document.createElement("div");
         this.rootElement.classList.add("test");
+
+        // add variant span
         let variantElement = document.createElement("span");
         variantElement.classList.add("test_variant");
         variantElement.innerText = variant;
+
+        // add remove button
+        let destroyBtn = document.createElement("button");
+        destroyBtn.innerText = "remove";
+        destroyBtn.addEventListener("click", (e) => this.deleteSelf());
+
         this.rootElement.appendChild(variantElement);
+        this.rootElement.appendChild(destroyBtn);
         testsWrapperElement.appendChild(this.rootElement);
 
         this.variant = variant;
@@ -48,6 +57,28 @@ class Test {
 
         this.setOrder(0);
     }
+
+    deleteSelf() {
+        createdTests.splice(createdTests.indexOf(this), 1);
+
+        createdTests.filter((el) => {
+            el != null || el != undefined
+        });
+
+        // add new variants
+        let i = 1;
+        createdTests.forEach((test) => {
+            test.variant = i;
+            for (const child of test.rootElement.children) {
+                if (child.classList.contains("test_variant")) {
+                    child.innerText = i;
+                }
+            }
+            i++;
+        });
+
+        testsWrapperElement.removeChild(this.rootElement);
+    }
 }
 
 let defaultTest = new Test(1);
@@ -56,3 +87,7 @@ defaultTest.setActive();
 
 new Test(2);
 new Test(3);
+
+document.querySelector("#add_test").addEventListener("click", (e) => {
+    new Test(createdTests[createdTests.length-1].variant + 1);
+});
