@@ -28,7 +28,9 @@ async function getQuestion() {
             // create question element
             let parent = document.createElement("div");
             parent.classList.add("question");
-            parent.dataset.questionID = id;
+            // set data attributes
+            parent.dataset.questionId = question.questionID;
+            parent.dataset.categoryId = question.categoryID;
             // add heading
             let heading = document.createElement("span");
             heading.classList.add("question_heading");
