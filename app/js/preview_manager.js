@@ -84,6 +84,8 @@ class Test {
 let defaultTest = new Test(1);
 activeTest = defaultTest;
 defaultTest.setActive();
+// test
+defaultTest.rootElement.style.backgroundColor = "coral";
 
 new Test(2);
 new Test(3);
