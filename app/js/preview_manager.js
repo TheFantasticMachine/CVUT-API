@@ -79,9 +79,9 @@ class Test {
             if (child.classList.contains("content")) {
                 for (const subchild of child.children) {
                     if (subchild.classList.contains("display_questions")) {
-                        for (const question of subchild.children ) {
-                            subchild.removeChild(question);
-                        }
+
+                        subchild.innerHTML = '';
+
                         if (activeTest.questionPool !== undefined) {
                             activeTest.questionPool.forEach((question) => {
                                 let questionElement = document.createElement("div");
