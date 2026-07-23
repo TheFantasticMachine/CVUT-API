@@ -1,6 +1,6 @@
 const port = 8080; //prompt("insert current port");
 const questionContainerElement = document.getElementById("question_display");
-export let questionPool = [];
+let questions = [];
 
 // fetch question
 async function getQuestion() {
@@ -20,13 +20,15 @@ async function getQuestion() {
             // if correct add into local and as element
             let question = await response.json();
 
+            questions.push(question);
+
             // add to local memory
             localStorage.setItem(`question_${id}`, JSON.stringify(question));
 
             // create question element
             let parent = document.createElement("div");
             parent.classList.add("question");
-            parent.id = `question_${id}`;
+            parent.dataset.questionID = id;
             // add heading
             let heading = document.createElement("span");
             heading.classList.add("question_heading");
@@ -35,8 +37,6 @@ async function getQuestion() {
             parent.appendChild(heading);
             questionContainerElement.appendChild(parent);
 
-            questionPool.push(question);
-
             // increase id
             id++;
         }
@@ -44,4 +44,9 @@ async function getQuestion() {
         console.error('Error:', error);
     }
 }
-getQuestion();
+getQuestion()
+    .then(() => {
+        window.dispatchEvent(new CustomEvent('questions loaded', {
+            detail: questions
+        }));
+    })

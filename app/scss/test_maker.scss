@@ -95,6 +95,16 @@ main {
     @include section_default;
 
     width: list.nth($sections-width, 1);
+
+    .tests_wrapper {
+      display: flex;
+      flex-direction: column;
+
+      .test {
+        background-color: aquamarine;
+        border: blueviolet 2px solid;
+      }
+    }
   }
 
   // used to add and find questions from sections of each subjects
