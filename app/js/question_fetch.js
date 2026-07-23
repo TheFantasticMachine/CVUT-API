@@ -1,7 +1,33 @@
 const port = 8080; //prompt("insert current port");
 const questionContainerElement = document.getElementById("question_display");
 
-// lets try fetch
+
+let savedTests = [];
+localStorage.setItem("test_variant", 1);
+
+class Test {
+    test_variant = 1;
+    questions = [];
+
+    constructor() {
+        this.test_variant = localStorage.getItem("test_variant");
+        localStorage.setItem("test_variant", this.test_variant+1);
+    }
+
+    addQuestion(question) {
+        if (!this.questions.includes(question)) {
+            this.questions.push(question);
+        }
+    }
+}
+
+let defaultTestVariant = new Test();
+savedTests.push(defaultTestVariant);
+
+let currentTestVariant = defaultTestVariant;
+
+
+// fetch question
 async function getQuestion() {
     try {
         let valid = true;
@@ -25,6 +51,7 @@ async function getQuestion() {
             // create question element
             let parent = document.createElement("div");
             parent.classList.add("question");
+            parent.id = `question_${id}`;
             // add heading
             let heading = document.createElement("span");
             heading.classList.add("question_heading");
@@ -35,10 +62,18 @@ async function getQuestion() {
 
             // increase id
             id++;
-
         }
     } catch (error) {
         console.error('Error:', error);
     }
 }
-getQuestion();
+getQuestion()
+    .then(() => {
+        document.querySelectorAll(".question").forEach((element) => {
+            element.addEventListener("click", (e) => {
+                currentTestVariant.addQuestion(element);
+                console.log(currentTestVariant.questions);
+            });
+        })
+    }
+);
