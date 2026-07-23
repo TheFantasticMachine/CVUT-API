@@ -3,8 +3,16 @@
 window.addEventListener('questions loaded', (event) => {
     // define questions
     questions = event.detail;
-    console.log(questions);
+
+    document.querySelectorAll(".question").forEach((question) => {
+        question.addEventListener("click", (e) => {
+            console.log(question.dataset.questionId);
+            activeTest.addQuestion(question.dataset.questionId);
+        });
+    });
 });
+
+console.log(questions);
 
 // generate test (default)
 let createdTests = [];
@@ -18,6 +26,7 @@ class Test {
     rootElement;
     isActive = false;
     constructor(variant) {
+        this.questionPool = new Array();
         // create element
         this.rootElement  = document.createElement("div");
         this.rootElement.classList.add("test");
@@ -55,7 +64,59 @@ class Test {
         active.setOrder(active.variant);
         active.isActive = false;
 
+        activeTest = this;
+
         this.setOrder(0);
+
+        if (this.questionPool !== null) {
+            this.displayQuestions();
+        }
+    }
+
+    displayQuestions() {
+        let previewWrapperElement = document.querySelector(".preview-wrapper");
+        for (const child of previewWrapperElement.children)  {
+            if (child.classList.contains("content")) {
+                for (const subchild of child.children) {
+                    if (subchild.classList.contains("display_questions")) {
+                        for (const question of subchild.children ) {
+                            subchild.removeChild(question);
+                        }
+                        if (activeTest.questionPool !== undefined) {
+                            activeTest.questionPool.forEach((question) => {
+                                let questionElement = document.createElement("div");
+                                let assignment = document.createElement("span");
+                                assignment.innerText = question.assignment;
+                                questionElement.appendChild(assignment);
+
+                                let list = document.createElement("ul");
+                                for (const answer of question.answers) {
+                                    let li = document.createElement("li");
+                                    li.innerText = answer;
+                                    list.appendChild(li);
+                                }
+                                questionElement.appendChild(list);
+
+                                subchild.appendChild(questionElement);
+                            });
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    addQuestion(questionID) {
+        if (!this.questionPool.contains(questions[questionID-1])){
+            this.questionPool.push(questions[questionID-1]);
+        }
+        else {
+            this.questionPool.splice(this.questionPool.indexOf(questions[questionID-1]), 1);
+            this.questionPool.filter((el) => {
+                el != null || el != undefined
+            });
+        }
+        this.displayQuestions();
     }
 
     deleteSelf() {
