@@ -19,7 +19,7 @@ public class DatabaseManager {
 
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
             // create the questions
-            String sql = "select * from questions";
+            String sql = "select * from questions where status='approved'";
             Statement statement = connection.createStatement();
             ResultSet raw = statement.executeQuery(sql);
 

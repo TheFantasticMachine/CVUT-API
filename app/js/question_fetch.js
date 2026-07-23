@@ -1,4 +1,4 @@
-let port = prompt("insert current port");
+const port = 8080; //prompt("insert current port");
 const questionContainerElement = document.getElementById("question_display");
 
 // lets try fetch
