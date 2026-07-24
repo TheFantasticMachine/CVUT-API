@@ -17,6 +17,7 @@ console.log(questions);
 // generate test (default)
 let createdTests = [];
 let activeTest;
+let id = 1;
 
 const testsWrapperElement  = document.querySelector(".tests_wrapper");
 
@@ -25,8 +26,11 @@ class Test {
     variant = 1;
     rootElement;
     isActive = false;
+    id;
     constructor(variant) {
         this.questionPool = new Array();
+        this.id = id;
+        id++;
         // create element
         this.rootElement  = document.createElement("div");
         this.rootElement.classList.add("test");
@@ -39,18 +43,21 @@ class Test {
         // add remove button
         let destroyBtn = document.createElement("button");
         destroyBtn.innerText = "remove";
-        destroyBtn.addEventListener("click", (e) => this.deleteSelf());
+        destroyBtn.onclick = () => this.deleteSelf();
+
+        let idElement = document.createElement("span");
+        idElement.classList.add("test_id");
+        idElement.innerText = this.id;
 
         this.rootElement.appendChild(variantElement);
         this.rootElement.appendChild(destroyBtn);
+        this.rootElement.appendChild(idElement);
         testsWrapperElement.appendChild(this.rootElement);
 
         this.variant = variant;
         this.setOrder(variant);
 
-        this.rootElement.addEventListener("click", (e) => {
-            this.setActive();
-        });
+        this.rootElement.onclick = () => {this.setActive()};
         createdTests.push(this);
     }
 
@@ -59,8 +66,8 @@ class Test {
     }
 
     setActive() {
-        console.log("setting active")
-        console.log(activeTest);
+        console.log(`setting active ... ${this.id}`);
+        //console.log(activeTest);
         this.isActive = true;
         let active = createdTests[ createdTests.indexOf(activeTest) ];
 
@@ -81,6 +88,7 @@ class Test {
         }
 
         this.rootElement.style.backgroundColor = "pink";
+        console.log(activeTest);
     }
 
     displayQuestions() {
