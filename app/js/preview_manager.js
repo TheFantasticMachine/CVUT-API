@@ -43,7 +43,10 @@ class Test {
         // add remove button
         let destroyBtn = document.createElement("button");
         destroyBtn.innerText = "remove";
-        destroyBtn.onclick = () => this.deleteSelf();
+        destroyBtn.onclick = (e) => {
+            e.stopPropagation(); // THIS PREVENTS BUBBLING
+            this.deleteSelf();
+        };
 
         let idElement = document.createElement("span");
         idElement.classList.add("test_id");
@@ -139,9 +142,10 @@ class Test {
     }
 
     deleteSelf() {
+        console.log(`delete ${this.id}`)
         if (this === activeTest) {
             console.log("removing active");
-
+            console.log("old");
             console.log(activeTest);
 
             if (createdTests.indexOf(this) - 1 > -1) {
@@ -161,6 +165,7 @@ class Test {
                 return;
             }
 
+            console.log("new");
             console.log(activeTest);
         }
 
