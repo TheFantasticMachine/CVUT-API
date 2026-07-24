@@ -59,11 +59,19 @@ class Test {
     }
 
     setActive() {
+        console.log("setting active")
+        console.log(activeTest);
         this.isActive = true;
         let active = createdTests[ createdTests.indexOf(activeTest) ];
+
+        if (!active) {
+            console.warn(`Cannot set active state: element at index ${createdTests.indexOf(activeTest)} is undefined.`);
+            activeTest = this;
+            return;
+        }
+
         active.setOrder(active.variant);
         active.isActive = false;
-
         activeTest = this;
 
         this.setOrder(0);
@@ -71,6 +79,8 @@ class Test {
         if (this.questionPool !== null) {
             this.displayQuestions();
         }
+
+        this.rootElement.style.backgroundColor = "pink";
     }
 
     displayQuestions() {
@@ -107,7 +117,7 @@ class Test {
     }
 
     addQuestion(questionID) {
-        if (!this.questionPool.contains(questions[questionID-1])){
+        if (this.questionPool.indexOf(questions[questionID-1]) === -1){
             this.questionPool.push(questions[questionID-1]);
         }
         else {
@@ -116,10 +126,36 @@ class Test {
                 el != null || el != undefined
             });
         }
+        console.log(this.questionPool);
         this.displayQuestions();
     }
 
     deleteSelf() {
+        if (this === activeTest) {
+            console.log("removing active");
+
+            console.log(activeTest);
+
+            if (createdTests.indexOf(this) - 1 > -1) {
+                console.log(createdTests[ createdTests.indexOf(this) - 1 ]);
+
+                //activeTest = createdTests[ createdTests.indexOf(this) - 1 ];
+                createdTests[ createdTests.indexOf(this) - 1 ].setActive();
+                console.log(1);
+            }
+            else if (createdTests.indexOf(this) + 1 < createdTests.length) {
+                console.log(2);
+                console.log(createdTests[ createdTests.indexOf(this)  + 1 ]);
+
+                createdTests[ createdTests.indexOf(this) + 1 ].setActive();
+            }
+            else {
+                return;
+            }
+
+            console.log(activeTest);
+        }
+
         createdTests.splice(createdTests.indexOf(this), 1);
 
         createdTests.filter((el) => {
@@ -130,6 +166,7 @@ class Test {
         let i = 1;
         createdTests.forEach((test) => {
             test.variant = i;
+
             for (const child of test.rootElement.children) {
                 if (child.classList.contains("test_variant")) {
                     child.innerText = i;
