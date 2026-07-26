@@ -1,0 +1,39 @@
+/* Strict printable A4 rules for iText */
+@page {
+    size: A4;
+    margin: 20mm;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+table {
+    border-collapse: collapse; /* */
+    width: 75%;               /* Force table to span full printable width */
+    table-layout: fixed;       /* CRITICAL: Forces columns to strictly match set widths */
+    margin-bottom: 25px;
+    page-break-inside: avoid;  /* Stops a question block from chopping in half across pages */
+}
+
+th, td {
+    border: 1px solid black; /* */
+    padding: 6px;
+    text-align: left;
+    vertical-align: top;
+    overflow: hidden;
+    word-wrap: break-word;     /* Wraps long text down to a new line without stretching columns */
+}
+
+/* TARGET THE COLUMNS (1 to 4) INSTEAD OF THE ROWS */
+th:nth-child(1), td:nth-child(1) { width: 10%; text-align: center; } /* Oprava Column */
+th:nth-child(2), td:nth-child(2) { width: 10%; text-align: center; } /* Odpověď Column */
+th:nth-child(3), td:nth-child(3) { width: 6%;  text-align: center; font-weight: bold; } /* Number/Letter Column */
+th:nth-child(4), td:nth-child(4) { width: 74%; } /* Question & Answer Text Column */
