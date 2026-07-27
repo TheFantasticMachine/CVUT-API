@@ -55,11 +55,11 @@
             <artifactId>mysql-connector-j</artifactId>
             <scope>runtime</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.itextpdf</groupId>-->
-<!--            <artifactId>html2pdf</artifactId>-->
-<!--            <version>6.3.2</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>html2pdf</artifactId>
+            <version>6.3.2</version>
+        </dependency>
 
         <!-- Source: https://mvnrepository.com/artifact/org.xhtmlrenderer/flying-saucer-pdf -->
         <dependency>

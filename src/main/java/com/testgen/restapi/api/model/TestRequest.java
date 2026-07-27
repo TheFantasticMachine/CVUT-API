@@ -25,4 +25,8 @@ public class TestRequest {
 
     public List<Integer> getQuestionIds() { return questionIds; }
     public void setQuestionIds(List<Integer> questionIds) { this.questionIds = questionIds; }
+
+    public Object getQuestions() {
+        return null;
+    }
 }
