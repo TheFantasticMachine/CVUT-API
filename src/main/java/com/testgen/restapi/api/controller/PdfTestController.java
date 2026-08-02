@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/test")
-public class TestController {
+public class PdfTestController {
 
     @Autowired
     private TemplateEngine templateEngine; // Thymeleaf template renderer
 
-    @PostMapping("/generate-pdf")
+    @PostMapping("/api/test/generate-pdf")
     public ResponseEntity<byte[]> generatePdf(@RequestBody TestRequest request) {
 
         // 1. Populate Thymeleaf Context with data from frontend
@@ -44,3 +44,4 @@ public class TestController {
                 .body(pdfBytes);
     }
 }
+

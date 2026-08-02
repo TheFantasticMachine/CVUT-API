@@ -70,3 +70,5 @@ async function generateActiveTestPdf() {
         console.error("[PDF generation failed]:", error);
     }
 }
+
+document.getElementById("send").addEventListener("click", (e) => { generateActiveTestPdf(); })
