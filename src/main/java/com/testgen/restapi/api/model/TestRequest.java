@@ -4,29 +4,19 @@ import java.util.List;
 
 public class TestRequest {
     private String testName;
-    private int categoryId;
-    private List<Integer> questionIds; // Or List<Question> if sending full objects
+    private List<Question> questions;
 
-    // Default constructor needed for Jackson JSON parsing
+    // 🔑 REQUIRED by Jackson for JSON deserialization
     public TestRequest() {}
 
-    public TestRequest(String testName, int categoryId, List<Integer> questionIds) {
+    public TestRequest(String testName, List<Question> questions) {
         this.testName = testName;
-        this.categoryId = categoryId;
-        this.questionIds = questionIds;
+        this.questions = questions;
     }
 
-    // Getters and Setters
     public String getTestName() { return testName; }
     public void setTestName(String testName) { this.testName = testName; }
 
-    public int getCategoryId() { return categoryId; }
-    public void setCategoryId(int categoryId) { this.categoryId = categoryId; }
-
-    public List<Integer> getQuestionIds() { return questionIds; }
-    public void setQuestionIds(List<Integer> questionIds) { this.questionIds = questionIds; }
-
-    public Object getQuestions() {
-        return null;
-    }
+    public List<Question> getQuestions() { return questions; }
+    public void setQuestions(List<Question> questions) { this.questions = questions; }
 }

@@ -3,8 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <link rel="stylesheet" th:href="@{/dist/question_style.css}" >
 </head>
 <body>
+
+<h2> create question </h2>
+
+<form>
+    <input type="text" name="assignment" placeholder="Zadani otazky"> <br>
+    <div class="questions_form">
+        <input class="correct_question_marker" type="radio" name="correct">
+        <input class="" type="radio" name="question"> <br>
+        <input class="correct_question_marker" type="radio" name="correct">
+        <input class="" type="radio" name="question"> <br>
+        <input class="correct_question_marker" type="radio" name="correct">
+        <input class="" type="radio" name="question"> <br>
+        <input class="correct_question_marker" type="radio" name="correct">
+        <input class="" type="radio" name="question">
+    </div>
+
+    <input type="button" value="+" placeholder="+">
+</form>
 
 </body>
 </html>
