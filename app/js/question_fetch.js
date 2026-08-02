@@ -5,6 +5,7 @@ let questions = [];
 // fetch question
 async function getQuestion() {
     try {
+
         let valid = true;
         let id = 1;
         while (valid) {
@@ -12,20 +13,21 @@ async function getQuestion() {
             let url = `http://localhost:${port}/question?id=${id}`;
             // get json
             let response = await fetch(url);
-
+            // catch wrong
             if (!response.ok) {
                 console.log(`[JS] Server returned status ${response.status}. Stopping loop.`);
                 break;
             }
 
-            // 1. Read as raw text first
-            const text = await response.text();
+            // 1. Get raw text response
+            let text = await response.text();
 
-            // 2. Break cleanly if empty or null
-            if (!text || text.trim() === "" || text === "null") {
-                console.log(`[JS] Reached end of questions at ID ${id}.`);
+            // 2. Stop the fetch loop cleanly if the server returns an empty body
+            if (!text || text.trim() === "") {
+                console.log(`[JS] Reached end of question database at ID ${id}.`);
                 break;
             }
+
             // if correct add into local and as element
             let question = JSON.parse(text);
 
