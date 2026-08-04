@@ -2,53 +2,31 @@ package com.testgen.restapi.core;
 
 import com.testgen.restapi.api.model.Category;
 import com.testgen.restapi.api.model.Subject;
+import com.testgen.restapi.core.managers.DatabaseManager;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
-public class Globals {
+@Component
+public class Globals implements CommandLineRunner {
 
-    static private HashMap<String, Subject> allSubjects;
-    static private HashMap<String, Category> allCategories;
+    public static List<Subject> subjects = new ArrayList<>();
+    public static List<Category> categories = new ArrayList<>();
 
-    public Globals() {}
-
-    public HashMap getAllSubjects() {
-        return allSubjects;
+    @Override
+    public void run(String... args) {
+        refreshGlobals();
     }
 
-    public HashMap getAllCategories() {
-        return allCategories;
-    }
+    // Call this whenever a new subject/category is added to update memory without restarting the app
+    public static void refreshGlobals() {
+        DatabaseManager db = new DatabaseManager();
 
-    public void addToSubjects(Subject subject) {
-        if (allSubjects.containsKey(subject.getSubjectName())) { return; }
-        else {
-            allSubjects.put(subject.getSubjectName(), subject);
-        }
-        return;
-    }
+        subjects = db.getAllSubjects();
+        categories = db.getAllCategories();
 
-    public void addToCategories(Category category) {
-        if (allCategories.containsKey(category.getCategoryName())) { return; }
-        else {
-            allCategories.put(category.getCategoryName(), category);
-        }
-        return;
+        System.out.println("[Globals] Successfully loaded " + subjects.size() + " subjects and " + categories.size() + " categories.");
     }
-
-    public void removeFromSubjects(Subject subject) {
-        if (allSubjects.containsKey(subject.getSubjectName())) {
-            allSubjects.remove(subject.getSubjectName(), subject);
-        }
-        return;
-    }
-
-    public void removeFromCategories(Category category) {
-        if (allCategories.containsKey(category.getCategoryName() )) {
-            allSubjects.remove(category.getCategoryName(), category);
-        }
-        return;
-    }
-
 }

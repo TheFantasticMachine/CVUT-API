@@ -1,5 +1,6 @@
 package com.testgen.restapi.ui.controller;
 
+import com.testgen.restapi.core.Globals;
 import com.testgen.restapi.core.managers.DatabaseManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,23 +17,8 @@ public class QuestionMakerController {
     @GetMapping("/question_maker")
     public String question_maker(Model model) {
 
-        DatabaseManager databaseManager = new DatabaseManager();
-
-        List subjects = new ArrayList<>();
-
-        try {
-            Connection connection = databaseManager.getConnection();
-            String sql = "select categoryName from categories";
-            Statement statement =  connection.createStatement();
-            ResultSet result = statement.executeQuery(sql);
-            while (result.next()) {
-                subjects.add(result.getString("categoryName"));
-            }
-            model.addAttribute("subjects", subjects);
-        }
-        catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        model.addAttribute("subjects", Globals.subjects);
+        model.addAttribute("categories", Globals.categories);
 
         return "question_maker";
     }

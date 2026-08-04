@@ -1,6 +1,8 @@
 package com.testgen.restapi.core.managers;
 
+import com.testgen.restapi.api.model.Category;
 import com.testgen.restapi.api.model.Question;
+import com.testgen.restapi.api.model.Subject;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -59,5 +61,47 @@ public class DatabaseManager {
         }
 
         return questions;
+    }
+
+    public List<Subject> getAllSubjects() {
+        List<Subject> list = new ArrayList<>();
+        String sql = "SELECT * FROM subjects";
+
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Subject subject = new Subject();
+                subject.setSubjectID(rs.getInt("subjectID"));
+                subject.setSubjectName(rs.getString("name"));
+                list.add(subject);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<Category> getAllCategories() {
+        List<Category> list = new ArrayList<>();
+        String sql = "SELECT * FROM categories";
+
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Category category = new Category();
+                category.setCategoryID(rs.getInt("categoryID"));
+                category.setCategoryName(rs.getString("categoryName"));
+
+                list.add(category
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }
