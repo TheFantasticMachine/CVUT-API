@@ -12,7 +12,13 @@
 <body>
 
 <form>
-    <input type="text" placeholder="Question assignment">
+    <input type="text" placeholder="Question assignment" />
+
+    <div class="questions">
+
+
+    </div>
+
     <div class="middle">
 
         <select name="categoryID" id="categoryID">
@@ -21,8 +27,6 @@
                     th:text="${cat.categoryName}">
             </option>
         </select>
-
-        <input class=difficulty" type="range">
     </div>
 </form>
 
