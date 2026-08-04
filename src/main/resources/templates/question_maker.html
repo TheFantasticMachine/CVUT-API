@@ -1,33 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
 
-    <link rel="stylesheet" th:href="@{/dist/question_style.css}" >
+    <link rel="stylesheet" th:href="@{/dist/question_style.css}">
 </head>
 <body>
 
-<h2> create question </h2>
-
 <form>
+    <input type="text" placeholder="Question assignment">
+    <div class="middle">
 
-    <div class="left">
+        <select th:each="categoryName : ${subjects}">
+            <option th:value="${categoryName}"
+        </select>
 
-        <input type="text" id="question_assignment" placeholder="zadani">
-
-        <div class="questions"></div>
-
+        <input class=difficulty" type="range">
     </div>
-
-    <div class="right">
-
-        <input id="difficulty" type="range">
-
-        <select></select>
-
-    </div>
-
 </form>
 
 </body>

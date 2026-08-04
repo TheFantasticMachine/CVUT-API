@@ -14,10 +14,20 @@ public class DatabaseManager {
     private static final String USER = "root";
     private static final String PASSWORD = "";
 
+    public static Connection getConnection() {
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection(URL, USER, PASSWORD);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return connection;
+    }
+
     public static List<Question> getAllQuestions() {
         List<Question> questions = new ArrayList<>();
 
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
+        try (Connection connection = getConnection()) {
             // create the questions
             String sql = "select * from questions where status='approved'";
             Statement statement = connection.createStatement();
