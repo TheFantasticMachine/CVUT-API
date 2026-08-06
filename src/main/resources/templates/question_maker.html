@@ -7,27 +7,50 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 
-    <link rel="stylesheet" th:href="@{/dist/question_style.css}">
+    <link rel="stylesheet" href="/dist/question_style.css">
 </head>
 <body>
 
 <form>
-    <input type="text" placeholder="Question assignment" />
+    <div class="flex">
+        <div class="start">
+            <input id="question-assignment" type="text" placeholder="Question assignment" />
 
-    <div class="questions">
+            <select name="categoryID" id="categoryID">
+                <option th:each="cat : ${categories}"
+                        th:value="${cat.categoryID}"
+                        th:text="${cat.categoryName}">
+                </option>
+            </select>
+        </div>
 
+        <div class="questions">
 
+            <div class="question">
+                <input class="question-answer" type="text">
+                <input type="checkbox">
+            </div>
+
+            <div class="question">
+                <input class="question-answer" type="text">
+                <input type="checkbox">
+            </div>
+
+            <div class="question">
+                <input class="question-answer" type="text">
+                <input type="checkbox">
+            </div>
+
+            <div class="question">
+                <input class="question-answer" type="text">
+                <input type="checkbox">
+            </div>
+
+            <button id="add-question">+</button>
+        </div>
     </div>
+    <input type="submit" id="submit" placeholder="add question">
 
-    <div class="middle">
-
-        <select name="categoryID" id="categoryID">
-            <option th:each="cat : ${categories}"
-                    th:value="${cat.categoryID}"
-                    th:text="${cat.categoryName}">
-            </option>
-        </select>
-    </div>
 </form>
 
 </body>
