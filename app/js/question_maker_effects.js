@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
         row.className = "answer-row";
         row.innerHTML = `
             <span class="answer-letter">${nextLetter}</span>
-            <input type="text" name="answers[]" placeholder="Enter answer text..." required />
+            <input class="question_text" type="text" name="answers[]" placeholder="Enter answer text..." required />
             
             <label class="correct-radio-label" title="Mark as correct answer">
                 <input type="radio" name="correctAnswerIndex" value="${currentCount}" required />
@@ -61,8 +61,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (e.target && e.target.classList.contains("btn-icon-remove")) {
             const rows = answersList.querySelectorAll(".answer-row");
 
-            if (rows.length <= 2) {
-                alert("A question must have at least 2 answer choices.");
+            if (rows.length <= 4) {
+                alert("A question must have at least 4 answer choices.");
                 return;
             }
 
