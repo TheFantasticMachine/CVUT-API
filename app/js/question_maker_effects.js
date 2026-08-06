@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <input type="text" name="answers[]" placeholder="Enter answer text..." required />
             
             <label class="correct-radio-label" title="Mark as correct answer">
-                <input type="radio" name="correctAnswerIndex" value="${currentCount}" />
+                <input type="radio" name="correctAnswerIndex" value="${currentCount}" required />
                 <span class="radio-custom">Correct</span>
             </label>
 
