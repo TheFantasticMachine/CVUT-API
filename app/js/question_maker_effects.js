@@ -1,80 +1,76 @@
-const alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-let currentIndex  = 0;
+document.addEventListener("DOMContentLoaded", () => {
+    const answersList = document.getElementById("answers-list");
+    const addAnswerBtn = document.getElementById("add-answer-btn");
 
-/*
-<div class="answer-row">
-                    <span class="answer-letter">A</span>
-                    <input type="text" name="answers[]" placeholder="Enter answer text..." required />
+    if (!addAnswerBtn || !answersList) return;
 
-                    <label class="correct-radio-label" title="Mark as correct answer">
-                        <input type="radio" name="correctAnswerIndex" value="0" checked />
-                        <span class="radio-custom">Correct</span>
-                    </label>
+    // Convert index to ASCII Letter (0 -> 'A', 1 -> 'B', 2 -> 'C', etc.)
+    function getLetter(index) {
+        return String.fromCharCode(65 + index);
+    }
 
-                    <button type="button" class="btn-icon-remove" title="Remove option">&times;</button>
-                </div>
- */
+    // Recalculate letters (A, B, C...) and radio values (0, 1, 2...) sequentially
+    function reindexAnswers() {
+        const rows = answersList.querySelectorAll(".answer-row");
+        rows.forEach((row, index) => {
+            // 1. Update letter tag
+            const letterSpan = row.querySelector(".answer-letter");
+            if (letterSpan) {
+                letterSpan.innerText = getLetter(index);
+            }
 
-function createAnswer () {
-    // 1. make wrapper
-    let wrapper = document.createElement("div");
-    wrapper.classList.add("answer-row");
+            // 2. Update radio input value to match 0-based array index for Java
+            const radio = row.querySelector('input[type="radio"]');
+            if (radio) {
+                radio.value = index;
+            }
+        });
+    }
 
-    // <span class="answer-letter">A</span>
-    let answerLetter = document.createElement("span");
-    answerLetter.innerText = alphabet[currentIndex];
-    currentIndex += 1;
-    answerLetter.classList.add("answer-letter");
-    // add to parent
-    wrapper.appendChild(answerLetter);
+    // Add new answer row
+    addAnswerBtn.addEventListener("click", () => {
+        const currentCount = answersList.querySelectorAll(".answer-row").length;
 
-    // <input type="text" name="answers[]" placeholder="Enter answer text..." required />
-    let textIn = document.createElement("input");
-    textIn.name = "answers[]";
-    textIn.placeholder = "Enter answer text...";
-    textIn.type = "text";
-    textIn.required = true;
-    // add to parent
-    wrapper.appendChild(textIn);
+        if (currentCount >= 10) {
+            alert("Maximum 10 answer choices allowed.");
+            return;
+        }
 
-    // <label class="correct-radio-label" title="Mark as correct answer">
-    let label = document.createElement("label");
-    label.classList.add("correct-radio-label");
-    label.title = "Mark as correct answer";
+        const nextLetter = getLetter(currentCount);
 
-    // <input type="radio" name="correctAnswerIndex" value="0" checked />
-    let radioIn = document.createElement("input");
-    radioIn.type = "radio";
-    radioIn.name = "correctAnswerIndex";
-    radioIn.value = "0";
-    // add to label
-    label.appendChild(radioIn)
+        const row = document.createElement("div");
+        row.className = "answer-row";
+        row.innerHTML = `
+            <span class="answer-letter">${nextLetter}</span>
+            <input type="text" name="answers[]" placeholder="Enter answer text..." required />
+            
+            <label class="correct-radio-label" title="Mark as correct answer">
+                <input type="radio" name="correctAnswerIndex" value="${currentCount}" />
+                <span class="radio-custom">Correct</span>
+            </label>
 
-    // <span class="radio-custom">Correct</span>
-    let span = document.createElement("span");
-    span.classList.add("radio-custom");
-    span.innerText = "Correct";
-    // add to label
-    label.appendChild(span);
+            <button type="button" class="btn-icon-remove" title="Remove option">&times;</button>
+        `;
 
-    // add label to wrapper
-    wrapper.appendChild(label);
+        answersList.appendChild(row);
+        reindexAnswers();
+    });
 
-    // <button type="button" class="btn-icon-remove" title="Remove option">&times;</button>
-    let button = document.createElement("button");
-    button.type = "button";
-    button.classList.add("btn-icon-remove");
-    button.title = "Remove option";
-    button.innerText = "&times;";
-    // add to wrapper
-    wrapper.appendChild(button);
+    // Event Delegation: Listens on container for removal clicks (works for present & future rows)
+    answersList.addEventListener("click", (e) => {
+        if (e.target && e.target.classList.contains("btn-icon-remove")) {
+            const rows = answersList.querySelectorAll(".answer-row");
 
-    return wrapper;
-}
+            if (rows.length <= 2) {
+                alert("A question must have at least 2 answer choices.");
+                return;
+            }
 
-document.addEventListener("load", (e) => {
-    document.getElementById("answers-list").appendChild(createAnswer());
-    document.getElementById("answers-list").appendChild(createAnswer());
-    document.getElementById("answers-list").appendChild(createAnswer());
-    document.getElementById("answers-list").appendChild(createAnswer());
+            const rowToRemove = e.target.closest(".answer-row");
+            if (rowToRemove) {
+                rowToRemove.remove();
+                reindexAnswers(); // Cleanly re-index remaining A, B, C letters & radio indices
+            }
+        }
+    });
 });
