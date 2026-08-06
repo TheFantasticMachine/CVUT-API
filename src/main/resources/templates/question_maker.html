@@ -1,57 +1,104 @@
-<!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-
-    <link rel="stylesheet" href="/dist/question_style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Maker</title>
+    <link rel="stylesheet" th:href="@{dist/question_style.css}">
 </head>
 <body>
 
-<form>
-    <div class="flex">
-        <div class="start">
-            <input id="question-assignment" type="text" placeholder="Question assignment" />
+<div class="question-maker-container">
+    <div class="card-header">
+        <h2>Create Question</h2>
+        <p class="subtitle">Fill in the assignment, answer choices, and metadata below.</p>
+    </div>
 
-            <select name="categoryID" id="categoryID">
+    <form id="question-form" class="question-form">
+
+        <!-- 1. Question Assignment -->
+        <div class="form-group">
+            <label for="assignment">Question Assignment</label>
+            <textarea id="assignment" name="assignment" rows="3"
+                      placeholder="e.g., Which protocol operates at the Transport layer of the OSI model?" required></textarea>
+        </div>
+
+        <!-- 2. Category Selection (From Globals) -->
+        <div class="form-group">
+            <label for="categoryID">Category</label>
+            <select id="categoryID" name="categoryID" required>
+                <option value="" disabled selected>-- Select Category --</option>
                 <option th:each="cat : ${categories}"
                         th:value="${cat.categoryID}"
                         th:text="${cat.categoryName}">
+                    Networking
                 </option>
             </select>
         </div>
 
-        <div class="questions">
-
-            <div class="question">
-                <input class="question-answer" type="text">
-                <input type="checkbox">
+        <!-- 3. Difficulty Slider (1 to 10) -->
+        <div class="form-group">
+            <div class="label-row">
+                <label for="difficulty">Difficulty Level</label>
+                <span id="difficulty-val" class="slider-badge">5</span>
             </div>
-
-            <div class="question">
-                <input class="question-answer" type="text">
-                <input type="checkbox">
+            <div class="slider-wrapper">
+                <span class="range-min">1</span>
+                <input type="range" id="difficulty" name="difficulty"
+                       min="1" max="10" value="5" class="difficulty-slider"
+                       oninput="document.getElementById('difficulty-val').innerText = this.value" />
+                <span class="range-max">10</span>
             </div>
-
-            <div class="question">
-                <input class="question-answer" type="text">
-                <input type="checkbox">
-            </div>
-
-            <div class="question">
-                <input class="question-answer" type="text">
-                <input type="checkbox">
-            </div>
-
-            <button id="add-question">+</button>
         </div>
-    </div>
-    <input type="submit" id="submit" placeholder="add question">
 
-</form>
+        <!-- 4. Question Answers List -->
+        <div class="answers-section">
+            <div class="answers-header">
+                <label>Answer Options</label>
+                <span class="hint">Select the radio button next to the correct answer.</span>
+            </div>
+
+            <div id="answers-list" class="answers-list">
+<!--                &lt;!&ndash; Answer Row A &ndash;&gt;-->
+<!--                <div class="answer-row">-->
+<!--                    <span class="answer-letter">A</span>-->
+<!--                    <input type="text" name="answers[]" placeholder="Enter answer text..." required />-->
+
+<!--                    <label class="correct-radio-label" title="Mark as correct answer">-->
+<!--                        <input type="radio" name="correctAnswerIndex" value="0" checked />-->
+<!--                        <span class="radio-custom">Correct</span>-->
+<!--                    </label>-->
+
+<!--                    <button type="button" class="btn-icon-remove" title="Remove option">&times;</button>-->
+<!--                </div>-->
+
+<!--                &lt;!&ndash; Answer Row B &ndash;&gt;-->
+<!--                <div class="answer-row">-->
+<!--                    <span class="answer-letter">B</span>-->
+<!--                    <input type="text" name="answers[]" placeholder="Enter answer text..." required />-->
+
+<!--                    <label class="correct-radio-label" title="Mark as correct answer">-->
+<!--                        <input type="radio" name="correctAnswerIndex" value="1" />-->
+<!--                        <span class="radio-custom">Correct</span>-->
+<!--                    </label>-->
+
+<!--                    <button type="button" class="btn-icon-remove" title="Remove option">&times;</button>-->
+<!--                </div>-->
+<!--            </div>-->
+
+            <!-- Add Answer Button -->
+            <button type="button" id="add-answer-btn" class="btn-secondary">+ Add Choice</button>
+        </div>
+
+        <!-- 5. Form Submission Buttons -->
+        <div class="form-actions">
+            <button type="submit" class="btn-primary">Save Question</button>
+        </div>
+
+    </form>
+</div>
+
+<script th:src="@{dist/question_maker_effects.js}"></script>
 
 </body>
 </html>
