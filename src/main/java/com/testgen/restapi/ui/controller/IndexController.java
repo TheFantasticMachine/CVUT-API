@@ -13,4 +13,10 @@ public class IndexController {
 
     @GetMapping("/main")
     public String main() { return "main"; }
+
+    @GetMapping("/main2")
+    public String main2() { return "main2"; }
+
+    @GetMapping("/icons")
+    public String icons() { return "icons"; }
 }

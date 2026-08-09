@@ -1,0 +1,204 @@
+@use "sass:list";
+
+// variables
+$color-set-vhs-dream: #ff7ac7, #ffd5ff, #7bf2ff, #7d7bff, #1b1135, #00ffbf, #ff2975, #8d13ff, #00f0ff, #050816;
+$color-set-pastelle: #fff4c7, #ffd4c2, #d4f6ff, #e1d4ff, #90c2ff, #f3f4ff, #ffd7ef, #d2f2ff, #c9d6ff, #a3a3c2, #ffd1dc, #ffe8a3, #c5f5ff, #c9c0ff, #8fd3c8;
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: black;
+
+  width: 100vw;
+  height: 100vh;
+
+  display: grid;
+  grid-template-areas: "aside main";
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 4fr;
+
+  aside {
+    display: grid;
+    grid-area: aside;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 9fr;
+    grid-template-areas:
+          "user"
+          "action-menu";
+
+    background-color: list.nth($color-set-vhs-dream, 1);
+
+    // -- user profile
+    #user-profile-wrapper {
+      grid-area: user;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      column-gap: 15px;
+      padding: 20px;
+
+      background-color: list.nth($color-set-pastelle, 1);
+
+      .user-icon-wrapper {
+        border-radius: 100%;
+        aspect-ratio: 1 / 1;
+        width: 60px;
+        padding: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: blueviolet;
+
+        i {
+          font-size: 40px;
+        }
+      }
+    }
+
+    // -- actions on side menu
+    #action-menu-wrapper {
+      grid-area: action-menu;
+
+      background-color: list.nth($color-set-pastelle, 2);
+
+      border-radius: 0 120px 0 0;
+      border: 2px solid list.nth($color-set-pastelle, 3);
+    }
+  }
+
+  main {
+    grid-area: main;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 3fr;
+    grid-template-areas: 'tests' 'questions';
+    row-gap: 20px;
+
+    background-color: list.nth($color-set-vhs-dream, 4);
+
+    padding: 64px 64px 0 64px;
+
+    #test-wrapper {
+
+      grid-area: tests;
+
+      #test-upper {
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        column-gap: 10px;
+
+
+        .header {
+          font-weight: 900;
+          font-size: 2rem;
+        }
+
+        #create-test-button {
+          padding: 5px;
+          border: none;
+        }
+      }
+
+      #tests-icons {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: baseline;
+
+        .test {
+          background-color: list.nth($color-set-vhs-dream, 5);
+        }
+      }
+    }
+
+    #question-wrapper {
+
+      grid-area: questions;
+      background-color: list.nth($color-set-pastelle, 7);
+
+      #question-upper {
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        column-gap: 10px;
+
+        .header {
+          font-weight: 900;
+          font-size: 2rem;
+        }
+
+        #new-question-button {
+          padding: 5px;
+          border: none;
+        }
+      }
+
+      #all-subjects-wrapper {
+        border: blueviolet 2px solid;
+
+        .subject-wrapper {
+
+          .subject-showcase {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            column-gap: 10px;
+
+            background-color: #A9A9A9;
+
+            height: 60px;
+            width: 100%;
+            padding: 7px 4px;
+
+            .subject-icon {
+
+              aspect-ratio: 1 / 1;
+              width: 40px;
+              border-radius: 5px;
+              background-color: blueviolet;
+            }
+          }
+
+          .subject-children {
+
+            display: flex;
+            row-gap: 10px;
+            justify-content: center;
+            align-items: end;
+            flex-direction: column;
+
+            padding: 10px 0;
+
+            .category-wrapper {
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              column-gap: 10px;
+
+              background-color: #A9A9A9;
+
+              height: 60px;
+              width: 90%;
+              padding: 7px 4px;
+
+              .category-icon {
+
+                aspect-ratio: 1 / 1;
+                width: 40px;
+                border-radius: 5px;
+                background-color: blueviolet;
+              }
+            }
+          }
+        }
+      }
+    }
+
+  }
+}

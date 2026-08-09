@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" th:href="@{dist/main-ver2.css}">
+    <script src="https://kit.fontawesome.com/636db4ca92.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<aside>
+
+    <div id="user-profile-wrapper">
+
+        <div class="user-icon-wrapper">
+            <i class="fa-solid fa-user"></i>
+        </div>
+
+        <span id="username">username</span>
+    </div>
+
+    <div id="action-menu-wrapper"></div>
+
+</aside>
+
+<main>
+
+    <div id="test-wrapper">
+
+        <div id="test-upper">
+            <span class="header">Testy</span>
+
+            <button id="create-test-button">
+                <span> + </span>
+            </button>
+        </div>
+
+        <hr class="separator">
+
+        <div id="tests-icons">
+
+            <div class="test">
+                <div class="test-svg">
+                    <svg width="300" height="200" viewBox="0 0 300 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0 28.6525V20C0 8.95432 8.95431 0 20 0H102.778L126.639 28.6525H290C295.523 28.6525 300 33.1296 300 38.6525V190C300 195.523 295.523 200 290 200H10C4.47716 200 0 195.523 0 190V28.6525Z" fill="#D9D9D9"/>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="test">
+                <div class="test-svg">
+                    <svg width="300" height="200" viewBox="0 0 300 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0 28.6525V20C0 8.95432 8.95431 0 20 0H102.778L126.639 28.6525H290C295.523 28.6525 300 33.1296 300 38.6525V190C300 195.523 295.523 200 290 200H10C4.47716 200 0 195.523 0 190V28.6525Z" fill="#D9D9D9"/>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="test">
+                <div class="test-svg">
+                    <svg width="300" height="200" viewBox="0 0 300 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0 28.6525V20C0 8.95432 8.95431 0 20 0H102.778L126.639 28.6525H290C295.523 28.6525 300 33.1296 300 38.6525V190C300 195.523 295.523 200 290 200H10C4.47716 200 0 195.523 0 190V28.6525Z" fill="#D9D9D9"/>
+                    </svg>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="question-wrapper">
+
+        <div id="question-upper">
+            <span class="header">Otazky</span>
+
+            <button id="new-question-button"> + </button>
+        </div>
+
+        <div id="all-subjects-wrapper">
+
+            <div class="subject-wrapper">
+
+                <div class="subject-showcase">
+                    <div class="subject-icon"></div>
+                    <span class="subject-name">subject name</span>
+                </div>
+
+                <div class="subject-children">
+
+                    <div class="category-wrapper">
+                        <div class="category-icon"></div>
+                        <span class="category-name">category name</span>
+                    </div>
+
+                    <div class="category-wrapper">
+                        <div class="category-icon"></div>
+                        <span class="category-name">category name</span>
+                    </div>
+
+                    <div class="category-wrapper">
+                        <div class="category-icon"></div>
+                        <span class="category-name">category name</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+</body>
+</html>

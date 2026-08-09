@@ -1,0 +1,148 @@
+@use "sass:list";
+
+
+$color-palette: #E3F2FD, #90CAF9, #2196F3, #0D47A1;
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 1fr;
+  grid-template-areas: "aside main main main";
+
+  aside {
+    grid-area: aside;
+
+    .user {
+      height: 10vh;
+
+      display: flex;
+      justify-content: start;
+      align-items: center;
+      flex-direction: row;
+      column-gap: 5px;
+
+      padding: 10px;
+
+      //background-color: list.nth($color-palette, 3);
+      font-size: 2rem;
+
+      .user_icon {
+        border-radius: 100%;
+        padding: 3px;
+        background-color: list.nth($color-palette, 2);
+
+        aspect-ratio: 1 / 1 ;
+        width: calc(100% / 6);
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+
+    .actions {
+      background-color: list.nth($color-palette, 4);
+
+      height: 90vh;
+
+      border-radius: 0 120px 0 0;
+
+      display: flex;
+      flex-direction: column;
+      row-gap: 15px;
+      justify-content: center;
+      align-items: center;
+
+      padding: 10px;
+
+      .action {
+        font-weight: 700;
+        color: white;
+        text-align: center;
+
+        width: 75%;
+
+        margin: 3px 0;
+        padding-bottom: 5px;
+        border-bottom: 2px solid white;
+      }
+    }
+  }
+
+  main {
+    grid-area: main;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 3fr;
+    grid-template-areas:
+            "tests"
+            "subjects";
+
+    .separator {
+      width: 75%;
+      height: 2px;
+      color: black;
+      background-color: black;
+      align-self: center;
+    }
+
+    .heading {
+      font-weight: 700;
+      font-size: 30px;
+    }
+
+    .tests-wrapper {
+      background-color: list.nth($color-palette, 2);
+
+      grid-area: tests;
+
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center;
+
+      .test {
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .test_icon {
+          font-size: 20em;
+          color: lightslategray;
+        }
+      }
+    }
+
+    .category-display {
+      grid-area: subjects;
+
+      background-color: list.nth($color-palette, 1);
+
+      .subject {
+        background-color: aqua;
+        width: 100%;
+
+
+        .categories {
+          .category {
+            background-color: gray;
+
+            height: 30px;
+            width: 75%;
+          }
+        }
+      }
+    }
+  }
+}

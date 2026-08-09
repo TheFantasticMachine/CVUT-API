@@ -1,10 +1,111 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <script src="https://kit.fontawesome.com/636db4ca92.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" th:href="@{dist/main.css}">
 </head>
 <body>
 
+<aside>
+    <div class="user">
+        <div class="user_icon">
+            <i class="fa-solid fa-user"></i>
+        </div>
+
+        <span class="user_name">Name</span>
+    </div>
+    <div class="actions">
+
+        <div class="action">
+            <span class="action_name">Action</span>
+        </div>
+
+        <div class="action">
+            <span class="action_name">Action</span>
+        </div>
+
+        <div class="action">
+            <span class="action_name">Action</span>
+        </div>
+
+    </div>
+</aside>
+<main>
+
+    <span class="heading">Testy</span>
+    <button id="make-test-button">
+        <span>vytvorit novy test</span>
+        <i class="fa-solid fa-circle-plus"></i>
+    </button>
+<!--    <hr class="separator" id="separate-start-test" />-->
+
+    <div class="tests-wrapper">
+
+        <svg width="300" height="200" viewBox="0 0 300 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 28.6525V20C0 8.95432 8.95431 0 20 0H102.778L126.639 28.6525H290C295.523 28.6525 300 33.1296 300 38.6525V190C300 195.523 295.523 200 290 200H10C4.47716 200 0 195.523 0 190V28.6525Z" fill="#D9D9D9"/>
+        </svg>
+
+
+        <div class="test">
+            <div class="more_icon">
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+            </div>
+            <div class="test_icon">
+                <i class="fa-solid fa-folder"></i>
+            </div>
+        </div>
+
+        <div class="test">
+            <div class="more_icon">
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+            </div>
+            <div class="test_icon">
+                <i class="fa-solid fa-folder"></i>
+            </div>
+        </div>
+
+
+        <div class="test">
+            <div class="more_icon">
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+            </div>
+            <div class="test_icon">
+                <i class="fa-solid fa-folder"></i>
+            </div>
+        </div>
+
+    </div>
+
+<!--    <hr class="separator" id="separate-tests-subjects" />-->
+
+    <div class="category-display">
+        <div class="subject">
+            <div class="categories">
+                <div class="category"></div>
+                <div class="category"></div>
+                <div class="category"></div>
+                <div class="category"></div>
+            </div>
+        </div>
+
+        <div class="subject">
+            <div class="categories">
+                <div class="category"></div>
+                <div class="category"></div>
+            </div>
+        </div>
+
+        <div class="subject">
+            <div class="categories">
+                <div class="category"></div>
+                <div class="category"></div>
+                <div class="category"></div>
+            </div>
+        </div>
+    </div>
+</main>
 </body>
 </html>
