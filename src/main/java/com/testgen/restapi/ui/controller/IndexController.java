@@ -19,4 +19,7 @@ public class IndexController {
 
     @GetMapping("/icons")
     public String icons() { return "icons"; }
+
+    @GetMapping("/login")
+    public String login() { return "login"; }
 }

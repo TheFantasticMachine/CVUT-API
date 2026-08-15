@@ -1,0 +1,59 @@
+@use "main-ver2";
+
+@use "sass:list";
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+
+  background-color: list.nth(main-ver2.$color-set-vhs-dream, 1);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+
+    aspect-ratio: 4 / 3;
+    height: 50vh;
+
+    #cover {
+      background-color: blueviolet;
+      clip-path: polygon(100% 50%, 0% 65%, 0% 100%, 100% 100%);
+      position: relative;
+      right: 0;
+      aspect-ratio: 4 / 3;
+      height: 50vh;
+      z-index: 10;
+    }
+
+    #login-wrapper {
+      width: 50%;
+      display: inline;
+
+      position: relative;
+      z-index: 1;
+      right: 0;
+    }
+
+    #new-account-wrapper {
+
+      width: 50%;
+      display: inline;
+
+      position: relative;
+      z-index: 1;
+      left: 0;
+    }
+  }
+
+}
