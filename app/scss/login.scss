@@ -1,59 +1,277 @@
-@use "main-ver2";
+// ==========================================
+// Sliding Auth Panel (Pinterest Red Shades)
+// ==========================================
 
-@use "sass:list";
+$primary-red: #ff3838;
+$primary-coral: #ff5252;
+$gradient-cover: linear-gradient(135deg, #ff416c, #ff4b2b);
+$bg-body: #dbe4f0;
+$card-bg: #ffffff;
+$input-bg: #f3f4f6;
+$text-dark: #1e293b;
+$text-muted: #64748b;
 
 * {
-  margin: 0;
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 body {
-  width: 100vw;
-  height: 100vh;
-
-  background-color: list.nth(main-ver2.$color-set-vhs-dream, 1);
-
+  background-color: $bg-body;
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 100vh;
+}
 
-  main {
+.auth-wrapper {
+  background-color: $card-bg;
+  border-radius: 24px;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.06);
+  position: relative;
+  overflow: hidden;
+  width: 768px;
+  max-width: 100%;
+  min-height: 480px;
+
+  h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    font-size: 0.9rem;
+    font-weight: 300;
+    line-height: 1.5;
+    margin: 1.25rem 0 1.75rem;
+    padding: 0 1.5rem;
+  }
+}
+
+// ------------------------------------------
+// Forms Setup
+// ------------------------------------------
+.form-container {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  transition: all 0.6s ease-in-out;
+
+  form {
+    background-color: $card-bg;
     display: flex;
-    justify-content: center;
     align-items: center;
-    flex-direction: row;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 50px;
+    height: 100%;
+    text-align: center;
 
-    aspect-ratio: 4 / 3;
-    height: 50vh;
-
-    #cover {
-      background-color: blueviolet;
-      clip-path: polygon(100% 50%, 0% 65%, 0% 100%, 100% 100%);
-      position: relative;
-      right: 0;
-      aspect-ratio: 4 / 3;
-      height: 50vh;
-      z-index: 10;
-    }
-
-    #login-wrapper {
-      width: 50%;
-      display: inline;
-
-      position: relative;
-      z-index: 1;
-      right: 0;
-    }
-
-    #new-account-wrapper {
-
-      width: 50%;
-      display: inline;
-
-      position: relative;
-      z-index: 1;
-      left: 0;
+    h2 {
+      color: $text-dark;
     }
   }
 
+  .form-subtitle {
+    font-size: 0.8rem;
+    color: $text-muted;
+    margin: 0.75rem 0 1.25rem;
+  }
+
+  input {
+    background-color: $input-bg;
+    border: none;
+    padding: 0.75rem 1rem;
+    margin: 0.4rem 0;
+    width: 100%;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    outline: none;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+
+    &:focus {
+      background-color: #ffffff;
+      box-shadow: 0 0 0 2px rgba(255, 75, 43, 0.2);
+    }
+  }
+
+  .forgot-link {
+    color: $text-muted;
+    font-size: 0.8rem;
+    text-decoration: none;
+    margin: 0.75rem 0 1rem;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.sign-in-container {
+  left: 0;
+  width: 50%;
+  z-index: 2;
+}
+
+.sign-up-container {
+  left: 0;
+  width: 50%;
+  opacity: 0;
+  z-index: 1;
+}
+
+// ==========================================
+// Angled Overlay Cover (Wireframe Slant)
+// ==========================================
+
+.overlay-container {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  transition: transform 0.6s ease-in-out;
+  z-index: 100;
+}
+
+.overlay {
+  background: $gradient-cover;
+  color: #ffffff;
+  position: relative;
+  left: -100%;
+  height: 100%;
+  width: 200%;
+  transform: translateX(0);
+  transition: transform 0.6s ease-in-out;
+}
+
+.overlay-panel {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  top: 0;
+  height: 100%;
+  width: 50%;
+  text-align: center;
+  transform: translateX(0);
+  transition: transform 0.6s ease-in-out, clip-path 0.6s ease-in-out;
+
+  // 📐 Wireframe-3: Cover on the Left (slanted right boundary)
+  &.overlay-left {
+    transform: translateX(-20%);
+    clip-path: polygon(0 0, 100% 0, 86% 100%, 0 100%);
+    padding-right: 2rem;
+  }
+
+  // 📐 Wireframe-2: Cover on the Right (slanted left boundary)
+  &.overlay-right {
+    right: 0;
+    transform: translateX(0);
+    clip-path: polygon(14% 0, 100% 0, 100% 100%, 0 100%);
+    padding-left: 2rem;
+  }
+}
+
+// ------------------------------------------
+// Active State Adjustments
+// ------------------------------------------
+.auth-wrapper.right-panel-active {
+  .overlay-panel.overlay-left {
+    transform: translateX(0);
+  }
+
+  .overlay-panel.overlay-right {
+    transform: translateX(20%);
+  }
+}
+
+@keyframes showForm {
+  0%, 49.99% {
+    opacity: 0;
+    z-index: 1;
+  }
+  50%, 100% {
+    opacity: 1;
+    z-index: 5;
+  }
+}
+
+// ------------------------------------------
+// Buttons & Social Links
+// ------------------------------------------
+.btn-solid {
+  border-radius: 20px;
+  border: 1px solid #ff4b2b;
+  background-color: #ff4b2b;
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.75rem 2.75rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: transform 80ms ease, background-color 0.2s ease;
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  &:hover {
+    background-color: #e03a1d;
+  }
+}
+
+.btn-ghost {
+  border-radius: 20px;
+  border: 1.5px solid #ffffff;
+  background-color: transparent;
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.75rem 2.75rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 80ms ease, background-color 0.2s ease, color 0.2s ease;
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  &:hover {
+    background-color: #ffffff;
+    color: #ff4b2b;
+  }
+}
+
+.social-container {
+  margin: 1rem 0;
+
+  .social-btn {
+    border: 1px solid #e2e8f0;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 5px;
+    height: 40px;
+    width: 40px;
+    text-decoration: none;
+    color: $text-dark;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: border-color 0.2s ease;
+
+    &:hover {
+      border-color: #ff4b2b;
+      color: #ff4b2b;
+    }
+  }
 }
