@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html lang="cs" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <style>
-        /* Paste the contents of test_template.css directly here */
-        body { font-family: sans-serif; }
-        .question { margin-bottom: 15px; }
-    </style>
+    <link rel="stylesheet" th:href="@{dist/pdf-template.css}">
 </head>
 <body>
 
 
-<h1> Test <span th:text="${testName}"></span> </h1>
+<header>
+    <h2 id="header-variant" th:text="${variant}" ></h2>
+    <hr>
+    <span id="header-subject" th:text="${subject}"></span>
+    <div id="header-row">
+        <span id="header-name">Jméno:</span>
+        <span id="header-date">Datum: </span>
+    </div>
+    <hr>
+</header>
 
 
 <table th:each="question, questionData : ${questions}">

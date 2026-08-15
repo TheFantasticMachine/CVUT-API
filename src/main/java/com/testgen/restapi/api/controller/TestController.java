@@ -23,7 +23,7 @@ public class TestController {
 
         // 1. Populate Thymeleaf Context with data from frontend
         Context context = new Context();
-        context.setVariable("testName", request.getTestName());
+        context.setVariable("variant", request.getTestVariant());
         context.setVariable("questions", request.getQuestions());
 
         // 2. Render templates/test_template.html into a pure HTML String

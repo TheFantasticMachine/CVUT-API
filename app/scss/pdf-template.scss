@@ -1,0 +1,35 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  header {
+    background-color: yellow;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    #header-variant {}
+
+    #header-subject {}
+
+    #header-row {
+      #header-name {
+        position: relative;
+        left: 0;
+      }
+
+      #header-date {
+        position: relative;
+        right: 50px;
+      }
+    }
+  }
+}

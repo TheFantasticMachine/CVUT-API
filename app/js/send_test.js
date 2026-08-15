@@ -7,7 +7,7 @@ async function generateActiveTestPdf() {
 
     // 2. Match field names in TestRequest.java
     const payload = {
-        testName: activeTest.variant,
+        variant: activeTest.variant,
         questions: activeTest.questionPool
     };
 
