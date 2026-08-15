@@ -1,7 +1,3 @@
-// ==========================================
-// Sliding Auth Panel (Pinterest Red Shades)
-// ==========================================
-
 $primary-red: #ff3838;
 $primary-coral: #ff5252;
 $gradient-cover: linear-gradient(135deg, #ff416c, #ff4b2b);
@@ -28,37 +24,27 @@ body {
 
 .auth-wrapper {
   background-color: $card-bg;
-  border-radius: 24px;
+  border-radius: 20px;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.06);
   position: relative;
   overflow: hidden;
-  width: 768px;
+  width: 780px;
   max-width: 100%;
-  min-height: 480px;
-
-  h2 {
-    font-size: 1.8rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-  }
-
-  p {
-    font-size: 0.9rem;
-    font-weight: 300;
-    line-height: 1.5;
-    margin: 1.25rem 0 1.75rem;
-    padding: 0 1.5rem;
-  }
+  min-height: 500px;
 }
 
 // ------------------------------------------
-// Forms Setup
+// Form Containers
 // ------------------------------------------
 .form-container {
   position: absolute;
   top: 0;
   height: 100%;
+  width: 50%;
   transition: all 0.6s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   form {
     background-color: $card-bg;
@@ -66,12 +52,16 @@ body {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 0 50px;
+    padding: 0 45px;
     height: 100%;
+    width: 100%;
     text-align: center;
 
     h2 {
+      font-size: 1.8rem;
+      font-weight: 700;
       color: $text-dark;
+      margin-bottom: 0.5rem;
     }
   }
 
@@ -83,18 +73,19 @@ body {
 
   input {
     background-color: $input-bg;
-    border: none;
+    border: 1px solid transparent;
     padding: 0.75rem 1rem;
     margin: 0.4rem 0;
     width: 100%;
     border-radius: 8px;
     font-size: 0.9rem;
     outline: none;
-    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    transition: all 0.2s ease;
 
     &:focus {
       background-color: #ffffff;
-      box-shadow: 0 0 0 2px rgba(255, 75, 43, 0.2);
+      border-color: #ff4b2b;
+      box-shadow: 0 0 0 3px rgba(255, 75, 43, 0.15);
     }
   }
 
@@ -112,21 +103,19 @@ body {
 
 .sign-in-container {
   left: 0;
-  width: 50%;
   z-index: 2;
 }
 
 .sign-up-container {
   left: 0;
-  width: 50%;
   opacity: 0;
   z-index: 1;
+  pointer-events: none;
 }
 
-// ==========================================
-// Angled Overlay Cover (Wireframe Slant)
-// ==========================================
-
+// ------------------------------------------
+// Sliding Angled Overlay
+// ------------------------------------------
 .overlay-container {
   position: absolute;
   top: 0;
@@ -159,51 +148,71 @@ body {
   height: 100%;
   width: 50%;
   text-align: center;
-  transform: translateX(0);
-  transition: transform 0.6s ease-in-out, clip-path 0.6s ease-in-out;
+  transition: transform 0.6s ease-in-out;
+  padding: 0 40px;
 
-  // 📐 Wireframe-3: Cover on the Left (slanted right boundary)
-  &.overlay-left {
-    transform: translateX(-20%);
-    clip-path: polygon(0 0, 100% 0, 86% 100%, 0 100%);
-    padding-right: 2rem;
+  h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
   }
 
-  // 📐 Wireframe-2: Cover on the Right (slanted left boundary)
+  p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 1rem 0 1.5rem;
+  }
+
+  // 📐 Wireframe-3: Slanted Right Boundary
+  &.overlay-left {
+    transform: translateX(-20%);
+    clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
+  }
+
+  // 📐 Wireframe-2: Slanted Left Boundary
   &.overlay-right {
     right: 0;
     transform: translateX(0);
-    clip-path: polygon(14% 0, 100% 0, 100% 100%, 0 100%);
-    padding-left: 2rem;
+    clip-path: polygon(15% 0, 100% 0, 100% 100%, 0 100%);
   }
 }
 
 // ------------------------------------------
-// Active State Adjustments
+// Active State (Sign Up Active)
 // ------------------------------------------
 .auth-wrapper.right-panel-active {
-  .overlay-panel.overlay-left {
+  .sign-in-container {
+    transform: translateX(100%);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .sign-up-container {
+    transform: translateX(100%);
+    opacity: 1;
+    pointer-events: all;
+    z-index: 5;
+  }
+
+  .overlay-container {
+    transform: translateX(-100%);
+  }
+
+  .overlay {
+    transform: translateX(50%);
+  }
+
+  .overlay-left {
     transform: translateX(0);
   }
 
-  .overlay-panel.overlay-right {
+  .overlay-right {
     transform: translateX(20%);
   }
 }
 
-@keyframes showForm {
-  0%, 49.99% {
-    opacity: 0;
-    z-index: 1;
-  }
-  50%, 100% {
-    opacity: 1;
-    z-index: 5;
-  }
-}
-
 // ------------------------------------------
-// Buttons & Social Links
+// Buttons & Social UI
 // ------------------------------------------
 .btn-solid {
   border-radius: 20px;
@@ -212,19 +221,19 @@ body {
   color: #ffffff;
   font-size: 0.8rem;
   font-weight: 700;
-  padding: 0.75rem 2.75rem;
-  letter-spacing: 1px;
+  padding: 0.75rem 2.5rem;
   text-transform: uppercase;
+  letter-spacing: 1px;
   cursor: pointer;
   margin-top: 0.5rem;
   transition: transform 80ms ease, background-color 0.2s ease;
 
-  &:active {
-    transform: scale(0.95);
-  }
-
   &:hover {
     background-color: #e03a1d;
+  }
+
+  &:active {
+    transform: scale(0.96);
   }
 }
 
@@ -235,24 +244,24 @@ body {
   color: #ffffff;
   font-size: 0.8rem;
   font-weight: 700;
-  padding: 0.75rem 2.75rem;
-  letter-spacing: 1px;
+  padding: 0.75rem 2.5rem;
   text-transform: uppercase;
+  letter-spacing: 1px;
   cursor: pointer;
-  transition: transform 80ms ease, background-color 0.2s ease, color 0.2s ease;
-
-  &:active {
-    transform: scale(0.95);
-  }
+  transition: all 0.2s ease;
 
   &:hover {
     background-color: #ffffff;
     color: #ff4b2b;
   }
+
+  &:active {
+    transform: scale(0.96);
+  }
 }
 
 .social-container {
-  margin: 1rem 0;
+  margin: 0.8rem 0;
 
   .social-btn {
     border: 1px solid #e2e8f0;
@@ -260,14 +269,13 @@ body {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    margin: 0 5px;
-    height: 40px;
-    width: 40px;
+    margin: 0 4px;
+    height: 38px;
+    width: 38px;
     text-decoration: none;
     color: $text-dark;
     font-weight: 600;
-    font-size: 0.9rem;
-    transition: border-color 0.2s ease;
+    transition: border-color 0.2s ease, color 0.2s ease;
 
     &:hover {
       border-color: #ff4b2b;

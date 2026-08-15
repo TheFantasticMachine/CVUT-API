@@ -3,50 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Authentication</title>
+    <title>Login & Registration</title>
     <link rel="stylesheet" th:href="@{/dist/login.css}">
 </head>
 <body>
 
 <div class="auth-wrapper" id="auth-container">
 
-    <!-- Sign Up Form Panel (Hidden on left by default) -->
+    <!-- Sign Up Form (Left side underneath) -->
     <div class="form-container sign-up-container">
         <form action="#" th:action="@{/register}" method="POST">
             <h2>Create Account</h2>
-
-            <div class="social-container">
-                <a href="#" class="social-btn">f</a>
-                <a href="#" class="social-btn">G</a>
-                <a href="#" class="social-btn">in</a>
-            </div>
-
-            <span class="form-subtitle">or use your email for registration</span>
-
+<!--            <div class="social-container">-->
+<!--                <a href="#" class="social-btn">f</a>-->
+<!--                <a href="#" class="social-btn">G</a>-->
+<!--                <a href="#" class="social-btn">in</a>-->
+<!--            </div>-->
+            <span class="form-subtitle"> use your email  and name for registration</span>
             <input type="text" name="name" placeholder="Name" required />
             <input type="email" name="email" placeholder="Email" required />
             <input type="password" name="password" placeholder="Password" required />
-
             <button type="submit" class="btn-solid">Sign Up</button>
         </form>
     </div>
 
-    <!-- Sign In Form Panel (Active on left by default) -->
+    <!-- Sign In Form (Right side underneath) -->
     <div class="form-container sign-in-container">
         <form action="#" th:action="@{/login}" method="POST">
             <h2>Sign In</h2>
-
-            <div class="social-container">
-                <a href="#" class="social-btn">f</a>
-                <a href="#" class="social-btn">G</a>
-                <a href="#" class="social-btn">in</a>
-            </div>
-
-            <span class="form-subtitle">or use your account</span>
-
+<!--            <div class="social-container">-->
+<!--                <a href="#" class="social-btn">f</a>-->
+<!--                <a href="#" class="social-btn">G</a>-->
+<!--                <a href="#" class="social-btn">in</a>-->
+<!--            </div>-->
+            <span class="form-subtitle">to use your account</span>
             <input type="email" name="username" placeholder="Email" required />
             <input type="password" name="password" placeholder="Password" required />
-
             <a href="#" class="forgot-link">Forgot your password?</a>
             <button type="submit" class="btn-solid">Sign In</button>
         </form>
@@ -56,18 +48,18 @@
     <div class="overlay-container">
         <div class="overlay">
 
-            <!-- Left Side Cover (Shown when Sign-Up is open) -->
+            <!-- Left Side Cover (Shown during Sign Up) -->
             <div class="overlay-panel overlay-left">
                 <h2>Welcome Back!</h2>
                 <p>Enter your personal details to use all of site features</p>
-                <button type="button" class="btn-ghost" id="signIn">Sign In</button>
+                <button type="button" class="btn-ghost" id="signInBtn">Sign In</button>
             </div>
 
-            <!-- Right Side Cover (Shown when Sign-In is open) -->
+            <!-- Right Side Cover (Shown during Sign In) -->
             <div class="overlay-panel overlay-right">
                 <h2>Hello, Friend!</h2>
                 <p>Register with your personal details to use all of site features</p>
-                <button type="button" class="btn-ghost" id="signUp">Sign Up</button>
+                <button type="button" class="btn-ghost" id="signUpBtn">Sign Up</button>
             </div>
 
         </div>
@@ -76,16 +68,20 @@
 </div>
 
 <script>
-    const container = document.getElementById('auth-container');
-    const signUpBtn = document.getElementById('signUp');
-    const signInBtn = document.getElementById('signIn');
+    document.addEventListener("DOMContentLoaded", () => {
+        const container = document.getElementById('auth-container');
+        const signUpBtn = document.getElementById('signUpBtn');
+        const signInBtn = document.getElementById('signInBtn');
 
-    signUpBtn.addEventListener('click', () => {
-        container.classList.add('right-panel-active');
-    });
+        if (signUpBtn && signInBtn && container) {
+            signUpBtn.addEventListener('click', () => {
+                container.classList.add('right-panel-active');
+            });
 
-    signInBtn.addEventListener('click', () => {
-        container.classList.remove('right-panel-active');
+            signInBtn.addEventListener('click', () => {
+                container.classList.remove('right-panel-active');
+            });
+        }
     });
 </script>
 
