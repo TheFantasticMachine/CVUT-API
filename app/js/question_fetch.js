@@ -10,7 +10,7 @@ async function getQuestion() {
         let id = 1;
         while (valid) {
             // change url
-            let url = `http://localhost:${port}/question?id=${id}`;
+            let url = `http://localhost:${port}/api/question/get?id=${id}`;
             // get json
             let response = await fetch(url);
             // catch wrong

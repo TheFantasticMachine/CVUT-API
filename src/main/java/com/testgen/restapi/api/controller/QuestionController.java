@@ -11,21 +11,21 @@ import java.util.Optional;
 @RestController
 public class QuestionController {
 
-    private final QuestionService questionService;
-
-    @Autowired
-    public QuestionController(QuestionService questionService) {
-        this.questionService = questionService;
-    }
-
-    @GetMapping("/question")
-    public Question getQuestion(@RequestParam Integer id) {
-        Optional<Question> question = questionService.getQuestion(id);
-
-        if (question.isPresent()) {
-            return (Question) question.get();
-        }
-
-        return null;
-    }
+//    private final QuestionService questionService;
+//
+//    @Autowired
+//    public QuestionController(QuestionService questionService) {
+//        this.questionService = questionService;
+//    }
+//
+//    @GetMapping("/question")
+//    public Question getQuestion(@RequestParam Integer id) {
+//        Optional<Question> question = questionService.getQuestion(id);
+//
+//        if (question.isPresent()) {
+//            return (Question) question.get();
+//        }
+//
+//        return null;
+//    }
 }

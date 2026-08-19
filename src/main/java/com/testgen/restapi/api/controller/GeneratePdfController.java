@@ -13,7 +13,7 @@ import org.thymeleaf.context.Context;
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/test")
-public class TestController {
+public class GeneratePdfController {
 
     @Autowired
     private TemplateEngine templateEngine; // Thymeleaf template renderer

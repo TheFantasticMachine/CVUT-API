@@ -1,4 +1,4 @@
-package com.testgen.restapi.ui.controller;
+package com.testgen.restapi.api.controller;
 
 import com.testgen.restapi.api.model.Question;
 import com.testgen.restapi.api.model.TestRequest;
