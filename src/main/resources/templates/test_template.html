@@ -43,39 +43,5 @@
         </div>
     </li>
 </ol>
-
-<table th:each="question, questionData : ${questions}">
-    <tr>
-        <th>Oprava</th>
-        <th>Odpověď</th>
-        <th th:text="${questionData.index + 1}"></th>
-        <th th:text="${question.assignment}"></th>
-    </tr>
-    <tr>
-        <td></td>
-        <td></td>
-        <td> a) </td>
-        <td th:text="${question.answers[0]}"></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td></td>
-        <td> b) </td>
-        <td th:text="${question.answers[1]}"></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td></td>
-        <td> c) </td>
-        <td th:text="${question.answers[2]}"></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td></td>
-        <td> d) </td>
-        <td th:text="${question.answers[3]}"></td>
-    </tr>
-</table>
-
 </body>
 </html>
