@@ -1,4 +1,3 @@
-const port = 8080; //prompt("insert current port");
 const questionContainerElement = document.getElementById("question_display");
 let questions = [];
 
@@ -9,13 +8,11 @@ async function getQuestion() {
         let valid = true;
         let id = 1;
         while (valid) {
-            // change url
-            let url = `http://localhost:${port}/api/question/get?id=${id}`;
             // get json
-            let response = await fetch(url);
+            const response = await fetch(`/api/question/get?id=${id}`);
             // catch wrong
-            if (!response.ok) {
-                console.log(`[JS] Server returned status ${response.status}. Stopping loop.`);
+            if (response.status === 404 || response.status === 204 || !response.ok) {
+                console.log(`[JS] Reached end of questions at ID: ${id}`);
                 break;
             }
 
