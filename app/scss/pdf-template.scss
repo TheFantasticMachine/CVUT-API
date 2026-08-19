@@ -5,8 +5,6 @@
 }
 
 span {
-  background-color: rgb(122 122 143 / 0.75);
-
   font-family: "Poppins", sans-serif;
   font-weight: 500;
   font-style: normal;
@@ -54,9 +52,8 @@ body {
     }
   }
 
-  ol {
+  .questions {
     font-family: "Poppins", sans-serif;
-    list-style: none;
     display: flex;
     align-items: start;
 
@@ -78,21 +75,12 @@ body {
         }
       }
 
-
       .flex-row-two {
         display: flex;
         flex-direction: row;
         justify-content: start;
         align-items: start;
-        column-gap: 20px;
-
-        .answer {
-          background-color: rgb(122 122 143 / 0.75);
-        }
-
-        .question-answers {
-          list-style: none;
-        }
+        column-gap: 5px;
       }
     }
   }

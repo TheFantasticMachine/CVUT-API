@@ -22,26 +22,29 @@
 </header>
 
 
-<ol class="questions"  th:each="question, questionData : ${questions}"  >
-    <li class="question-wrapper">
+<div class="questions"  th:each="question, questionData : ${questions}"  >
+    <div class="question-wrapper">
+<!-- First row ... space for the question assignment and the number of the question -->
         <div class="flex-row-one">
             <span class="question-number" th:text="${questionData.index + 1}"></span>
             <span class="question-assignment" th:text="${question.assignment}"></span>
         </div>
 
+
+<!-- Second row ... space for answer and the answers themselves -->
         <div class="flex-row-two">
             <div class="answer">
                 <span>Answer: </span>
             </div>
-
-            <ul class="question-answers">
-                <li> <span> a) </span> <span th:text="${question.answers[0]}"></span></li>
-                <li> <span> b) </span> <span th:text="${question.answers[1]}"></span></li>
-                <li> <span> c) </span> <span th:text="${question.answers[2]}"></span></li>
-                <li> <span> d) </span> <span th:text="${question.answers[3]}"></span></li>
-            </ul>
+            <!-- Answers layout -->
+            <div class="answers-grid" style="margin-left: 12pt;">
+                <div th:each="ans, ansIter : ${question.answers}" class="answer-line" style="margin-bottom: 2pt;">
+                    <span th:text="${#strings.substring('ABCDEFGHIJ', ansIter.index, ansIter.index + 1)} + ') '">A) </span>
+                    <span th:text="${ans}">Option text</span>
+                </div>
+            </div>
         </div>
-    </li>
-</ol>
+    </div>
+</div>
 </body>
 </html>
