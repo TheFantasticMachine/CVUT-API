@@ -64,20 +64,17 @@ body {
       display: flex;
       flex-direction: column;
       row-gap: 5px;
-      width: 110%;
 
       .flex-row-one {
+        width: inherit;
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: start;
+        column-gap: 5px;
 
-        .question-number {
-          flex-grow: 1;
-        }
-
-        .question-assignment {
-          flex-grow: 9;
+        .question-number::after {
+          content: ")";
         }
       }
 
@@ -85,19 +82,15 @@ body {
       .flex-row-two {
         display: flex;
         flex-direction: row;
-        justify-content: center;
+        justify-content: start;
         align-items: start;
-        column-gap: 5px;
+        column-gap: 20px;
 
         .answer {
-          order: 1;
-          flex-grow: 1;
           background-color: rgb(122 122 143 / 0.75);
         }
 
         .question-answers {
-          order: 3;
-          flex-grow: 3;
           list-style: none;
         }
       }
