@@ -2,21 +2,47 @@
 <html lang="cs" xmlns:th="http://www.thymeleaf.org">
 <head>
     <link rel="stylesheet" th:href="@{dist/pdf-template.css}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Stack+Sans+Notch:wght@200..700&display=swap" rel="stylesheet">
 </head>
 <body>
 
 
 <header>
-    <h2 id="header-variant" th:text="${variant}" ></h2>
+    <span class="header-test-variant">Variant</span>
     <hr>
-    <span id="header-subject" th:text="${subject}"></span>
-    <div id="header-row">
-        <span id="header-name">Jméno:</span>
-        <span id="header-date">Datum: </span>
+    <div class="header-row-one">
+        <span class="header-test-subject">Subject</span>
+        <span class="header-test-date">Date: </span>
     </div>
+    <span class="header-name">Name: </span>
     <hr>
 </header>
 
+
+<ol class="questions"  th:each="question, questionData : ${questions}"  >
+    <li class="question-wrapper">
+        <div class="flex-row-one">
+            <span class="question-number" th:text="${questionData.index + 1}"></span>
+            <span class="question-assignment" th:text="${question.assignment}"></span>
+        </div>
+
+        <div class="flex-row-two">
+            <div class="answer">
+                <span>Answer: </span>
+            </div>
+
+            <ul class="question-answers">
+                <li> <span> a) </span> <span th:text="${question.answers[0]}"></span></li>
+                <li> <span> b) </span> <span th:text="${question.answers[1]}"></span></li>
+                <li> <span> c) </span> <span th:text="${question.answers[2]}"></span></li>
+                <li> <span> d) </span> <span th:text="${question.answers[3]}"></span></li>
+            </ul>
+        </div>
+    </li>
+</ol>
 
 <table th:each="question, questionData : ${questions}">
     <tr>
@@ -28,25 +54,25 @@
     <tr>
         <td></td>
         <td></td>
-        <td> a </td>
+        <td> a) </td>
         <td th:text="${question.answers[0]}"></td>
     </tr>
     <tr>
         <td></td>
         <td></td>
-        <td> b </td>
+        <td> b) </td>
         <td th:text="${question.answers[1]}"></td>
     </tr>
     <tr>
         <td></td>
         <td></td>
-        <td> c </td>
+        <td> c) </td>
         <td th:text="${question.answers[2]}"></td>
     </tr>
     <tr>
         <td></td>
         <td></td>
-        <td> d </td>
+        <td> d) </td>
         <td th:text="${question.answers[3]}"></td>
     </tr>
 </table>
