@@ -1,4 +1,5 @@
-const questionContainerElement = document.getElementById("question_display");
+const questionContainerElement = document.getElementById("question_display")
+    || document.getElementById("preview-questions-list");
 let questions = [];
 
 // fetch question
@@ -33,20 +34,21 @@ async function getQuestion() {
             // add to local memory
             localStorage.setItem(`question_${id}`, JSON.stringify(question));
 
-            // create question element
-            let parent = document.createElement("div");
-            parent.classList.add("question");
-            // set data attributes
-            parent.dataset.questionId = question.questionID;
-            parent.dataset.categoryId = question.categoryID;
-            // add heading
-            let heading = document.createElement("span");
-            heading.classList.add("question_heading");
-            heading.innerText = `(${question.questionID}) ${question.assignment}`;
-            // add to container
-            parent.appendChild(heading);
-            questionContainerElement.appendChild(parent);
-
+            if (questionContainerElement) {
+                // create question element
+                let parent = document.createElement("div");
+                parent.classList.add("question");
+                // set data attributes
+                parent.dataset.questionId = question.questionID;
+                parent.dataset.categoryId = question.categoryID;
+                // add heading
+                let heading = document.createElement("span");
+                heading.classList.add("question_heading");
+                heading.innerText = `(${question.questionID}) ${question.assignment}`;
+                // add to container
+                parent.appendChild(heading);
+                questionContainerElement.appendChild(parent);
+            }
             // increase id
             id++;
         }

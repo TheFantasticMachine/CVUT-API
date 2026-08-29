@@ -35,3 +35,18 @@ async function generateActiveTestPdf() {
 }
 
 document.getElementById("send").addEventListener("click", (e) => { generateActiveTestPdf(); })
+
+// app/js/send_test.js
+document.addEventListener("DOMContentLoaded", () => {
+    // Check for either possible ID
+    const exportBtn = document.getElementById("btn-export-pdf")
+        || document.getElementById("send-test")
+        || document.getElementById("export");
+
+    if (exportBtn) {
+        exportBtn.addEventListener("click", () => {
+            console.log("[TestMaker] Exporting test configuration to PDF...");
+            // Your export / send logic here
+        });
+    }
+});
