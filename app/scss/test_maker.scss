@@ -324,32 +324,37 @@ body {
     }
 
     .question {
-      padding: 10px;
-      background-color:  rgba(255, 255, 255 0.25);
+      background-color:  rgba(255, 255, 255, 0.25);
       border-radius: 20px;
       border: 1px solid rgba(255, 255, 255, 0.3);
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      padding: 10px;
 
       #flex-row-one {
         display: flex;
-        justify-content: start;
+        justify-content: space-between;
         align-items: start;
         padding: 10px 15px 10px 5px;
         column-gap: 25px;
 
         .assignment {
           font-weight: 500;
+          background-color: #E7EDEF;
+          border: none;
+          border-radius: 5px;
+          padding: 3px;
         }
         .remove {
           border-radius: 100%;
           font-weight: 900;
-          padding: 10px;
-          aspect-ratio: 1 / 1;
-          width: 30px;
-          background-color: #ED2B00;
-          color: #B82100;
-          border: 2px solid #831800;
-          font-size: 12px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 15px;
+          height: 15px;
+          background-color: #FFB9AD;
+          border: 2px solid #FF9684;
+          align-self: end;
         }
       }
 
@@ -362,12 +367,47 @@ body {
 
         .answer {
           background-color: #F9B5A6;
-          padding: 3px;
+          padding: 5px;
           border: dashed 1px lightslategrey;
+          border-radius: 5px;
+          color: #FF745B;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          &.correct {
+            background-color: #A7F3A5;
+            color: #11A803;
+          }
+
+          input {
+            background-color: #FDE6E0;
+            border: none;
+            flex-grow: 1;
+            margin: 0 20px 0 5px;
+            padding: 2px;
+            border-radius: 3px;
+
+            &.correct {
+              background-color: #E0FBE0;
+            }
+          }
+
+          i {
+            margin-right: 3px;
+          }
         }
-        &.correct {
-          background-color: #A7F3A5;
-        }
+      }
+
+      .change {
+        margin: 5px 0  0  5px;
+        color: #02B5E2;
+        background-color: #AAEEFF;
+        border-radius: 5px;
+        border: 2px solid #02B5E2;
+        padding: 5px;
+        font-weight: 700;
+        font-size: 15px;
       }
     }
   }
