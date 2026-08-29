@@ -7,11 +7,15 @@ const browser_sync = require('browser-sync').create();
 
 // -- gulp tasks
 // scss task
-function scssTask(){
-    return src('app/scss/**/*.scss', { sourcemaps: true})
-        .pipe(sass().on('error', sass.logError)) // Přidáno logování chyb, aby Gulp nezamrzal
-        .pipe(postcss([cssnano()]))
-        .pipe(dest('src/main/resources/static/dist', {sourcemaps: '.'}));
+// Inside your gulpfile.js scss task
+function scssTask() {
+    return gulp.src('app/scss/**/*.scss')
+        .pipe(sass().on('error', sass.logError))
+        // 1. Save to source static folder (for Git & clean builds)
+        .pipe(gulp.dest('src/main/resources/static/dist'))
+        // 2. Save directly into Spring Boot's live target folder
+        .pipe(gulp.dest('target/classes/static/dist'))
+        .pipe(browserSync.stream());
 }
 
 // js task
