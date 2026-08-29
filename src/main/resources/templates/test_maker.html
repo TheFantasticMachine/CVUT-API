@@ -9,54 +9,34 @@
 </head>
 <body>
 
+<aside></aside>
+
 <main>
-    <section class="variant-select-wrapper">
-        <header>Varianty</header>
 
-        <div class="content">
-            <button id="add_test">add test </button>
-            <div class="tests_wrapper">
+    <section id="top-navbar-wrapper">
 
-                <i class="fa-regular fa-file"></i>
+        <form action="" id="test-name-form">
 
-<!--                <div style="order: 2" class="test">-->
-<!--                    <span class="test_variant">1</span>-->
-<!--                </div>-->
+            <input type="text" />
+            <select>
+                <option>opt</option>
+            </select>
 
-<!--                <div style="order: 0" class="test">-->
-<!--                    <span class="test_variant">2</span>-->
-<!--                </div>-->
+        </form>
 
-<!--                <div style="order: 4" class="test">-->
-<!--                    <span class="test_variant">3</span>-->
-<!--                </div>-->
+        <div id="variant-select-wrapper">
 
-            </div>
+            <div class="variant closed"></div>
+            <div class="variant closed"></div>
+            <div class="variant closed"></div>
+            <div class="variant opened"></div>
+            <button class="new-variant-btn">+</button>
+
         </div>
+
     </section>
 
-    <section class="question-select-wrapper">
-        <header>Otázky</header>
-
-        <div id="question_display" class="content">
-            <div class="subject">
-                <span> Subject </span>
-            </div>
-            <div class="category">
-                <span> Category </span>
-            </div>
-        </div>
-    </section>
-
-    <section class="preview-wrapper">
-        <header>Ukázka vybrané varianty</header>
-
-        <div class="content">
-            <button id="send">send</button>
-
-            <div class="display_questions"></div>
-        </div>
-    </section>
+    <section id="preview-wrapper"></section>
 </main>
 
 <script src="dist/question_fetch.js"></script>
