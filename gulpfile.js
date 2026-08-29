@@ -1,57 +1,38 @@
-const {src, dest, watch, series} = require('gulp');
+// gulpfile.js
+const gulp = require('gulp');
 const sass = require('gulp-sass')(require('sass'));
-const postcss = require('gulp-postcss');
-const cssnano = require('cssnano');
-const terser = require('gulp-terser');
-const browser_sync = require('browser-sync').create();
+const browserSync = require('browser-sync').create();
 
-// -- gulp tasks
-// scss task
-// Inside your gulpfile.js scss task
+// 1. SCSS Compilation Task
 function scssTask() {
     return gulp.src('app/scss/**/*.scss')
         .pipe(sass().on('error', sass.logError))
-        // 1. Save to source static folder (for Git & clean builds)
+        // Output to source static resources
         .pipe(gulp.dest('src/main/resources/static/dist'))
-        // 2. Save directly into Spring Boot's live target folder
+        // Output directly to active target classes (for instant 8080 updates)
         .pipe(gulp.dest('target/classes/static/dist'))
         .pipe(browserSync.stream());
 }
 
-// js task
+// 2. JavaScript Copy/Process Task
 function jsTask() {
-    return src('app/js/**/*.js', {sourcemaps: true})
-        .pipe(terser())
-        .pipe(dest('src/main/resources/static/dist', {sourcemaps: '.'}));
+    return gulp.src('app/js/**/*.js')
+        .pipe(gulp.dest('src/main/resources/static/dist'))
+        .pipe(gulp.dest('target/classes/static/dist'))
+        .pipe(browserSync.stream());
 }
 
-// browser sync task
-function browserSyncServe(cb) {
-    browser_sync.init({
-        proxy: "localhost:8080", // FIXED: Napojení na tvůj běžící Spring Boot (Tomcat)
-        port: 8080,
-        notify: false
-    });
-    cb();
-}
-
-function browserSyncReload(cb) {
-    browser_sync.reload();
-    cb();
-}
-
-// watch task
+// 3. Watcher Task (Watches SCSS and JS for changes)
 function watchTask() {
-    // Sleduje změny v Thymeleaf šablonách
-    watch('src/main/resources/templates/**/*.html', browserSyncReload);
-    // Sleduje tvůj frontend zdrojový kód, zkompiluje ho a obnoví prohlížeč
-    watch(['app/scss/**/*.scss', 'app/js/**/*.js'], series(scssTask, jsTask, browserSyncReload));
+    gulp.watch('app/scss/**/*.scss', scssTask);
+    gulp.watch('app/js/**/*.js', jsTask);
 }
 
-// default gulp task
-exports.default = series(
-    scssTask,
-    jsTask,
-    browserSyncServe,
+// Default export: builds everything once and starts watching
+exports.scss = scssTask;
+exports.js = jsTask;
+exports.watch = watchTask;
+exports.default = gulp.series(
+    gulp.parallel(scssTask, jsTask),
     watchTask
 );
