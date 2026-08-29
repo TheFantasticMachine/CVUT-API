@@ -58,10 +58,7 @@
             <div class="input-field-wrapper subject-wrapper">
                 <select id="test-subject">
                     <option value="" disabled selected>Select Subject...</option>
-                    <option value="1">Mathematics</option>
-                    <option value="2">Operating Systems</option>
-                    <option value="3">Computer Networks</option>
-                    <option value="4">Java Programming</option>
+                    <option value="1" th:each="sub : ${subjects}" th:text="${sub}"></option>
                 </select>
             </div>
         </header>
@@ -69,9 +66,9 @@
         <!-- Sub-Header: Dark Ribbon with Variant Switcher Tabs -->
         <nav class="variant-ribbon">
             <div class="variant-tabs" id="variant-tab-container">
-                <button class="variant-tab active" data-variant="1">Variant A</button>
-                <button class="variant-tab" data-variant="2">Variant B</button>
-                <button class="variant-tab" data-variant="3">Variant C</button>
+<!--                <button class="variant-tab active" data-variant="1">Variant A</button>-->
+<!--                <button class="variant-tab" data-variant="2">Variant B</button>-->
+<!--                <button class="variant-tab" data-variant="3">Variant C</button>-->
                 <button class="add-variant-btn" id="add-variant-btn" title="Add Variant">+</button>
             </div>
             <div class="variant-stats">

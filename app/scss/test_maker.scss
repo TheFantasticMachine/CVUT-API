@@ -243,6 +243,7 @@ body {
       justify-content: center;
       cursor: pointer;
       transition: background-color 0.2s ease;
+      order: 1;
 
       &:hover {
         background-color: $primary-accent;
