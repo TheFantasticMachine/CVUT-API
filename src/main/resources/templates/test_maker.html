@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test Maker - Generator</title>
-    <link rel="stylesheet" th:href="@{/dist/test_maker.css?v=2}">
-    <link rel="stylesheet" th:href="@{dist/pdf-template.css?v=2}">
+    <link rel="stylesheet" th:href="@{/dist/test_maker.css}">
+    <link rel="stylesheet" th:href="@{dist/pdf-template.css}">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -93,9 +93,31 @@
 
                     <div class="question">
                         <div id="flex-row-one">
-                            <span class="assignment">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis facilis fugit impedit laudantium libero maiores molestias, mollitia quidem voluptate voluptatibus!</span>
+                            <input type="text" class="assignment" placeholder="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis facilis fugit impedit laudantium libero maiores molestias, mollitia quidem voluptate voluptatibus!" />
                             <button class="remove" title="remove">-</button>
                         </div>
+                        <div id="flex-row-two">
+                            <div class="answer">
+                                <span class="letter">A)</span>
+                                <input type="text" placeholder="Lorem ipsum dolor sit amet.">
+                            </div>
+
+                            <div class="answer correct">
+                                <span class="letter">B)</span>
+                                <input type="text" placeholder="Lorem ipsum dolor sit amet.">
+                            </div>
+
+                            <div class="answer">
+                                <span class="letter">C)</span>
+                                <input type="text" placeholder="Lorem ipsum dolor sit amet.">
+                            </div>
+
+                            <div class="answer">
+                                <span class="letter">D)</span>
+                                <input type="text" placeholder="Lorem ipsum dolor sit amet.">
+                            </div>
+                        </div>
+                        <button class="change">Change</button>
                     </div>
 
 <!--                    <div class="empty-state-notice">-->
