@@ -161,6 +161,7 @@ body {
   background-color: #ffffff;
   padding: 1rem 2rem;
   display: flex;
+  flex-direction: row;
   gap: 1.5rem;
   align-items: center;
   border-bottom: 1px solid $border-color;
@@ -319,6 +320,36 @@ body {
         max-width: 320px;
         margin: 0 auto;
         line-height: 1.5;
+      }
+    }
+
+    .question {
+      padding: 10px;
+      background-color:  rgba(255, 255, 255 0.25);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+
+      #flex-row-one {
+        display: flex;
+        justify-content: start;
+        align-items: start;
+        padding: 10px 15px 10px 5px;
+
+        .assignment {
+          font-weight: 500;
+        }
+        .remove {
+          border-radius: 100%;
+          font-weight: 900;
+          padding: 10px;
+          aspect-ratio: 1 / 1;
+          width: 30px;
+          background-color: #ED2B00;
+          color: #B82100;
+          border: 2px solid #831800;
+          font-size: 12px;
+        }
       }
     }
   }
