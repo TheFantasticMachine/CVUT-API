@@ -1,46 +1,114 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>test maker</title>
-    <link rel="stylesheet" href="dist/test_maker.css">
-
-    <script src="https://kit.fontawesome.com/636db4ca92.js" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Maker - Generator</title>
+    <link rel="stylesheet" th:href="@{/dist/test_maker.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
 
-<aside></aside>
+<div class="test-maker-container">
 
-<main>
-
-    <section id="top-navbar-wrapper">
-
-        <form action="" id="test-name-form">
-
-            <input type="text" />
-            <select>
-                <option>opt</option>
-            </select>
-
-        </form>
-
-        <div id="variant-select-wrapper">
-
-            <div class="variant closed"></div>
-            <div class="variant closed"></div>
-            <div class="variant closed"></div>
-            <div class="variant opened"></div>
-            <button class="new-variant-btn">+</button>
-
+    <!-- Left Sidebar: Navigation & Builder Tools -->
+    <aside class="sidebar-tools">
+        <div class="sidebar-header">
+            <a th:href="@{/}" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back</a>
         </div>
 
-    </section>
+        <div class="tool-group">
+            <span class="tool-group-label">Tools</span>
+            <button class="tool-btn active" id="btn-pool" title="Browse Question Pool">
+                <i class="fa-solid fa-list-check"></i>
+                <span>Question Pool</span>
+            </button>
+            <button class="tool-btn" id="btn-randomize" title="Auto-Generate Variant">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <span>Auto-Generate</span>
+            </button>
+            <button class="tool-btn" id="btn-shuffle" title="Shuffle Questions & Answers">
+                <i class="fa-solid fa-shuffle"></i>
+                <span>Shuffle Orders</span>
+            </button>
+            <button class="tool-btn" id="btn-settings" title="Test Settings & Points">
+                <i class="fa-solid fa-sliders"></i>
+                <span>Settings</span>
+            </button>
+        </div>
 
-    <section id="preview-wrapper"></section>
-</main>
+        <div class="tool-group bottom-actions">
+            <button class="action-btn save-btn" id="btn-save">
+                <i class="fa-solid fa-floppy-disk"></i> Save Draft
+            </button>
+            <button class="action-btn export-btn" id="btn-export-pdf">
+                <i class="fa-solid fa-file-pdf"></i> Export PDF
+            </button>
+        </div>
+    </aside>
 
-<script src="dist/question_fetch.js"></script>
-<script src="dist/preview_manager.js"></script>
-<script type="module" src="dist/send_test.js"></script>
+    <!-- Main Workspace -->
+    <main class="test-workspace">
+
+        <!-- Top Header: Test Name & Subject Selector -->
+        <header class="workspace-top-bar">
+            <div class="input-field-wrapper title-wrapper">
+                <input type="text" id="test-name" placeholder="Test Name (e.g., Computer Architecture Exam 1)" required />
+            </div>
+            <div class="input-field-wrapper subject-wrapper">
+                <select id="test-subject">
+                    <option value="" disabled selected>Select Subject...</option>
+                    <option value="1">Mathematics</option>
+                    <option value="2">Operating Systems</option>
+                    <option value="3">Computer Networks</option>
+                    <option value="4">Java Programming</option>
+                </select>
+            </div>
+        </header>
+
+        <!-- Sub-Header: Dark Ribbon with Variant Switcher Tabs -->
+        <nav class="variant-ribbon">
+            <div class="variant-tabs" id="variant-tab-container">
+                <button class="variant-tab active" data-variant="1">Variant A</button>
+                <button class="variant-tab" data-variant="2">Variant B</button>
+                <button class="variant-tab" data-variant="3">Variant C</button>
+                <button class="add-variant-btn" id="add-variant-btn" title="Add Variant">+</button>
+            </div>
+            <div class="variant-stats">
+                <span id="question-count-badge">0 Questions</span>
+            </div>
+        </nav>
+
+        <!-- Preview Canvas Area -->
+        <section class="test-preview-canvas" id="preview-canvas">
+            <div class="a4-sheet" id="a4-preview-sheet">
+                <!-- Test Header Preview -->
+                <div class="sheet-header">
+                    <h2 class="preview-title" id="sheet-title-display">Untitled Test</h2>
+                    <div class="sheet-meta">
+                        <span>Name: ______________________</span>
+                        <span>Date: ____________</span>
+                        <span id="sheet-variant-display">Variant: A</span>
+                    </div>
+                </div>
+                <hr class="preview-divider" />
+
+                <!-- Dynamic Question List in Active Variant -->
+                <div class="preview-questions-list" id="preview-questions-list">
+                    <div class="empty-state-notice">
+                        <i class="fa-regular fa-file-lines"></i>
+                        <p>No questions added to this variant yet. Use the question pool or auto-generator to add questions.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+</div>
+
+<script th:src="@{/dist/question_fetch.js}"></script>
+<script th:src="@{/dist/preview_manager.js}"></script>
+<script th:src="@{/dist/send_test.js}"></script>
 </body>
 </html>

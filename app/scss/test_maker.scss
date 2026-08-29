@@ -1,75 +1,324 @@
-@use "sass:list";
+// ==========================================
+// Test Maker UI Styles (Matching Wireframe)
+// ==========================================
 
-
-$grayscale: #ffffff, #d9d9d9, #b3b3b3, #1e1e1e;
-
+$bg-workspace: #f8fafc;
+$bg-sidebar: #e2e8f0;
+$dark-ribbon: #1e293b;
+$primary-accent: #6366f1;
+$border-color: #cbd5e1;
+$text-main: #0f172a;
+$text-muted: #64748b;
 
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
+
 body {
-  display: flex;
-  flex-direction: row;
-  justify-content: start;
-  align-items: center;
-
-  width: 100vw;
+  background-color: $bg-workspace;
   height: 100vh;
+  overflow: hidden;
+}
 
-  aside {
-    background-color: list.nth($grayscale, 2);
-    flex-shrink: 4;
-    height: 100%;
-    width: 100%;
+.test-maker-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
 
-    border-radius: 0 120px 0 0;
+// ------------------------------------------
+// Left Sidebar with Wireframe Top Curve
+// ------------------------------------------
+.sidebar-tools {
+  width: 240px;
+  background-color: $bg-sidebar;
+  border-radius: 0 36px 0 0; // Curve matching wireframe
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.5rem 1rem;
+  z-index: 10;
+  box-shadow: 4px 0 12px rgba(0, 0, 0, 0.03);
+
+  .sidebar-header .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: $text-muted;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: $text-main;
+    }
   }
 
-  main {
-    background-color: list.nth($grayscale, 1);
-    flex-shrink: 1;
-    height: 100%;
-    width: 100%;
+  .tool-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
 
-    #top-navbar-wrapper {
-      height: 15%;
+    .tool-group-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: $text-muted;
+      margin-bottom: 0.25rem;
+      padding-left: 0.5rem;
+    }
 
-      #test-name-form {
-        height: calc(100% - 70px);
+    .tool-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: transparent;
+      border: none;
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: $text-main;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      i {
+        font-size: 1.1rem;
+        color: $text-muted;
       }
 
-      #variant-select-wrapper {
-        height: 70px;
-        background-color: list.nth($grayscale, 4);
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.7);
+        i { color: $primary-accent; }
+      }
 
-        display: flex;
-        justify-content: start;
-        align-items: end;
-        column-gap: 15px;
-        padding: 10px 0 0 15px;
+      &.active {
+        background-color: #ffffff;
+        color: $primary-accent;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        i { color: $primary-accent; }
+      }
+    }
+  }
 
-        .variant {
-          background-color: list.nth($grayscale, 2);
-          width: 250px;
-          height: 60px;
-          border-radius: 20px 20px 0 0;
-        }
+  .bottom-actions {
+    margin-top: auto;
+    gap: 0.6rem;
 
-        .variant:has(.closed) {
-          border-radius: 100%;
-          aspect-ratio: 1 / 1;
-          width: 50px;
-          margin-bottom: 10px;
-        }
+    .action-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.75rem;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: transform 80ms ease, opacity 0.2s ease;
+
+      &:active { transform: scale(0.97); }
+
+      &.save-btn {
+        background-color: #ffffff;
+        color: $text-main;
+        border: 1px solid $border-color;
+        &:hover { background-color: #f1f5f9; }
+      }
+
+      &.export-btn {
+        background-color: #ef4444;
+        color: #ffffff;
+        &:hover { opacity: 0.9; }
+      }
+    }
+  }
+}
+
+// ------------------------------------------
+// Main Workspace
+// ------------------------------------------
+.test-workspace {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+// ------------------------------------------
+// Top Bar (Test Name & Subject)
+// ------------------------------------------
+.workspace-top-bar {
+  background-color: #ffffff;
+  padding: 1rem 2rem;
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  border-bottom: 1px solid $border-color;
+
+  .input-field-wrapper {
+    flex: 1;
+
+    input, select {
+      width: 100%;
+      background-color: #f1f5f9;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      font-size: 0.95rem;
+      color: $text-main;
+      outline: none;
+      transition: all 0.2s ease;
+
+      &:focus {
+        background-color: #ffffff;
+        border-color: $primary-accent;
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
       }
     }
 
-    #preview-wrapper {
-      height: 85%;
+    &.title-wrapper {
+      flex: 2;
+    }
+  }
+}
 
-      background-color: list.nth($grayscale, 3);
+// ------------------------------------------
+// Dark Ribbon: Variant Tabs
+// ------------------------------------------
+.variant-ribbon {
+  background-color: $dark-ribbon;
+  padding: 0.6rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .variant-tabs {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .variant-tab {
+      background-color: #334155;
+      color: #94a3b8;
+      border: none;
+      border-radius: 20px;
+      padding: 0.4rem 1rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        color: #ffffff;
+        background-color: #475569;
+      }
+
+      &.active {
+        background-color: #ffffff;
+        color: $dark-ribbon;
+        font-weight: 700;
+      }
+    }
+
+    .add-variant-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background-color: #334155;
+      border: 1px dashed #64748b;
+      color: #ffffff;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: $primary-accent;
+        border-color: $primary-accent;
+      }
+    }
+  }
+
+  .variant-stats {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    font-weight: 600;
+  }
+}
+
+// ------------------------------------------
+// Preview Canvas & A4 Sheet
+// ------------------------------------------
+.test-preview-canvas {
+  flex: 1;
+  background-color: #94a3b8; // Grey workspace background from wireframe
+  overflow-y: auto;
+  padding: 2.5rem;
+  display: flex;
+  justify-content: center;
+
+  .a4-sheet {
+    background-color: #ffffff;
+    width: 210mm;
+    min-height: 297mm;
+    padding: 20mm;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    box-sizing: border-box;
+
+    .sheet-header {
+      margin-bottom: 1rem;
+
+      .preview-title {
+        font-size: 1.4rem;
+        font-weight: 800;
+        margin-bottom: 0.75rem;
+        color: $text-main;
+      }
+
+      .sheet-meta {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.85rem;
+        color: $text-muted;
+      }
+    }
+
+    .preview-divider {
+      border: none;
+      border-top: 1.5px solid $text-main;
+      margin-bottom: 1.5rem;
+    }
+
+    .empty-state-notice {
+      text-align: center;
+      padding: 5rem 2rem;
+      color: $text-muted;
+
+      i {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        color: #cbd5e1;
+      }
+
+      p {
+        font-size: 0.95rem;
+        max-width: 320px;
+        margin: 0 auto;
+        line-height: 1.5;
+      }
     }
   }
 }
