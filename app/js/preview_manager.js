@@ -40,3 +40,15 @@ let test3 = new Test();
 test1.select();
 test3.select();
 
+// popup manager - since we will handle questions here too
+const question_dialog = document.getElementById('question-popup-wrapper');
+
+document.getElementById('btn-add').addEventListener('click', (e) => {
+    question_dialog.showModal();
+})
+
+question_dialog.addEventListener("click", (e) => {
+    if (!document.querySelector('.excluded').contains(e.target)) {
+        question_dialog.close();
+    }
+})

@@ -15,19 +15,38 @@
 </head>
 <body>
 
+<dialog id="question-popup-wrapper">
+    <div class="excluded">
+        <div class="heading">
+            <i class="fa-solid fa-circle-plus"></i>
+            <h2>Add question</h2>
+        </div>
+
+        <div class="default-error">
+            <i class="fa-solid fa-school-circle-exclamation"></i>
+            <span>Please select the subject of the test before picking a question</span>
+        </div>
+    </div>
+</dialog>
+
 <div class="test-maker-container">
 
     <!-- Left Sidebar: Navigation & Builder Tools -->
     <aside class="sidebar-tools">
+
         <div class="sidebar-header">
             <a th:href="@{/}" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back</a>
         </div>
 
         <div class="tool-group">
             <span class="tool-group-label">Tools</span>
-            <button class="tool-btn active" id="btn-pool" title="Browse Question Pool">
+            <button class="tool-btn" id="btn-pool" title="Browse Question Pool">
                 <i class="fa-solid fa-list-check"></i>
                 <span>Question Pool</span>
+            </button>
+            <button class="tool-btn" id="btn-add" title="Add Question to the Pool">
+                <i class="fa-solid fa-circle-plus"></i>
+                <span>Add Question</span>
             </button>
             <button class="tool-btn" id="btn-shuffle" title="Shuffle Questions & Answers">
                 <i class="fa-solid fa-shuffle"></i>
