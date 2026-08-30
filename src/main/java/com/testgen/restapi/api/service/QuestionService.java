@@ -1,74 +1,124 @@
+// src/main/java/com/testgen/restapi/api/service/QuestionService.java
 package com.testgen.restapi.api.service;
 
+import com.testgen.restapi.api.model.Category;
 import com.testgen.restapi.api.model.Question;
+import com.testgen.restapi.api.model.Subject;
 import com.testgen.restapi.core.managers.DatabaseManager;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class QuestionService {
 
-    private List<Question> questionList;
+    private final DatabaseManager dbManager = new DatabaseManager();
 
-    List<String> getAnswers() {
-        List<String> answers = new ArrayList<>();
-        answers.add("correct");
-        answers.add("wrong 1");
-        answers.add("wrong 2");
-        answers.add("wrong 3");
+    public List<Question> getAllQuestions() { return dbManager.getAllQuestions(); }
 
-        Collections.shuffle(answers);
+    public Question getQuestionById(int id) {
+        List<Question> questions = this.getAllQuestions();
 
-        return answers;
-    }
+        Question result = null;
 
-    public QuestionService() {
-        questionList = new ArrayList<>();
-        questionList.addAll(DatabaseManager.getAllQuestions());
-
-//        List<String> answersTemp = getAnswers();
-//        Question question1 = new Question(1, 1, answersTemp.indexOf("correct"), "question A", answersTemp);
-//        answersTemp = getAnswers();
-//        Question question2 = new Question(2, 2, answersTemp.indexOf("correct"), "question B", answersTemp);
-//        answersTemp = getAnswers();
-//        Question question3 = new Question(3, 3, answersTemp.indexOf("correct"), "question C", answersTemp);
-//
-//        answersTemp = getAnswers();
-//        Question question4 = new Question(4, 1, answersTemp.indexOf("correct"), "question D", answersTemp);
-//        answersTemp = getAnswers();
-//        Question question5 = new Question(5, 2, answersTemp.indexOf("correct"), "question F", answersTemp);
-//        answersTemp = getAnswers();
-//        Question question6 = new Question(6, 3, answersTemp.indexOf("correct"), "question G", answersTemp);
-//
-//        answersTemp = getAnswers();
-//        Question question7 = new Question(7, 1, answersTemp.indexOf("correct"), "question H", answersTemp);
-//        answersTemp = getAnswers();
-//        Question question8 = new Question(8, 2, answersTemp.indexOf("correct"), "question I", answersTemp);
-//        answersTemp = getAnswers();
-//        Question question9 = new Question(9, 3, answersTemp.indexOf("correct"), "question J", answersTemp);
-//
-//        questionList.addAll(Arrays.asList(question1, question2, question3, question4, question5, question6, question7, question8, question9));
-    }
-
-    public Optional<Question> getQuestionById(Integer id) {
-        Optional optional = Optional.empty();
-        for (Question question: questionList) {
-            if (id == question.getQuestionID()) {
-                optional = Optional.of(question);
-                return optional;
+        for (Question question: questions) {
+            if (question.getQuestionID() == id) {
+                result = question;
             }
         }
-        return optional;
+
+        return result;
     }
 
-    public List<Question> getQuestionsBySubjectName(String subject) {
+    public List<Question> getQuestionsBySubjectName(String subjectName) {
+        // get sub
+        Subject subject = null;
+        List<Subject> subjects = dbManager.getAllSubjects();
+
+        for (Subject sub: subjects) {
+            if (sub.getSubjectName().equals(subjectName)) {
+                subject = sub;
+            }
+        }
+
+        // get all categories
+        List<Category> categories = new ArrayList<>();
+
+        for (Category category: dbManager.getAllCategories()) {
+            if (category.getSubjectID() == subject.getSubjectID()) {
+                categories.add(category);
+            }
+        }
+
+        // now filter questions
         List<Question> questions = new ArrayList<>();
-        for (Question question: questionList) {
-            if (subject.equals( question.getSubjectName() ) ) {
+
+        for (Question question: this.getAllQuestions()) {
+            for (Category category: categories) {
+                if (question.getCategoryID() == category.getCategoryID()) {
+                    questions.add(question);
+                }
+            }
+        }
+
+        return questions;
+    }
+
+    public List<Question> getQuestionsBySubjectId (int subjectId) {
+        // get all categories
+        List<Category> categories = new ArrayList<>();
+
+        for (Category category: dbManager.getAllCategories()) {
+            if (category.getSubjectID() == subjectId) {
+                categories.add(category);
+            }
+        }
+
+        // now filter questions
+        List<Question> questions = new ArrayList<>();
+
+        for (Question question: this.getAllQuestions()) {
+            for (Category category: categories) {
+                if (question.getCategoryID() == category.getCategoryID()) {
+                    questions.add(question);
+                }
+            }
+        }
+
+        return questions;
+    }
+
+    public List<Question> getQuestionsByCategoryName(String categoryName) {
+        // now filter questions
+        List<Question> questions = new ArrayList<>();
+        Category category = null;
+
+        for (Category cat : dbManager.getAllCategories()) {
+            if (cat.getCategoryName().equals(categoryName)) {
+                category = cat;
+            }
+        }
+
+        for (Question question: this.getAllQuestions()) {
+            if (question.getCategoryID() == category.getCategoryID()) {
                 questions.add(question);
             }
         }
+
+        return questions;
+    }
+
+    public List<Question> getQuestionsByCategoryId (int categoryId) {
+        // now filter questions
+        List<Question> questions = new ArrayList<>();
+
+        for (Question question: this.getAllQuestions()) {
+            if (question.getCategoryID() == categoryId) {
+                questions.add(question);
+            }
+        }
+
         return questions;
     }
 }

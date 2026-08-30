@@ -1,23 +1,18 @@
 package com.testgen.restapi.api.controller;
 
 import com.testgen.restapi.api.model.Question;
-import com.testgen.restapi.api.model.QuestionRequest;
 import com.testgen.restapi.api.service.QuestionService;
-import com.testgen.restapi.core.managers.DatabaseManager;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.lang.model.util.AbstractElementVisitor14;
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/question")
 public class QuestionApiController {
-
-    private final DatabaseManager dbManager = new DatabaseManager();
 
     private final QuestionService questionService;
 
@@ -26,47 +21,33 @@ public class QuestionApiController {
         this.questionService = questionService;
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<Question> addQuestion(@RequestBody QuestionRequest request) {
-
-        System.out.println("[API] Adding Question with Difficulty: " + request.getDifficulty());
-
-        // Insert question and answers into MySQL/H2
-        Question savedQuestion = dbManager.createQuestion(request);
-
-        if (savedQuestion != null) {
-            return new ResponseEntity<>(savedQuestion, HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    // 1. Get single question by ID: GET /api/question/get?id=1
+    @GetMapping("/get")
+    public ResponseEntity<Question> getQuestion(@RequestParam int id) {
+        Question question = questionService.getQuestionById(id);
+        if (question == null) {
+            return ResponseEntity.notFound().build();
         }
+        return ResponseEntity.ok(question);
     }
 
-    @GetMapping("/get")
-    public Question getQuestion(@RequestParam Integer id) {
-        Optional<Question> question = questionService.getQuestionById(id);
-
-        if (question.isPresent()) {
-            return (Question) question.get();
-        }
-
-        return null;
+    // 2. Get all questions for a subject: GET /api/question/by-subject?subjectId=1
+    @GetMapping("/by-subject-id")
+    public ResponseEntity<List<Question>> getQuestionsBySubject(@RequestParam int subjectId) {
+        List<Question> questions = questionService.getQuestionsBySubjectId(subjectId);
+        return ResponseEntity.ok(questions);
     }
 
-    @GetMapping("/get")
-    public List<Question> getQuestions(@RequestParam String subject) {
-//        List<Optional<Question>> questions = questionService.getQuestionsBySubjectName(subject);
-//
-//        if (((Optional<?>) null).isPresent()) {
-//            return (Question) questions.get();
-//        }
-//
-//        return null;
+    @GetMapping("/by-subject-name")
+    public ResponseEntity<List<Question>> getQuestionsBySubject(@RequestParam String subjectName) {
+        List<Question> questions = questionService.getQuestionsBySubjectName(subjectName);
+        return ResponseEntity.ok(questions);
+    }
 
-        List<Question> questions = questionService.getQuestionsBySubjectName(subject);
-
-        if (!questions.isEmpty()) {
-            return questions;
-        }
-        return null;
+    // 3. Get all approved questions: GET /api/question/all
+    @GetMapping("/all")
+    public ResponseEntity<List<Question>> getAllQuestions() {
+        List<Question> questions = questionService.getAllQuestions();
+        return ResponseEntity.ok(questions);
     }
 }
