@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin(origins = "*")
@@ -42,12 +43,30 @@ public class QuestionApiController {
 
     @GetMapping("/get")
     public Question getQuestion(@RequestParam Integer id) {
-        Optional<Question> question = questionService.getQuestion(id);
+        Optional<Question> question = questionService.getQuestionById(id);
 
         if (question.isPresent()) {
             return (Question) question.get();
         }
 
+        return null;
+    }
+
+    @GetMapping("/get")
+    public List<Question> getQuestions(@RequestParam String subject) {
+//        List<Optional<Question>> questions = questionService.getQuestionsBySubjectName(subject);
+//
+//        if (((Optional<?>) null).isPresent()) {
+//            return (Question) questions.get();
+//        }
+//
+//        return null;
+
+        List<Question> questions = questionService.getQuestionsBySubjectName(subject);
+
+        if (!questions.isEmpty()) {
+            return questions;
+        }
         return null;
     }
 }

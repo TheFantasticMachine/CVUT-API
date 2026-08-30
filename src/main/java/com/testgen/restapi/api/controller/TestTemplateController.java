@@ -18,7 +18,7 @@ public class TestTemplateController {
 
         List<Question> questions = new ArrayList<>();
         QuestionService questionService = new QuestionService();
-        questions.add(questionService.getQuestion(10).get());
+        questions.add(questionService.getQuestionById(10).get());
         TestRequest request = new TestRequest("test", questions);
 
         model.addAttribute("variant", request.getTestVariant());

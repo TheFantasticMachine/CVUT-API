@@ -1,5 +1,7 @@
 package com.testgen.restapi.api.model;
 
+import com.testgen.restapi.core.managers.DatabaseManager;
+
 import java.util.List;
 
 public class Question {
@@ -25,6 +27,31 @@ public class Question {
 
     public int getCategoryID() { return categoryID; }
     public void setCategoryID(int categoryID) { this.categoryID = categoryID; }
+
+    public String getSubjectName() {
+        DatabaseManager databaseManager = new DatabaseManager();
+        List<Subject> subjects = databaseManager.getAllSubjects();
+        List<Category> categories = databaseManager.getAllCategories();
+
+        Category questionCategory = null;
+
+        for (Category category: categories) {
+            if (category.getCategoryID() == this.getCategoryID()) {
+                questionCategory = category;
+            }
+        }
+
+        Subject questionSubject = null;
+
+        for (Subject subject: subjects) {
+            if (subject.getCategories().contains(questionCategory)) {
+                questionSubject = subject;
+            }
+        }
+
+        assert questionSubject != null;
+        return questionSubject.getSubjectName();
+    }
 
     public int getCorrectAnswerIndex() { return correctAnswerIndex; }
     public void setCorrectAnswerIndex(int correctAnswerIndex) { this.correctAnswerIndex = correctAnswerIndex; }

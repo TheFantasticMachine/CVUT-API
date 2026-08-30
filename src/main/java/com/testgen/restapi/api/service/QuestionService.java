@@ -51,7 +51,7 @@ public class QuestionService {
 //        questionList.addAll(Arrays.asList(question1, question2, question3, question4, question5, question6, question7, question8, question9));
     }
 
-    public Optional<Question> getQuestion(Integer id) {
+    public Optional<Question> getQuestionById(Integer id) {
         Optional optional = Optional.empty();
         for (Question question: questionList) {
             if (id == question.getQuestionID()) {
@@ -60,5 +60,15 @@ public class QuestionService {
             }
         }
         return optional;
+    }
+
+    public List<Question> getQuestionsBySubjectName(String subject) {
+        List<Question> questions = new ArrayList<>();
+        for (Question question: questionList) {
+            if (subject.equals( question.getSubjectName() ) ) {
+                questions.add(question);
+            }
+        }
+        return questions;
     }
 }
