@@ -64,7 +64,7 @@ public class DatabaseManager {
         return questions;
     }
 
-    public List<Subject> getAllSubjects() {
+    public static List<Subject> getAllSubjects() {
         List<Subject> list = new ArrayList<>();
         String sql = "SELECT * FROM subjects";
 
@@ -84,7 +84,7 @@ public class DatabaseManager {
         return list;
     }
 
-    public List<Category> getAllCategories() {
+    public static List<Category> getAllCategories() {
         List<Category> list = new ArrayList<>();
         String sql = "SELECT * FROM categories";
 

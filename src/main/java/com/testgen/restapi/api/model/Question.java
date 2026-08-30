@@ -1,5 +1,9 @@
 package com.testgen.restapi.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.testgen.restapi.api.service.CategoryService;
+import com.testgen.restapi.api.service.SubjectService;
+import com.testgen.restapi.core.Globals;
 import com.testgen.restapi.core.managers.DatabaseManager;
 
 import java.util.List;
@@ -49,7 +53,10 @@ public class Question {
             }
         }
 
-        assert questionSubject != null;
+        if (questionSubject == null) {
+            return "Unassigned"; // 👈 Prevents the NullPointerException
+        }
+
         return questionSubject.getSubjectName();
     }
 
@@ -61,4 +68,14 @@ public class Question {
 
     public List<String> getAnswers() { return answers; }
     public void setAnswers(List<String> answers) { this.answers = answers; }
+
+    // --- Helper Methods (Add @JsonIgnore and null checks) ---
+
+    @JsonIgnore
+    public Subject getSubject() {
+        // Safe lookup: return null if Globals or Category is missing
+        Category category = CategoryService.getCategoryById(this.categoryID);
+        if (category == null) return null;
+        return SubjectService.getSubjectByCategoryId(category.getSubjectID());
+    }
 }

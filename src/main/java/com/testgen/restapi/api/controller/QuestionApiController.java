@@ -31,13 +31,14 @@ public class QuestionApiController {
         return ResponseEntity.ok(question);
     }
 
-    // 2. Get all questions for a subject: GET /api/question/by-subject?subjectId=1
+    // 2. Get all questions for a subject: GET /api/question/by-subject-id?subjectId=1
     @GetMapping("/by-subject-id")
     public ResponseEntity<List<Question>> getQuestionsBySubject(@RequestParam int subjectId) {
         List<Question> questions = questionService.getQuestionsBySubjectId(subjectId);
         return ResponseEntity.ok(questions);
     }
 
+    // GET /api/question/by-subject-name?subjectName=name
     @GetMapping("/by-subject-name")
     public ResponseEntity<List<Question>> getQuestionsBySubject(@RequestParam String subjectName) {
         List<Question> questions = questionService.getQuestionsBySubjectName(subjectName);
