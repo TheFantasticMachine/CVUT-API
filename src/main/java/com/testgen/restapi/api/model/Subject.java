@@ -1,12 +1,13 @@
 package com.testgen.restapi.api.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Subject {
 
     private String subjectName;
     private int subjectID;
-    private ArrayList<Category> categories;
+    private List<Category> categories = new ArrayList<>();
 
     public Subject(String subjectName, int subjectID, ArrayList<Category> categories) {
         this.subjectName = subjectName;
@@ -32,7 +33,7 @@ public class Subject {
         this.subjectID = subjectID;
     }
 
-    public ArrayList<Category> getCategories() {
+    public List<Category> getCategories() {
         return categories;
     }
 

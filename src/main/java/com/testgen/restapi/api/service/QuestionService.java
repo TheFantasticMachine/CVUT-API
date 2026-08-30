@@ -15,7 +15,7 @@ public class QuestionService {
 
     private final DatabaseManager dbManager = new DatabaseManager();
 
-    public List<Question> getAllQuestions() { return dbManager.getAllQuestions(); }
+    public List<Question> getAllQuestions() { return DatabaseManager.getAllQuestions(); }
 
     public Question getQuestionById(int id) {
         List<Question> questions = this.getAllQuestions();
@@ -46,6 +46,7 @@ public class QuestionService {
         List<Category> categories = new ArrayList<>();
 
         for (Category category: dbManager.getAllCategories()) {
+            assert subject != null;
             if (category.getSubjectID() == subject.getSubjectID()) {
                 categories.add(category);
             }
@@ -101,6 +102,7 @@ public class QuestionService {
         }
 
         for (Question question: this.getAllQuestions()) {
+            assert category != null;
             if (question.getCategoryID() == category.getCategoryID()) {
                 questions.add(question);
             }
