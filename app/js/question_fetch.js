@@ -63,6 +63,17 @@
 //         }));
 //     })
 
+
+
+// Manage the content of add question popup here
+let subject = null;
+function getTestSubject(sel) {
+    subject = sel.options[sel.selectedIndex].text;
+    document.getElementById("add-question-error").style.display = "none";
+    document.querySelector(".subject").innerText = subject;
+    // for now thats good but override prevention needs to be added and saving too
+}
+
 // app/js/question_fetch.js
 let loadedQuestions = [];
 

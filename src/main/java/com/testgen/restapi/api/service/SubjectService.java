@@ -5,8 +5,12 @@ import com.testgen.restapi.api.model.Subject;
 import com.testgen.restapi.core.managers.DatabaseManager;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SubjectService {
+
+    public List<Subject> getAllSubjects() { return DatabaseManager.getAllSubjects(); }
 
     public static Subject getSubjectByCategoryId(int id) {
         for (Category category : DatabaseManager.getAllCategories()) {

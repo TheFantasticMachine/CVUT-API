@@ -33,7 +33,7 @@ public class QuestionApiController {
 
     // 2. Get all questions for a subject: GET /api/question/by-subject-id?subjectId=1
     @GetMapping("/by-subject-id")
-    public ResponseEntity<List<Question>> getQuestionsBySubject(@RequestParam int subjectId) {
+    public ResponseEntity<List<Question>> getQuestionsBySubject(@RequestParam(required = false, defaultValue = "1") Integer subjectId) {
         List<Question> questions = questionService.getQuestionsBySubjectId(subjectId);
         return ResponseEntity.ok(questions);
     }

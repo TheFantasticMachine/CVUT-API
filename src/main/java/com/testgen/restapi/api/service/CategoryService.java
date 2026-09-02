@@ -4,8 +4,12 @@ import com.testgen.restapi.api.model.Category;
 import com.testgen.restapi.core.managers.DatabaseManager;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CategoryService {
+
+    public List<Category> getAllCategories() { return DatabaseManager.getAllCategories(); }
 
    public static Category getCategoryById(int id) {
        for (Category category : DatabaseManager.getAllCategories()) {

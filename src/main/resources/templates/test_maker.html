@@ -21,10 +21,16 @@
             <i class="fa-solid fa-circle-plus"></i>
             <h2>Add question</h2>
         </div>
-
-        <div class="default-error">
-            <i class="fa-solid fa-school-circle-exclamation"></i>
-            <span>Please select the subject of the test before picking a question</span>
+        <div class="content">
+            <form action="" class="search-form">
+                <span class="subject"></span>
+                <select class="add-question-category"></select>
+                <!-- later add search and sort and difficulty -->
+            </form>
+            <div id="add-question-error" class="default-error">
+                <i class="fa-solid fa-school-circle-exclamation"></i>
+                <span>Please select the subject of the test before picking a question</span>
+            </div>
         </div>
     </div>
 </dialog>
@@ -77,7 +83,7 @@
                 <input type="text" id="test-name" placeholder="Test Name (e.g., Computer Architecture Exam 1)" required />
             </div>
             <div class="input-field-wrapper subject-wrapper">
-                <select id="test-subject">
+                <select onchange="getTestSubject(this)" id="test-subject">
                     <option value="" disabled selected>Select Subject...</option>
                     <option value="1" th:each="sub : ${subjects}" th:text="${sub}"></option>
                 </select>
