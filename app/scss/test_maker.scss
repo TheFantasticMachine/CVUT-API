@@ -80,6 +80,60 @@ dialog {
       }
     }
 
+    .content {
+      //display: none;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid black;
+
+      .question {
+        background-color: #00f0ff;
+        padding: 30px;
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        align-items: center;
+        column-gap: 10px;
+
+        .add-btn {
+          flex-grow: 1;
+          width: 20%;
+          aspect-ratio: 1 / 1;
+        }
+        .flex-wrapper {
+          border: 2px solid;
+          width: 80%;
+
+          flex-grow: 3;
+          display: flex;
+          flex-direction: column;
+          row-gap: 10px;
+
+          .assignment {
+            flex-grow: 3;
+
+          }
+          .flex-row-two {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            align-items: center;
+            width: 100%;
+
+            .category {}
+            .difficulty {}
+            .used-in {
+              .variant {
+                border-radius: 100%;
+                font-weight: 900;
+              }
+            }
+          }
+        }
+      }
+    }
+
     .default-error {
       margin: 85px 25px 25px 25px;
       color: #DFDFDF;

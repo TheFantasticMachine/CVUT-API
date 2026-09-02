@@ -96,9 +96,9 @@ public class DatabaseManager {
                 Category category = new Category();
                 category.setCategoryID(rs.getInt("categoryID"));
                 category.setCategoryName(rs.getString("categoryName"));
+                category.setSubjectID(rs.getInt("subjectID"));
 
-                list.add(category
-                );
+                list.add(category);
             }
         } catch (SQLException e) {
             e.printStackTrace();

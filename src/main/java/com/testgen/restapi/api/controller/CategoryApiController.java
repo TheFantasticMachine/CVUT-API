@@ -5,10 +5,7 @@ import com.testgen.restapi.api.model.Question;
 import com.testgen.restapi.api.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,6 +18,12 @@ public class CategoryApiController {
 
     @Autowired
     public CategoryApiController(CategoryService categoryService) { this.categoryService = categoryService; }
+
+    @GetMapping("/by-subject-id")
+    public ResponseEntity<List<Category>> getCategoriesBySubjectId(@RequestParam(required = false, defaultValue = "1") Integer id) {
+        List<Category> categories = categoryService.getCategoriesBySubjectId(id);
+        return ResponseEntity.ok(categories);
+    }
 
     @GetMapping("/all")
     public ResponseEntity<List<Category>> getAllCategories() {

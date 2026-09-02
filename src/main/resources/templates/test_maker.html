@@ -21,15 +21,35 @@
             <i class="fa-solid fa-circle-plus"></i>
             <h2>Add question</h2>
         </div>
+        <form action="" class="search-form">
+            <span class="subject"></span>
+            <select class="add-question-category"></select>
+            <!-- later add search and sort and difficulty -->
+        </form>
+
+        <div id="add-question-error" class="default-error">
+            <i class="fa-solid fa-school-circle-exclamation"></i>
+            <span>Please select the subject of the test before picking a question</span>
+        </div>
+
         <div class="content">
-            <form action="" class="search-form">
-                <span class="subject"></span>
-                <select class="add-question-category"></select>
-                <!-- later add search and sort and difficulty -->
-            </form>
-            <div id="add-question-error" class="default-error">
-                <i class="fa-solid fa-school-circle-exclamation"></i>
-                <span>Please select the subject of the test before picking a question</span>
+            <div class="question">
+                <a class="add-btn">
+                    <i class="fa-solid fa-circle-plus"></i>
+                </a>
+                <div class="flex-wrapper">
+                    <span class="assignment">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque culpa cum deserunt rem veniam? Autem delectus et nisi nobis repellat?
+                    </span>
+                    <div class="flex-row-two">
+                        <span class="category">lorem</span>
+                        <span class="difficulty">5</span>
+                        <div class="used-in">
+                            <span class="variant">A</span>
+                            <span class="variant">B</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

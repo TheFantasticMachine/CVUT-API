@@ -12,6 +12,15 @@ public class SubjectService {
 
     public List<Subject> getAllSubjects() { return DatabaseManager.getAllSubjects(); }
 
+    public Subject getSubjectByName(String name) {
+        for (Subject subject : this.getAllSubjects()) {
+            if (subject.getSubjectName().equals(name)) {
+                return subject;
+            }
+        }
+        return null;
+    }
+
     public static Subject getSubjectByCategoryId(int id) {
         for (Category category : DatabaseManager.getAllCategories()) {
             if (category.getCategoryID() == id) {
