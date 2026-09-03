@@ -14,16 +14,18 @@ public class Question {
     private int correctAnswerIndex;
     private String assignment;
     private List<String> answers;
+    private int difficulty;
 
     // 🔑 REQUIRED by Jackson for nested array deserialization
     public Question() {}
 
-    public Question(int questionID, int categoryID, int correctAnswerIndex, String assignment, List<String> answers) {
+    public Question(int questionID, int categoryID, int correctAnswerIndex, String assignment, List<String> answers, int difficulty) {
         this.questionID = questionID;
         this.categoryID = categoryID;
         this.correctAnswerIndex = correctAnswerIndex;
         this.assignment = assignment;
         this.answers = answers;
+        this.difficulty = difficulty;
     }
 
     public int getQuestionID() { return questionID; }
@@ -68,6 +70,14 @@ public class Question {
 
     public List<String> getAnswers() { return answers; }
     public void setAnswers(List<String> answers) { this.answers = answers; }
+
+    public int getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
+    }
 
     // --- Helper Methods (Add @JsonIgnore and null checks) ---
 

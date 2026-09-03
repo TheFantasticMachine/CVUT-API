@@ -52,8 +52,9 @@ public class DatabaseManager {
 
                 Collections.shuffle(answers);
 
+                String difficulty = raw.getString("difficulty");
 
-                Question question = new Question(id, categoryId, answers.indexOf(correct), assignment, answers);
+                Question question = new Question(id, categoryId, answers.indexOf(correct), assignment, answers, Integer.parseInt(difficulty));
                 questions.add(question);
             }
         }
@@ -163,7 +164,8 @@ public class DatabaseManager {
                             request.getCategoryID(),
                             request.getCorrectAnswerIndex(),
                             request.getAssignment(),
-                            request.getAnswers()
+                            request.getAnswers(),
+                            request.getDifficulty()
                     );
                 }
             }

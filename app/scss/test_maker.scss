@@ -10,6 +10,15 @@ $border-color: #cbd5e1;
 $text-main: #0f172a;
 $text-muted: #64748b;
 
+$card-bg: #f1f5f9;
+$border-light: #e2e8f0;
+$text-dark: #0f172a;
+$text-sub: #64748b;
+$accent-green: #22c55e;
+$accent-green-bg: #dcfce7;
+$accent-green-border: #86efac;
+$danger-red: #ef4444;
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -86,47 +95,196 @@ dialog {
       border-radius: 10px;
       border: 1px solid black;
 
-      .question {
-        background-color: #00f0ff;
-        padding: 30px;
+      .question-pool-card {
         display: flex;
-        flex-direction: row;
-        justify-content: start;
-        align-items: center;
-        column-gap: 10px;
+        align-items: flex-start;
+        gap: 1rem;
+        background-color: #ffffff;
+        border: 1px solid $border-light;
+        border-radius: 16px;
+        padding: 1rem;
+        margin-bottom: 0.85rem;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
 
-        .add-btn {
-          flex-grow: 1;
-          width: 20%;
-          aspect-ratio: 1 / 1;
+        &:hover {
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
-        .flex-wrapper {
-          border: 2px solid;
-          width: 80%;
 
-          flex-grow: 3;
+        // --- Big Circular Add Button ---
+        .btn-add-circle {
+          width: 48px;
+          height: 48px;
+          min-width: 48px;
+          border-radius: 50%;
+          background-color: #1e293b;
+          border: none;
+          color: #ffffff;
+          font-size: 1.25rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          margin-top: 0.2rem;
+          transition: transform 0.15s ease, background-color 0.2s ease;
+
+          &:hover {
+            background-color: #4f46e5;
+            transform: scale(1.06);
+          }
+
+          &:active {
+            transform: scale(0.95);
+          }
+
+          // State when already added to the active variant
+          &.added {
+            background-color: $accent-green;
+            pointer-events: none;
+          }
+        }
+
+        .card-body {
+          flex: 1;
           display: flex;
           flex-direction: column;
-          row-gap: 10px;
+          gap: 0.6rem;
 
-          .assignment {
-            flex-grow: 3;
-
+          .question-assignment {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: $text-dark;
+            line-height: 1.45;
           }
-          .flex-row-two {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-evenly;
-            align-items: center;
-            width: 100%;
 
-            .category {}
-            .difficulty {}
-            .used-in {
-              .variant {
-                border-radius: 100%;
-                font-weight: 900;
+          // --- Footer Meta Info ---
+          .card-footer-meta {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+
+            .meta-tag {
+              font-size: 0.75rem;
+              font-weight: 600;
+              padding: 0.25rem 0.6rem;
+              border-radius: 6px;
+              background-color: #e2e8f0;
+              color: #334155;
+
+              &.category-tag {
+                background-color: #e0e7ff;
+                color: #4338ca;
+              }
+
+              &.difficulty-tag {
+                background-color: #fef3c7;
+                color: #92400e;
+              }
+            }
+
+            // Overlapping or spaced Variant dots (A, B, C)
+            .variant-indicators {
+              display: flex;
+              align-items: center;
+              gap: 0.25rem;
+              margin-left: 0.25rem;
+
+              .v-dot {
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                font-size: 0.65rem;
+                font-weight: 700;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: #cbd5e1;
+                color: #64748b;
+
+                &.active {
+                  background-color: $accent-green;
+                  color: #ffffff;
+                  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
+                }
+              }
+            }
+
+            // Chevron dropdown button for answers
+            .btn-toggle-answers {
+              margin-left: auto;
+              display: flex;
+              align-items: center;
+              gap: 0.4rem;
+              background: transparent;
+              border: none;
+              color: $text-sub;
+              font-size: 0.8rem;
+              font-weight: 600;
+              cursor: pointer;
+              padding: 0.2rem 0.4rem;
+              border-radius: 6px;
+              transition: color 0.15s ease;
+
+              i {
+                transition: transform 0.2s ease;
+                font-size: 0.75rem;
+              }
+
+              &:hover {
+                color: $text-dark;
+              }
+
+              &.open i {
+                transform: rotate(180deg);
+              }
+            }
+          }
+
+          // --- Collapsible Answers Drawer (Matches Sheet View) ---
+          .preview-answers-drawer {
+            display: none; // Toggled by JS
+            flex-direction: column;
+            gap: 0.4rem;
+            margin-top: 0.4rem;
+            padding-top: 0.6rem;
+            border-top: 1px dashed $border-light;
+
+            &.open {
+              display: flex;
+            }
+
+            .answer-row {
+              display: flex;
+              align-items: center;
+              gap: 0.5rem;
+              padding: 0.4rem 0.6rem;
+              border-radius: 6px;
+              font-size: 0.85rem;
+              background-color: #f8fafc;
+              border: 1px solid $border-light;
+              color: #334155;
+
+              .option-label {
+                font-weight: 700;
+              }
+
+              .option-text {
+                flex: 1;
+              }
+
+              .check-icon {
+                color: #16a34a;
+                font-size: 0.8rem;
+                margin-left: auto;
+              }
+
+              // Correct Answer is placed at top & styled in green
+              &.correct {
+                background-color: $accent-green-bg;
+                border-color: $accent-green-border;
+                color: #14532d;
+                font-weight: 600;
               }
             }
           }
@@ -371,7 +529,7 @@ dialog::backdrop {
       justify-content: center;
       cursor: pointer;
       transition: background-color 0.2s ease;
-      order: 1;
+      order: 1000;
 
       &:hover {
         background-color: $primary-accent;

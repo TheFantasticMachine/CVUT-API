@@ -32,21 +32,57 @@
             <span>Please select the subject of the test before picking a question</span>
         </div>
 
-        <div class="content">
-            <div class="question">
-                <a class="add-btn">
-                    <i class="fa-solid fa-circle-plus"></i>
-                </a>
-                <div class="flex-wrapper">
-                    <span class="assignment">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque culpa cum deserunt rem veniam? Autem delectus et nisi nobis repellat?
-                    </span>
-                    <div class="flex-row-two">
-                        <span class="category">lorem</span>
-                        <span class="difficulty">5</span>
-                        <div class="used-in">
-                            <span class="variant">A</span>
-                            <span class="variant">B</span>
+        <div class="content" id="add-question-popup-content">
+            <div class="question-pool-card" data-question-id="1">
+                <!-- Big Circle Add Button -->
+                <button type="button" class="btn-add-circle" title="Add to current variant">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+
+                <!-- Content & Controls Area -->
+                <div class="card-body">
+                    <!-- Top Row: Assignment Text -->
+                    <p class="question-assignment">
+                        What is the volume formula for a perfect sphere with radius r?
+                    </p>
+
+                    <!-- Bottom Row: Metadata & Expand Action -->
+                    <div class="card-footer-meta">
+                        <span class="meta-tag category-tag">Geometry</span>
+                        <span class="meta-tag difficulty-tag">Diff: 3/5</span>
+
+                        <!-- Variant Usage Badges (Lit up if used in that variant) -->
+                        <div class="variant-indicators" title="Usage in variants">
+                            <span class="v-dot active">A</span>
+                            <span class="v-dot">B</span>
+                            <span class="v-dot">C</span>
+                        </div>
+
+                        <!-- Preview Toggle Button -->
+                        <button type="button" class="btn-toggle-answers">
+                            <span>View Options</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                    </div>
+
+                    <!-- Collapsible Answer List (Matches the Question UI on the test) -->
+                    <div class="preview-answers-drawer">
+                        <div class="answer-row correct">
+                            <span class="option-label">A)</span>
+                            <span class="option-text">(4/3) * &pi; * r&sup3;</span>
+                            <i class="fa-solid fa-check check-icon"></i>
+                        </div>
+                        <div class="answer-row">
+                            <span class="option-label">B)</span>
+                            <span class="option-text">4 * &pi; * r&sup2;</span>
+                        </div>
+                        <div class="answer-row">
+                            <span class="option-label">C)</span>
+                            <span class="option-text">&pi; * r&sup2;</span>
+                        </div>
+                        <div class="answer-row">
+                            <span class="option-label">D)</span>
+                            <span class="option-text">2 * &pi; * r</span>
                         </div>
                     </div>
                 </div>
@@ -182,9 +218,10 @@
 
 </div>
 
-<script defer th:src="@{/dist/question_fetch.js}"></script>
+<!--<script defer th:src="@{/dist/question_fetch.js}"></script>-->
 <script defer th:src="@{/dist/preview_manager.js}"></script>
 <script defer th:src="@{/dist/send_test.js}"></script>
+<script defer th:src="@{/dist/question_manager.js}"></script>
 
 </body>
 </html>

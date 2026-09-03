@@ -33,15 +33,21 @@ public class QuestionApiController {
 
     // 2. Get all questions for a subject: GET /api/question/by-subject-id?subjectId=1
     @GetMapping("/by-subject-id")
-    public ResponseEntity<List<Question>> getQuestionsBySubject(@RequestParam(required = false, defaultValue = "1") Integer subjectId) {
+    public ResponseEntity<List<Question>> getQuestionsBySubjectId(@RequestParam(required = false, defaultValue = "1") Integer subjectId) {
         List<Question> questions = questionService.getQuestionsBySubjectId(subjectId);
         return ResponseEntity.ok(questions);
     }
 
     // GET /api/question/by-subject-name?subjectName=name
     @GetMapping("/by-subject-name")
-    public ResponseEntity<List<Question>> getQuestionsBySubject(@RequestParam String subjectName) {
+    public ResponseEntity<List<Question>> getQuestionsBySubjectName(@RequestParam String subjectName) {
         List<Question> questions = questionService.getQuestionsBySubjectName(subjectName);
+        return ResponseEntity.ok(questions);
+    }
+
+    @GetMapping("/by-category-name")
+    public ResponseEntity<List<Question>> getQuestionsByCategory(@RequestParam String categoryName) {
+        List<Question> questions = questionService.getQuestionsByCategoryName(categoryName);
         return ResponseEntity.ok(questions);
     }
 

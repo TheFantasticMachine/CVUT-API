@@ -1,7 +1,6 @@
 package com.testgen.restapi.api.controller;
 
 import com.testgen.restapi.api.model.Category;
-import com.testgen.restapi.api.model.Question;
 import com.testgen.restapi.api.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
