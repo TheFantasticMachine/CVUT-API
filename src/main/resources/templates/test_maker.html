@@ -135,14 +135,9 @@
 
         <!-- Top Header: Test Name & Subject Selector -->
         <header class="workspace-top-bar">
-            <div class="input-field-wrapper title-wrapper">
-                <input type="text" id="test-name" placeholder="Test Name (e.g., Computer Architecture Exam 1)" required />
-            </div>
-            <div class="input-field-wrapper subject-wrapper">
-                <select onchange="getTestSubject(this)" id="test-subject">
-                    <option value="" disabled selected>Select Subject...</option>
-                    <option value="1" th:each="sub : ${subjects}" th:text="${sub}"></option>
-                </select>
+            <div class="test-identity-display">
+                <h1 class="display-test-name" id="display-test-name">Computer Architecture Exam 1</h1>
+                <span class="display-subject-tag" id="display-subject-tag">Operating Systems</span>
             </div>
         </header>
 

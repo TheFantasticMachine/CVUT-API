@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public class SubjectService {
 
-    public List<Subject> getAllSubjects() { return DatabaseManager.getAllSubjects(); }
+    public static List<Subject> getAllSubjects() { return DatabaseManager.getAllSubjects(); }
 
     public Subject getSubjectByName(String name) {
         for (Subject subject : this.getAllSubjects()) {
