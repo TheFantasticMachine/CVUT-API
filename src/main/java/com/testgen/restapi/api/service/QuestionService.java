@@ -64,9 +64,6 @@ public class QuestionService {
         // now filter questions
         Optional<Category> category = categoryRepo.findById(categoryId);
 
-        if (category.isPresent()) {
-            return questionRepo.findByCategoryIDAndStatus(category.get().getCategoryID(), "APPROVED");
-        }
-        return null;
+        return category.map(value -> questionRepo.findByCategoryIDAndStatus(value.getCategoryID(), "APPROVED")).orElse(null);
     }
 }

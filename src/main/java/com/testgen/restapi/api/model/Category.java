@@ -1,5 +1,6 @@
 package com.testgen.restapi.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -12,20 +13,15 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
     private Integer categoryID;
-    @Column(name = "category_name")
+    @Column(name = "category_name", nullable = false)
     private String categoryName;
-    @Column(name = "subject_id")
+    @Column(name = "subject_id", nullable = false)
     private Integer subjectID;
 
-    @OneToMany
-    @JoinColumn(name = "category_id")
-    private ArrayList<Question> questions;
-
-    public Category(String categoryName, int categoryID, int subjectID, ArrayList<Question> questions) {
+    public Category(String categoryName, int categoryID, int subjectID) {
         this.categoryName = categoryName;
         this.categoryID = categoryID;
         this.subjectID = subjectID;
-        this.questions = questions;
     }
 
     public Category() {}
@@ -52,13 +48,5 @@ public class Category {
 
     public void setSubjectID(int subjectID) {
         this.subjectID = subjectID;
-    }
-
-    public ArrayList<Question> getQuestions() {
-        return questions;
-    }
-
-    public void setQuestions(ArrayList<Question> questions) {
-        this.questions = questions;
     }
 }

@@ -12,16 +12,10 @@
 
     <!-- Sign Up Form (Left side underneath) -->
     <div class="form-container sign-up-container">
-        <form action="#" th:action="@{/main}" method="get">
+        <form id="new-user-form" action="#" th:action="@{/main}" method="get">
             <h2>Create Account</h2>
-<!--            <div class="social-container">-->
-<!--                <a href="#" class="social-btn">f</a>-->
-<!--                <a href="#" class="social-btn">G</a>-->
-<!--                <a href="#" class="social-btn">in</a>-->
-<!--            </div>-->
             <span class="form-subtitle"> use your email  and name for registration</span>
-            <input type="text" name="name" value="Name with space" required />
-            <input type="email" name="email" placeholder="Email" required />
+            <input type="text" name="username" value="Name with space" required />
             <input type="password" name="password" placeholder="Password" required />
             <button type="submit" class="btn-solid">Sign Up</button>
         </form>
@@ -37,7 +31,7 @@
 <!--                <a href="#" class="social-btn">in</a>-->
 <!--            </div>-->
             <span class="form-subtitle">to use your account</span>
-            <input type="email" name="username" placeholder="Email" required />
+            <input type="text" name="username" placeholder="Username" required />
             <input type="password" name="password" placeholder="Password" required />
             <a href="#" class="forgot-link">Forgot your password?</a>
             <button type="submit" class="btn-solid">Sign In</button>
@@ -84,6 +78,8 @@
         }
     });
 </script>
+
+<script th:src="@{dist/user_auth.js}"></script>
 
 </body>
 </html>

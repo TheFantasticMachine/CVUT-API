@@ -16,15 +16,12 @@ public class Subject {
     @Column(name = "subject_name")
     private String subjectName;
 
+    @Column(name = "admin_id")
+    private Integer adminID;
+
     @OneToMany
     @JoinColumn(name = "subject_id")
     private List<Category> categories = new ArrayList<>();
-
-    public Subject(String subjectName, int subjectID, ArrayList<Category> categories) {
-        this.subjectName = subjectName;
-        this.subjectID = subjectID;
-        this.categories = categories;
-    }
 
     public Subject() {}
 
@@ -42,6 +39,14 @@ public class Subject {
 
     public void setSubjectID(int subjectID) {
         this.subjectID = subjectID;
+    }
+
+    public Integer getAdminID() {
+        return adminID;
+    }
+
+    public void setAdminID(Integer adminID) {
+        this.adminID = adminID;
     }
 
     public List<Category> getCategories() {
