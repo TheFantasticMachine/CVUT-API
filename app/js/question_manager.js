@@ -3,6 +3,8 @@ let allVariants = [];
 let allCategories = [];
 let allQuestions = [];
 
+let testSubject;
+
 // define a test variant
 class TestVariant {
 
@@ -43,15 +45,14 @@ class TestVariant {
         let header = document.createElement("header");
         header.innerHTML = `
         <span class="header-test-variant">Variant: ${this.letter}</span>
-                    <hr>
-                    <div class="header-row-one">
-                        <span class="header-test-subject">Subject</span>
-                        <span class="header-test-date">Date: </span>
-                    </div>
-                    <span class="header-name">Name: </span>
-                    <hr>
-        `
-        document.getElementById("a4-preview-sheet")
+        <hr>
+        <div class="header-row-one">
+            <span class="header-test-subject">Subject</span>
+            <span class="header-test-date">Date: </span>
+        </div>
+        <span class="header-name">Name: </span>
+        <hr>`;
+        document.getElementById("a4-preview-sheet");
     }
 
     // question handlers
@@ -67,14 +68,17 @@ class TestVariant {
 
 // define subject, category and question
 
-class Subject {}
+class Subject {
+
+    constructor() {
+        this.id = sessionStorage.getItem("subject-id");
+        this.name = sessionStorage.getItem("subject")
+    }
+}
 
 class Category {}
 
 class Question {}
-
-let test = new TestVariant();
-console.log(allVariants);
 
 // set event triggers
 
@@ -84,8 +88,9 @@ console.log(allVariants);
 // ! for now created by default doesnt check for new test
 window.addEventListener("load", (e) => {
     try {
-
-
+        testSubject = new Subject();
+        document.getElementById("display-subject-tag").innerText = testSubject.name;
+        document.getElementById("display-test-name").innerText = sessionStorage.getItem("test-name");
 
         // only after that create the first variant
         const first = new TestVariant();

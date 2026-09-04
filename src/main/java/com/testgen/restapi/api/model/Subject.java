@@ -1,12 +1,20 @@
 package com.testgen.restapi.api.model;
 
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "subjects")
 public class Subject {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "subject_id")
+    private Integer subjectID;
+    @Column(name = "subject_name")
     private String subjectName;
-    private int subjectID;
     private List<Category> categories = new ArrayList<>();
 
     public Subject(String subjectName, int subjectID, ArrayList<Category> categories) {

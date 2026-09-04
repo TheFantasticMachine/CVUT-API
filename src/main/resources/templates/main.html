@@ -111,6 +111,7 @@
                     <a th:href="@{/test_maker}" class="btn-edit-test">Open Test</a>
                 </div>
             </article>
+
         </div>
     </section>
 
@@ -181,12 +182,12 @@
                 const subjectId = subjectSelect.value;
 
                 // Stash in session storage for test_maker.html to pick up
-                sessionStorage.setItem("active_test_title", titleInput);
-                sessionStorage.setItem("active_test_subject", subjectName);
-                sessionStorage.setItem("active_test_subject_id", subjectId);
+                sessionStorage.setItem("test-name", titleInput);
+                sessionStorage.setItem("subject", subjectName);
+                sessionStorage.setItem("subject-id", subjectId);
 
-                // Redirect to test maker
-                window.location.href = "/test_maker";
+                // Redirect to test maker with params
+                window.location.href = `/test_maker`;
             });
         }
     });

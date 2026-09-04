@@ -1,91 +1,64 @@
+// src/main/java/com/testgen/restapi/api/model/Question.java
 package com.testgen.restapi.api.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.testgen.restapi.api.service.CategoryService;
-import com.testgen.restapi.api.service.SubjectService;
-import com.testgen.restapi.core.Globals;
-import com.testgen.restapi.core.managers.DatabaseManager;
-
+import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "questions") // 👈 Explicitly binds to your SQL "questions" table
 public class Question {
-    private int questionID;
-    private int categoryID;
-    private int correctAnswerIndex;
-    private String assignment;
-    private List<String> answers;
-    private int difficulty;
 
-    // 🔑 REQUIRED by Jackson for nested array deserialization
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "question_id") // 👈 Binds to MySQL "question_id"
+    private Integer questionID;
+
+    @Column(name = "category_id")
+    private Integer categoryID;
+
+    @Column(name = "user_id")
+    private Integer userID;
+
+    @Column(name = "parent_id")
+    private Integer parentID;
+
+    @Column(name = "assignment", columnDefinition = "TEXT", nullable = false)
+    private String assignment;
+
+    @Column(name = "status")
+    private String status = "PENDING";
+
+    @Column(name = "review_message", columnDefinition = "TEXT")
+    private String reviewMessage;
+
+    @Column(name = "difficulty")
+    private Integer difficulty = 1;
+
+    // 👈 Relationship: One Question has Many Answers
+    // cascade = CascadeType.ALL means saving/deleting a Question automatically saves/deletes its answers!
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Answer> answers = new ArrayList<>();
+
     public Question() {}
 
-    public Question(int questionID, int categoryID, int correctAnswerIndex, String assignment, List<String> answers, int difficulty) {
-        this.questionID = questionID;
-        this.categoryID = categoryID;
-        this.correctAnswerIndex = correctAnswerIndex;
-        this.assignment = assignment;
-        this.answers = answers;
-        this.difficulty = difficulty;
+    // Helper method to add answers safely
+    public void addAnswer(Answer answer) {
+        answers.add(answer);
+        answer.setQuestion(this);
     }
 
-    public int getQuestionID() { return questionID; }
-    public void setQuestionID(int questionID) { this.questionID = questionID; }
-
-    public int getCategoryID() { return categoryID; }
-    public void setCategoryID(int categoryID) { this.categoryID = categoryID; }
-
-    public String getSubjectName() {
-        DatabaseManager databaseManager = new DatabaseManager();
-        List<Subject> subjects = databaseManager.getAllSubjects();
-        List<Category> categories = databaseManager.getAllCategories();
-
-        Category questionCategory = null;
-
-        for (Category category: categories) {
-            if (category.getCategoryID() == this.getCategoryID()) {
-                questionCategory = category;
-            }
-        }
-
-        Subject questionSubject = null;
-
-        for (Subject subject: subjects) {
-            if (subject.getCategories().contains(questionCategory)) {
-                questionSubject = subject;
-            }
-        }
-
-        if (questionSubject == null) {
-            return "Unassigned"; // 👈 Prevents the NullPointerException
-        }
-
-        return questionSubject.getSubjectName();
-    }
-
-    public int getCorrectAnswerIndex() { return correctAnswerIndex; }
-    public void setCorrectAnswerIndex(int correctAnswerIndex) { this.correctAnswerIndex = correctAnswerIndex; }
-
+    // Getters and Setters for all fields...
+    public Integer getQuestionID() { return questionID; }
+    public void setQuestionID(Integer questionID) { this.questionID = questionID; }
     public String getAssignment() { return assignment; }
     public void setAssignment(String assignment) { this.assignment = assignment; }
-
-    public List<String> getAnswers() { return answers; }
-    public void setAnswers(List<String> answers) { this.answers = answers; }
-
-    public int getDifficulty() {
-        return difficulty;
-    }
-
-    public void setDifficulty(int difficulty) {
-        this.difficulty = difficulty;
-    }
-
-    // --- Helper Methods (Add @JsonIgnore and null checks) ---
-
-    @JsonIgnore
-    public Subject getSubject() {
-        // Safe lookup: return null if Globals or Category is missing
-        Category category = CategoryService.getCategoryById(this.categoryID);
-        if (category == null) return null;
-        return SubjectService.getSubjectByCategoryId(category.getSubjectID());
-    }
+    public List<Answer> getAnswers() { return answers; }
+    public void setAnswers(List<Answer> answers) { this.answers = answers; }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+    public Integer getCategoryID() { return categoryID; }
+    public void setCategoryID(Integer categoryID) { this.categoryID = categoryID; }
 }
