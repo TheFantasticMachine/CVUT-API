@@ -25,7 +25,7 @@ public class IndexController {
     @GetMapping("/main")
     public String mainPage(Model model) {
         // Pass subjects into template so the "New Test" modal can list them dynamically
-        model.addAttribute("subjects", SubjectService.getAllSubjects());
+        model.addAttribute("subjects", Globals.subjects);
         return "main";
     }
 }

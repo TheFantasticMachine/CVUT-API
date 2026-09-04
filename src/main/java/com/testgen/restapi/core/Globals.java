@@ -4,7 +4,6 @@ import com.testgen.restapi.api.model.Category;
 import com.testgen.restapi.api.model.Subject;
 import com.testgen.restapi.api.repo.CategoryRepo;
 import com.testgen.restapi.api.repo.SubjectRepo;
-import com.testgen.restapi.core.managers.DatabaseManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

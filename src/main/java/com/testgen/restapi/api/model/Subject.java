@@ -15,6 +15,9 @@ public class Subject {
     private Integer subjectID;
     @Column(name = "subject_name")
     private String subjectName;
+
+    @OneToMany
+    @JoinColumn(name = "subject_id")
     private List<Category> categories = new ArrayList<>();
 
     public Subject(String subjectName, int subjectID, ArrayList<Category> categories) {

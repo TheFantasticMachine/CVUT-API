@@ -1,6 +1,5 @@
 package com.testgen.restapi.api.model;
 
-import com.testgen.restapi.core.managers.DatabaseManager;
 
 import java.sql.Connection;
 import java.sql.Statement;
