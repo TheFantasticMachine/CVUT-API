@@ -27,43 +27,43 @@ public class DatabaseManager {
         return connection;
     }
 
-    public static List<Question> getAllQuestions() {
-        List<Question> questions = new ArrayList<>();
-
-        try (Connection connection = getConnection()) {
-            // create the questions
-            String sql = "select * from questions where status='approved'";
-            Statement statement = connection.createStatement();
-            ResultSet raw = statement.executeQuery(sql);
-
-            while(raw.next()) {
-                // loop and create
-                int id = raw.getInt("questionID");
-                String assignment =  raw.getString("questionText");
-                String correct = raw.getString("correctAnswer");
-                String otherAsString = raw.getString("otherAnswer");
-                int categoryId = raw.getInt("categoryID");
-
-                List<String> other = new ArrayList<>();
-                other.addAll(Arrays.asList(otherAsString.split("\\|")));
-                List<String> answers = new ArrayList<>();
-                answers.add(correct);
-                answers.addAll(other);
-
-                Collections.shuffle(answers);
-
-                String difficulty = raw.getString("difficulty");
-
-                Question question = new Question(id, categoryId, answers.indexOf(correct), assignment, answers, Integer.parseInt(difficulty));
-                questions.add(question);
-            }
-        }
-        catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return questions;
-    }
+//    public static List<Question> getAllQuestions() {
+//        List<Question> questions = new ArrayList<>();
+//
+//        try (Connection connection = getConnection()) {
+//            // create the questions
+//            String sql = "select * from questions where status='approved'";
+//            Statement statement = connection.createStatement();
+//            ResultSet raw = statement.executeQuery(sql);
+//
+//            while(raw.next()) {
+//                // loop and create
+//                int id = raw.getInt("questionID");
+//                String assignment =  raw.getString("questionText");
+//                String correct = raw.getString("correctAnswer");
+//                String otherAsString = raw.getString("otherAnswer");
+//                int categoryId = raw.getInt("categoryID");
+//
+//                List<String> other = new ArrayList<>();
+//                other.addAll(Arrays.asList(otherAsString.split("\\|")));
+//                List<String> answers = new ArrayList<>();
+//                answers.add(correct);
+//                answers.addAll(other);
+//
+//                Collections.shuffle(answers);
+//
+//                String difficulty = raw.getString("difficulty");
+//
+//                Question question = new Question(id, categoryId, answers.indexOf(correct), assignment, answers, Integer.parseInt(difficulty));
+//                questions.add(question);
+//            }
+//        }
+//        catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        return questions;
+//    }
 
     public static List<Subject> getAllSubjects() {
         List<Subject> list = new ArrayList<>();
@@ -120,60 +120,60 @@ public class DatabaseManager {
         }
     }
 
-    public Question createQuestion(QuestionRequest request) {
-        // 1. SQL query matching your table column names exactly
-        String sql = "INSERT INTO questions (questionText, correctAnswer, otherAnswer, categoryID, difficulty) VALUES (?, ?, ?, ?, ?)";
-
-        // 2. Extract correct answer text and collect distractor answers
-        List<String> allAnswers = request.getAnswers();
-        int correctIndex = request.getCorrectAnswerIndex();
-
-        String correctAnswerText = "";
-        List<String> wrongAnswersList = new ArrayList<>();
-
-        for (int i = 0; i < allAnswers.size(); i++) {
-            if (i == correctIndex) {
-                correctAnswerText = allAnswers.get(i);
-            } else {
-                wrongAnswersList.add(allAnswers.get(i));
-            }
-        }
-
-        // Join incorrect choices with pipe delimiter '|' (e.g. "6|12|20")
-        String otherAnswerText = String.join("|", wrongAnswersList);
-
-        try (Connection conn = getConnection(); // Use your connection method
-             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-
-            // 3. Bind parameters
-            stmt.setString(1, request.getAssignment());
-            stmt.setString(2, correctAnswerText);
-            stmt.setString(3, otherAnswerText);
-            stmt.setInt(4, request.getCategoryID());
-            stmt.setInt(5, request.getDifficulty());
-
-            stmt.executeUpdate();
-
-            // 4. Retrieve auto-incremented questionID
-            try (ResultSet rs = stmt.getGeneratedKeys()) {
-                if (rs.next()) {
-                    int newQuestionId = rs.getInt(1);
-
-                    return new Question(
-                            newQuestionId,
-                            request.getCategoryID(),
-                            request.getCorrectAnswerIndex(),
-                            request.getAssignment(),
-                            request.getAnswers(),
-                            request.getDifficulty()
-                    );
-                }
-            }
-        } catch (SQLException e) {
-            System.err.println("[DB Error] Failed to insert question: " + e.getMessage());
-            e.printStackTrace();
-        }
-
-        return null;
-    }
+//    public Question createQuestion(QuestionRequest request) {
+//        // 1. SQL query matching your table column names exactly
+//        String sql = "INSERT INTO questions (questionText, correctAnswer, otherAnswer, categoryID, difficulty) VALUES (?, ?, ?, ?, ?)";
+//
+//        // 2. Extract correct answer text and collect distractor answers
+//        List<String> allAnswers = request.getAnswers();
+//        int correctIndex = request.getCorrectAnswerIndex();
+//
+//        String correctAnswerText = "";
+//        List<String> wrongAnswersList = new ArrayList<>();
+//
+//        for (int i = 0; i < allAnswers.size(); i++) {
+//            if (i == correctIndex) {
+//                correctAnswerText = allAnswers.get(i);
+//            } else {
+//                wrongAnswersList.add(allAnswers.get(i));
+//            }
+//        }
+//
+//        // Join incorrect choices with pipe delimiter '|' (e.g. "6|12|20")
+//        String otherAnswerText = String.join("|", wrongAnswersList);
+//
+//        try (Connection conn = getConnection(); // Use your connection method
+//             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+//
+//            // 3. Bind parameters
+//            stmt.setString(1, request.getAssignment());
+//            stmt.setString(2, correctAnswerText);
+//            stmt.setString(3, otherAnswerText);
+//            stmt.setInt(4, request.getCategoryID());
+//            stmt.setInt(5, request.getDifficulty());
+//
+//            stmt.executeUpdate();
+//
+//            // 4. Retrieve auto-incremented questionID
+//            try (ResultSet rs = stmt.getGeneratedKeys()) {
+//                if (rs.next()) {
+//                    int newQuestionId = rs.getInt(1);
+//
+//                    return new Question(
+//                            newQuestionId,
+//                            request.getCategoryID(),
+//                            request.getCorrectAnswerIndex(),
+//                            request.getAssignment(),
+//                            request.getAnswers(),
+//                            request.getDifficulty()
+//                    );
+//                }
+//            }
+//        } catch (SQLException e) {
+//            System.err.println("[DB Error] Failed to insert question: " + e.getMessage());
+//            e.printStackTrace();
+//        }
+//
+//        return null;
+//    }
 }
