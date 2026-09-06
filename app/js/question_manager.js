@@ -145,3 +145,34 @@ document.getElementById("add-variant-btn").addEventListener("click", (e) => {
         console.error(error.message);
     }
 });
+
+// systems
+// question adding system
+// 1) popup - open close
+const question_dialog = document.getElementById('question-popup-wrapper');
+
+document.getElementById('btn-add').addEventListener('click', (e) => {
+    question_dialog.showModal();
+
+    const parent = document.getElementById("add-question-popup-content");
+
+    // # edge case of no subject
+    if (testSubject === null) {
+        parent.innerHTML = `
+        <div id="add-question-error" class="default-error">
+            <i class="fa-solid fa-school-circle-exclamation"></i>
+            <span>Please select the subject of the test before picking a question</span>
+        </div>
+        `;
+        return null;
+    }
+
+    console.log("test");
+
+})
+
+question_dialog.addEventListener("click", (e) => {
+    if (!document.querySelector('.excluded').contains(e.target)) {
+        question_dialog.close();
+    }
+});
