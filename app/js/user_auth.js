@@ -4,13 +4,20 @@ document.getElementById("new-user-form").addEventListener("submit",  async (e) =
     const data = new FormData(e.target);
 
     try {
-        let response = await fetch(`/api/user/by-username?username=${data.get("username")}`);
-        if (response.ok) {
-            throw new Error('username in use');
+        const response = await fetch(`/api/user/register`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify( {username: data.get("username"), password: data.get("password")})
+        });
+
+        if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
         }
 
-
-
+        const result = await response.json();
+        console.log(result);
     }
     catch (error){
         console.error(error.message);
