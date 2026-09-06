@@ -20,10 +20,12 @@ class TestVariant {
         tab.classList.add("variant-tab");
         tab.innerText = `variant ${this.letter}`;
         tab.style.order = allVariants.length.toString();
+        tab.addEventListener("click", () => {this.setActive()});
         this.tabElement = tab;
 
         document.getElementById("variant-tab-container").appendChild(this.tabElement);
         this.isActive = false;
+        this.questions = [];
 
         return this;
     }
@@ -31,39 +33,66 @@ class TestVariant {
     // methods
     setActive() {
         // find prev active
-        for (const variant in allVariants) {
+        allVariants.forEach( variant => {
+            console.log(variant);
             if (variant.isActive) {
                 variant.tabElement.classList.toggle("active");
                 variant.isActive = false;
             }
-        }
+        });
 
         this.tabElement.classList.toggle("active");
         this.isActive = true;
 
+        document.getElementById("a4-preview-sheet").innerText = "";
+
+        this.createPreview();
+    }
+
+    createPreview() {
+        const parent = document.getElementById("a4-preview-sheet");
         // display the test
         let header = document.createElement("header");
         header.innerHTML = `
         <span class="header-test-variant">Variant: ${this.letter}</span>
         <hr>
         <div class="header-row-one">
-            <span class="header-test-subject">Subject</span>
+            <span class="header-test-subject">Subject: ${testSubject.name}</span>
             <span class="header-test-date">Date: </span>
         </div>
         <span class="header-name">Name: </span>
         <hr>`;
-        document.getElementById("a4-preview-sheet");
+        parent.appendChild(header);
+        const divider = document.createElement("hr");
+        divider.classList.add("preview-divider");
+        parent.appendChild(divider);
+
+        let questionListPreview = document.createElement("div");
+        questionListPreview.id = "preview-questions-list";
+
+        if (this.questions.length === 0) {
+            questionListPreview.innerHTML =
+                `
+                <div class="empty-state-notice">
+                       <i class="fa-regular fa-file-lines"></i>
+                       <p>No questions added to this variant yet. Use the question pool or auto-generator to add questions.</p>
+                   </div>
+                `;
+        }
+        else {}
+
+        parent.appendChild(questionListPreview);
     }
 
-    // question handlers
+// question handlers
 
-    addQuestion() {}
+addQuestion() {}
 
-    removeQuestion() {}
+removeQuestion() {}
 
-    moveQuestion() {}
+moveQuestion() {}
 
-    updateQuestion() {}
+updateQuestion() {}
 }
 
 // define subject, category and question
@@ -71,9 +100,9 @@ class TestVariant {
 class Subject {
 
     constructor() {
-        this.id = sessionStorage.getItem("subject-id");
-        this.name = sessionStorage.getItem("subject")
-    }
+    this.id = sessionStorage.getItem("subject-id");
+    this.name = sessionStorage.getItem("subject")
+}
 }
 
 class Category {}
@@ -95,7 +124,22 @@ window.addEventListener("load", (e) => {
         // only after that create the first variant
         const first = new TestVariant();
         allVariants.push(first);
+        const second = new TestVariant();
+        allVariants.push(second);
         first.setActive();
+
+        console.log(allVariants);
+        console.log(first);
+    }
+    catch (error) {
+        console.error(error.message);
+    }
+});
+
+document.getElementById("add-variant-btn").addEventListener("click", (e) => {
+    try {
+        const variant = new TestVariant();
+        allVariants.push(variant);
     }
     catch (error) {
         console.error(error.message);
