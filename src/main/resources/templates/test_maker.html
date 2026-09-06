@@ -23,8 +23,8 @@
         </div>
         <form action="" class="search-form">
             <span class="subject"></span>
-            <select class="add-question-category"></select>
-            <!-- later add search and sort and difficulty -->
+            <select id="pool-category-filter" class="add-question-category"></select>
+            <input id="pool-search-input"  type="text" name="search" placeholder="question" />
         </form>
 
 
@@ -214,6 +214,7 @@
 <script defer th:src="@{/dist/preview_manager.js}"></script>
 <script defer th:src="@{/dist/send_test.js}"></script>
 <script defer th:src="@{/dist/question_manager.js}"></script>
+<script defer th:src="@{/dist/question_pool_modal.js}"></script>
 
 </body>
 </html>

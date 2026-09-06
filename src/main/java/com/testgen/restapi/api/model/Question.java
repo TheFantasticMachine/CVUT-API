@@ -61,4 +61,12 @@ public class Question {
     public void setStatus(String status) { this.status = status; }
     public Integer getCategoryID() { return categoryID; }
     public void setCategoryID(Integer categoryID) { this.categoryID = categoryID; }
+
+    public Integer getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(Integer difficulty) {
+        this.difficulty = difficulty;
+    }
 }

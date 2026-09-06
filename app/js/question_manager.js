@@ -1,7 +1,5 @@
 // variables
 let allVariants = [];
-let allCategories = [];
-let allQuestions = [];
 
 let testSubject;
 
@@ -25,7 +23,7 @@ class TestVariant {
 
         document.getElementById("variant-tab-container").appendChild(this.tabElement);
         this.isActive = false;
-        this.questions = [];
+        this.questions = new Array();
 
         return this;
     }
@@ -44,13 +42,16 @@ class TestVariant {
         this.tabElement.classList.toggle("active");
         this.isActive = true;
 
-        document.getElementById("a4-preview-sheet").innerText = "";
 
-        this.createPreview();
+
+        this.render();
     }
 
-    createPreview() {
+    render() {
         const parent = document.getElementById("a4-preview-sheet");
+        // clear
+        parent.innerText = "";
+
         // display the test
         let header = document.createElement("header");
         header.innerHTML = `
@@ -79,20 +80,68 @@ class TestVariant {
                    </div>
                 `;
         }
-        else {}
+        else {
+            this.questions.forEach(q => {
+                const wrapper = document.createElement("div");
+                wrapper.classList.add("question");
+
+                wrapper.innerHTML =
+                    `
+                        <div id="flex-row-one">
+                            <input type="text" class="assignment" placeholder="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis facilis fugit impedit laudantium libero maiores molestias, mollitia quidem voluptate voluptatibus!" />
+                            <button class="remove" title="remove">
+                            </button>
+                        </div>
+                        <div id="flex-row-two">
+                            <div class="answer">
+                                <span class="letter">A)</span>
+                                <input type="text" placeholder="Lorem ipsum dolor sit amet.">
+                                <i class="fa-solid fa-grip-lines"></i>
+                            </div>
+
+                            <div class="answer correct">
+                                <span class="letter">B)</span>
+                                <input class="correct" type="text" placeholder="Lorem ipsum dolor sit amet.">
+                                <i class="correct fa-solid fa-grip-lines"></i>
+                            </div>
+
+                            <div class="answer">
+                                <span class="letter">C)</span>
+                                <input type="text" placeholder="Lorem ipsum dolor sit amet.">
+                                <i class="fa-solid fa-grip-lines"></i>
+                            </div>
+
+                            <div class="answer">
+                                <span class="letter">D)</span>
+                                <input type="text" placeholder="Lorem ipsum dolor sit amet.">
+                                <i class="fa-solid fa-grip-lines"></i>
+                            </div>
+                        </div>
+                        <button class="change">Change</button>
+                    `;
+            });
+        }
 
         parent.appendChild(questionListPreview);
     }
 
 // question handlers
 
-addQuestion() {}
+    addQuestion(question) {
+        if ( this.questions.find( ({questionID}) => questionID === question.questionID) === undefined ) {
+            this.questions.push(question);
 
-removeQuestion() {}
+            // add question element
+        }
 
-moveQuestion() {}
+        this.render();
+    }
 
-updateQuestion() {}
+    removeQuestion() {}
+
+    moveQuestion() {}
+
+    updateQuestion() {}
 }
 
 // define subject, category and question
@@ -107,11 +156,18 @@ class Subject {
 
 class Category {}
 
-class Question {}
-
 // set event triggers
 
 // create variant (with btn)
+document.getElementById("add-variant-btn").addEventListener("click", (e) => {
+    try {
+        const variant = new TestVariant();
+        allVariants.push(variant);
+    }
+    catch (error) {
+        console.error(error.message);
+    }
+});
 
 // create variant (on load) if new test
 // ! for now created by default doesnt check for new test
@@ -136,43 +192,46 @@ window.addEventListener("load", (e) => {
     }
 });
 
-document.getElementById("add-variant-btn").addEventListener("click", (e) => {
-    try {
-        const variant = new TestVariant();
-        allVariants.push(variant);
+// share data
+
+window.TestManager = {
+    testData: {
+        title: sessionStorage.getItem("active_test_title") || "New Exam",
+        subjectId: sessionStorage.getItem("active_test_subject_id") || 1
+    },
+
+    getActiveVariant: function () {
+        let active = null;
+        allVariants.forEach( variant => {
+            console.log(variant);
+            if (variant.isActive) {
+                active = variant;
+            }
+        });
+
+        return active;
+    },
+
+    getActiveVariantQuestionIDs: function () {
+        const active = this.getActiveVariant();
+        return new Set( active.questions.map((question) => {question.questionID}) );
+    },
+
+    getQuestionVariantUsageMap: function () {
+        let map = {};
+
+        // get all questions used in the whole test
+        allVariants.forEach( variant => {
+            variant.questions.forEach( question => {
+                if (!map[question.questionID]) { map[question.questionID] = []; }
+                map[question.questionID].push(variant.letter);
+            });
+        });
+
+        return map;
+    },
+
+    addQuestionToActive: function (question) {
+        this.getActiveVariant().addQuestion(question);
     }
-    catch (error) {
-        console.error(error.message);
-    }
-});
-
-// systems
-// question adding system
-// 1) popup - open close
-const question_dialog = document.getElementById('question-popup-wrapper');
-
-document.getElementById('btn-add').addEventListener('click', (e) => {
-    question_dialog.showModal();
-
-    const parent = document.getElementById("add-question-popup-content");
-
-    // # edge case of no subject
-    if (testSubject === null) {
-        parent.innerHTML = `
-        <div id="add-question-error" class="default-error">
-            <i class="fa-solid fa-school-circle-exclamation"></i>
-            <span>Please select the subject of the test before picking a question</span>
-        </div>
-        `;
-        return null;
-    }
-
-    console.log("test");
-
-})
-
-question_dialog.addEventListener("click", (e) => {
-    if (!document.querySelector('.excluded').contains(e.target)) {
-        question_dialog.close();
-    }
-});
+}
