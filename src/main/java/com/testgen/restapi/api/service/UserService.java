@@ -1,6 +1,5 @@
 package com.testgen.restapi.api.service;
 
-import com.testgen.restapi.api.controller.UserApiController;
 import com.testgen.restapi.api.model.User;
 import com.testgen.restapi.api.repo.UserRepo;
 import org.mindrot.jbcrypt.BCrypt;
@@ -16,48 +15,38 @@ public class UserService {
     @Autowired
     private UserRepo userRepo;
 
-    public User create(UserApiController.UserRequest request) {
-        // 1) check if possible
-        if (request.password() == null || request.password().trim().isEmpty()) {
-            throw new IllegalArgumentException("No password given");
-        }
-        if (request.username() == null || request.username().trim().isEmpty()) {
-            throw new IllegalArgumentException("No username given");
-        }
-        if (userRepo.existsByUsername(request.username().trim())) {
-            throw new IllegalArgumentException("Username taken");
+    public User registerUser(String username, String rawPassword) {
+        if (userRepo.existsByUsername(username)) {
+            throw new IllegalArgumentException("Username '" + username + "' is already taken.");
         }
 
-        // 2) create hash password
-        String passwordHash = BCrypt.hashpw(request.password(), BCrypt.gensalt(10));
+        String salt = BCrypt.gensalt(10);
+        String hashed = BCrypt.hashpw(rawPassword, salt);
 
-        // 3) create user and add to db
         User user = new User();
-        user.setPassword(passwordHash);
-        user.setUsername(request.username().trim());
+        user.setUsername(username);
+        user.setPassword(hashed);
+        user.setRole("TEACHER");
 
-        // 4) return a new user
         return userRepo.save(user);
     }
 
-    public Optional<User> authenticate(UserApiController.UserRequest request) {
-        // check if data is present
-        if (request.password() == null || request.password().trim().isEmpty()) {
-            throw new IllegalArgumentException("No password given");
-        }
-        if (request.username() == null || request.username().trim().isEmpty()) {
-            throw new IllegalArgumentException("No username given");
-        }
-
-        Optional<User> optionalUser = userRepo.findByUsername(request.username());
-        if (optionalUser.isEmpty()) {
+    public Optional<User> authenticate(String username, String rawPassword) {
+        if (username == null || rawPassword == null) {
             return Optional.empty();
         }
 
-        User user = optionalUser.get();
-        if (BCrypt.checkpw(request.password(), user.getPassword())) {
+        Optional<User> userOpt = userRepo.findByUsername(username.trim());
+        if (userOpt.isEmpty()) {
+            return Optional.empty();
+        }
+
+        User user = userOpt.get();
+        // Check BCrypt hash match
+        if (BCrypt.checkpw(rawPassword.trim(), user.getPassword())) {
             return Optional.of(user);
         }
+
         return Optional.empty();
     }
 
