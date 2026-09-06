@@ -24,6 +24,17 @@ public class UserApiController {
         this.userService = userService;
     }
 
+    @GetMapping("/current")
+    public ResponseEntity<?> getCurrentUser(HttpSession session) {
+        if (session == null || session.getAttribute("currentUser") == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of(
+                    "error", "Session is UNAUTHORIZED"
+            ));
+        }
+
+        return ResponseEntity.ok(session.getAttribute("currentUser"));
+    }
+
     // POST /api/user/register
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody AuthRequest request, HttpSession session) {

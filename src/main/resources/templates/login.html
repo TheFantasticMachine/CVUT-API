@@ -3,104 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login & Registration</title>
+    <title>Sign In - Test Generator</title>
     <link rel="stylesheet" th:href="@{/dist/login.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
-<body>
+<body class="auth-page">
+<div class="auth-wrapper">
+    <!-- Brand Header -->
+    <header class="auth-header">
+        <div class="brand-badge">
+            <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+        <h1>TestGen</h1>
+        <p class="auth-subtitle">Teacher Test Maker & Question Bank</p>
+    </header>
 
-<div class="auth-card">
-    <!-- Toggle Tabs -->
-    <div class="auth-tabs">
-        <button type="button" class="tab-btn active" id="tab-login">Login</button>
-        <button type="button" class="tab-btn" id="tab-register">Register</button>
+    <!-- Main Auth Card -->
+    <div class="auth-card">
+        <!-- Segmented Switcher Tabs -->
+        <div class="auth-tabs" role="tablist">
+            <button type="button" class="tab-btn active" id="tab-login" role="tab">Sign In</button>
+            <button type="button" class="tab-btn" id="tab-register" role="tab">Register</button>
+        </div>
+
+        <!-- Error Banner -->
+        <div id="auth-error" class="auth-banner error" style="display: none;">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span id="auth-error-text"></span>
+        </div>
+
+        <!-- Auth Form -->
+        <form id="auth-form" novalidate>
+            <div class="input-group">
+                <label for="username">Username</label>
+                <div class="input-field">
+                    <i class="fa-regular fa-user field-icon"></i>
+                    <input type="text" id="username" name="username" placeholder="e.g. teacher_novak" required autocomplete="username">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="password">Password</label>
+                <div class="input-field">
+                    <i class="fa-solid fa-lock field-icon"></i>
+                    <input type="password" id="password" name="password" placeholder="Enter password" required autocomplete="current-password">
+                </div>
+            </div>
+
+            <button type="submit" id="btn-submit-auth" class="btn-auth-submit">
+                <span>Sign In</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </form>
     </div>
 
-    <!-- Error Banner -->
-    <div id="auth-error" class="error-banner" style="display: none; color: #ef4444; margin-bottom: 1rem; font-size: 0.85rem;"></div>
-
-    <form id="auth-form">
-        <div class="form-group">
-            <input type="text" id="username" placeholder="Username" required autocomplete="username">
-        </div>
-        <div class="form-group">
-            <input type="password" id="password" placeholder="Password" required autocomplete="current-password">
-        </div>
-        <button type="submit" id="btn-submit-auth" class="btn-primary">Sign In</button>
-    </form>
+    <footer class="auth-footer">
+        <span>Secure Academic Portal</span> &bull; <span>v2.0 Alpha</span>
+    </footer>
 </div>
 
-<!--<div class="auth-wrapper" id="auth-container">-->
-
-<!--    &lt;!&ndash; Sign Up Form (Left side underneath) &ndash;&gt;-->
-<!--    <div class="form-container sign-up-container">-->
-<!--        <form id="new-user-form" action="#" th:action="@{/main}" method="get">-->
-<!--            <h2>Create Account</h2>-->
-<!--            <span class="form-subtitle"> use your email  and name for registration</span>-->
-<!--            <input type="text" name="username" value="Name with space" required />-->
-<!--            <input type="password" name="password" placeholder="Password" required />-->
-<!--            <button type="submit" class="btn-solid">Sign Up</button>-->
-<!--        </form>-->
-<!--    </div>-->
-
-<!--    &lt;!&ndash; Sign In Form (Right side underneath) &ndash;&gt;-->
-<!--    <div class="form-container sign-in-container">-->
-<!--        <form action="#" th:action="@{/main}" method="get">-->
-<!--            <h2>Sign In</h2>-->
-<!--&lt;!&ndash;            <div class="social-container">&ndash;&gt;-->
-<!--&lt;!&ndash;                <a href="#" class="social-btn">f</a>&ndash;&gt;-->
-<!--&lt;!&ndash;                <a href="#" class="social-btn">G</a>&ndash;&gt;-->
-<!--&lt;!&ndash;                <a href="#" class="social-btn">in</a>&ndash;&gt;-->
-<!--&lt;!&ndash;            </div>&ndash;&gt;-->
-<!--            <span class="form-subtitle">to use your account</span>-->
-<!--            <input type="text" name="username" placeholder="Username" required />-->
-<!--            <input type="password" name="password" placeholder="Password" required />-->
-<!--            <a href="#" class="forgot-link">Forgot your password?</a>-->
-<!--            <button type="submit" class="btn-solid">Sign In</button>-->
-<!--        </form>-->
-<!--    </div>-->
-
-<!--    &lt;!&ndash; Sliding Red Overlay Cover &ndash;&gt;-->
-<!--    <div class="overlay-container">-->
-<!--        <div class="overlay">-->
-
-<!--            &lt;!&ndash; Left Side Cover (Shown during Sign Up) &ndash;&gt;-->
-<!--            <div class="overlay-panel overlay-left">-->
-<!--                <h2>Welcome Back!</h2>-->
-<!--                <p>Enter your personal details to use all of site features</p>-->
-<!--                <button type="button" class="btn-ghost" id="signInBtn">Sign In</button>-->
-<!--            </div>-->
-
-<!--            &lt;!&ndash; Right Side Cover (Shown during Sign In) &ndash;&gt;-->
-<!--            <div class="overlay-panel overlay-right">-->
-<!--                <h2>Hello, Friend!</h2>-->
-<!--                <p>Register with your personal details to use all of site features</p>-->
-<!--                <button type="button" class="btn-ghost" id="signUpBtn">Sign Up</button>-->
-<!--            </div>-->
-
-<!--        </div>-->
-<!--    </div>-->
-
-<!--</div>-->
-
-<!--<script>-->
-<!--    document.addEventListener("DOMContentLoaded", () => {-->
-<!--        const container = document.getElementById('auth-container');-->
-<!--        const signUpBtn = document.getElementById('signUpBtn');-->
-<!--        const signInBtn = document.getElementById('signInBtn');-->
-
-<!--        if (signUpBtn && signInBtn && container) {-->
-<!--            signUpBtn.addEventListener('click', () => {-->
-<!--                container.classList.add('right-panel-active');-->
-<!--            });-->
-
-<!--            signInBtn.addEventListener('click', () => {-->
-<!--                container.classList.remove('right-panel-active');-->
-<!--            });-->
-<!--        }-->
-<!--    });-->
-<!--</script>-->
-
-<script th:src="@{dist/user_auth.js}"></script>
-
+<script th:src="@{/dist/user_auth.js}"></script>
 </body>
 </html>

@@ -20,7 +20,7 @@
             <span class="user-name">Teacher</span>
             <span class="user-role">Administrator</span>
         </div>
-        <a th:href="@{/login}" class="btn-logout" title="Sign Out">
+        <a th:href="@{/logout}" class="btn-logout" title="Sign Out" onclick="sessionStorage.clear();">
             <i class="fa-solid fa-arrow-right-from-bracket"></i>
         </a>
     </div>
@@ -157,7 +157,7 @@
 </dialog>
 
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", async () => {
         const dialog = document.getElementById("new-test-dialog");
         const openButtons = document.querySelectorAll(".open-new-test-btn");
         const closeBtn = document.getElementById("btn-close-dialog");
@@ -189,6 +189,19 @@
                 // Redirect to test maker with params
                 window.location.href = `/test_maker`;
             });
+        }
+
+        try {
+            const response = await fetch("api/user/current");
+            if (!response.ok) {
+                throw new Error()
+            }
+            const result = await response.json();
+            console.log(result);
+            document.querySelector(".user-name").innerText = result.username;
+            document.querySelector(".user-role").innerText = result.role.toLowerCase();
+        } catch (error) {
+            console.error(error.message);
         }
     });
 </script>
