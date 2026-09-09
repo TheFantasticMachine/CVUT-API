@@ -44,6 +44,14 @@ public class Question {
 
     public Question() {}
 
+    public Question(String assignment, Integer categoryID, Integer difficulty, Integer questionID, List<Answer> answers) {
+        this.assignment = assignment;
+        this.categoryID = categoryID;
+        this.difficulty = difficulty;
+        this.questionID = questionID;
+        this.answers = answers;
+    }
+
     // Helper method to add answers safely
     public void addAnswer(Answer answer) {
         answers.add(answer);

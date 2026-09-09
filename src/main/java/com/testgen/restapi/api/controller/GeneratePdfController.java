@@ -14,6 +14,7 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/pdf")
@@ -33,7 +34,7 @@ public class GeneratePdfController {
         String variant,
         String subject,
         String  title,
-        List<Question> questions
+        Map<String, ?> questions
     ){};
 
     @PostMapping("/generate")
