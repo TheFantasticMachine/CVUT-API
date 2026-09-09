@@ -13,17 +13,17 @@ import java.util.List;
 @Controller
 public class TestTemplateController {
 
-    @GetMapping("/test_template")
-    public String test_maker(Model model) {
-
-        List<Question> questions = new ArrayList<>();
-        QuestionService questionService = new QuestionService();
-        questions.add(questionService.getQuestionById(10));
-        TestRequest request = new TestRequest("test", questions);
-
-        model.addAttribute("variant", request.getTestVariant());
-        model.addAttribute("questions", request.getQuestions());
-
-        return "test_template";
-    }
+//    @GetMapping("/test_template")
+//    public String test_maker(Model model) {
+//
+//        List<Question> questions = new ArrayList<>();
+//        QuestionService questionService = new QuestionService();
+//        questions.add(questionService.getQuestionById(10));
+//        TestRequest request = new TestRequest("test", questions);
+//
+//        model.addAttribute("variant", request.getTestVariant());
+//        model.addAttribute("questions", request.getQuestions());
+//
+//        return "test_template";
+//    }
 }
