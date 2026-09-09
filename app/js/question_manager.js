@@ -81,44 +81,33 @@ class TestVariant {
                 `;
         }
         else {
-            this.questions.forEach(q => {
-                const wrapper = document.createElement("div");
-                wrapper.classList.add("question");
+            this.questions.forEach(question => {
+                console.info(question);
+                const q = document.createElement("div");
+                q.classList.add("question");
+                let html = `
+                <div id="flex-row-one">
+                   <textarea type="text" class="assignment"> ${question.assignment} </textarea>
+                   <button class="remove" title="remove">
+                   </button>
+               </div>
+               <div id="flex-row-two">
+                `;
 
-                wrapper.innerHTML =
-                    `
-                        <div id="flex-row-one">
-                            <input type="text" class="assignment" placeholder="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis facilis fugit impedit laudantium libero maiores molestias, mollitia quidem voluptate voluptatibus!" />
-                            <button class="remove" title="remove">
-                            </button>
-                        </div>
-                        <div id="flex-row-two">
-                            <div class="answer">
-                                <span class="letter">A)</span>
-                                <input type="text" placeholder="Lorem ipsum dolor sit amet.">
-                                <i class="fa-solid fa-grip-lines"></i>
-                            </div>
+                question.answers.forEach (answer => {
+                    console.info(answer);
+                    html += `
+                    <div class="answer ${answer.correct ? "correct" : ""}">
+                       <span class="letter">${String.fromCharCode(65 + question.answers.indexOf(answer))}</span>
+                       <input type="text" placeholder="${answer.answerText}">
+                       <i class="fa-solid fa-grip-lines"></i>
+                   </div>`;
+                });
 
-                            <div class="answer correct">
-                                <span class="letter">B)</span>
-                                <input class="correct" type="text" placeholder="Lorem ipsum dolor sit amet.">
-                                <i class="correct fa-solid fa-grip-lines"></i>
-                            </div>
-
-                            <div class="answer">
-                                <span class="letter">C)</span>
-                                <input type="text" placeholder="Lorem ipsum dolor sit amet.">
-                                <i class="fa-solid fa-grip-lines"></i>
-                            </div>
-
-                            <div class="answer">
-                                <span class="letter">D)</span>
-                                <input type="text" placeholder="Lorem ipsum dolor sit amet.">
-                                <i class="fa-solid fa-grip-lines"></i>
-                            </div>
-                        </div>
-                        <button class="change">Change</button>
-                    `;
+                html += "</div>" +
+                    "<button class=\"change\">Change</button>";
+                q.innerHTML = html;
+                parent.appendChild(q);
             });
         }
 
@@ -130,10 +119,7 @@ class TestVariant {
     addQuestion(question) {
         if ( this.questions.find( ({questionID}) => questionID === question.questionID) === undefined ) {
             this.questions.push(question);
-
-            // add question element
         }
-
         this.render();
     }
 
@@ -214,7 +200,8 @@ window.TestManager = {
 
     getActiveVariantQuestionIDs: function () {
         const active = this.getActiveVariant();
-        return new Set( active.questions.map((question) => {question.questionID}) );
+        console.log(active.questions);
+        return new Set( active.questions.map((question) => question.questionID ));
     },
 
     getQuestionVariantUsageMap: function () {
@@ -233,5 +220,9 @@ window.TestManager = {
 
     addQuestionToActive: function (question) {
         this.getActiveVariant().addQuestion(question);
+    },
+
+    getAllVariantLetters: function () {
+        return allVariants.map((variant) => variant.letter);
     }
 }

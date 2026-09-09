@@ -612,7 +612,7 @@ dialog::backdrop {
       #flex-row-one {
         display: flex;
         justify-content: space-between;
-        align-items: start;
+        align-items: flex-start;
         padding: 10px 15px 10px 5px;
         column-gap: 25px;
 
@@ -622,6 +622,9 @@ dialog::backdrop {
           border: none;
           border-radius: 5px;
           padding: 3px;
+          width: 80%;
+          font-size: 16px;
+          flex-wrap: wrap;
         }
         .remove {
           border-radius: 100%;

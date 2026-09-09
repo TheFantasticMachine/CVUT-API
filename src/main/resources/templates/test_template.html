@@ -40,7 +40,7 @@
             <div class="answers-grid" style="margin-left: 12pt;">
                 <div th:each="ans, ansIter : ${question.answers}" class="answer-line" style="margin-bottom: 2pt;">
                     <span th:text="${#strings.substring('ABCDEFGHIJ', ansIter.index, ansIter.index + 1)} + ') '">A) </span>
-                    <span th:text="${ans}">Option text</span>
+                    <span th:text="${ans.answerText}">Option text</span>
                 </div>
             </div>
         </div>

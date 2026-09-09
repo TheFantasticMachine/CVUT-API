@@ -12,7 +12,7 @@ const QuestionPoolModal = (function () {
     let currentFilter = {
         search: "",
         categoryID: "all",
-        toggleAdded: true
+        hideAlreadyAdded: true
     };
 
     // DOM Elements
@@ -79,22 +79,22 @@ const QuestionPoolModal = (function () {
     function populateCategoryFilter() {
         if (!categorySelectEl) return;
 
-        // Extract unique categories from loaded questions
-        const categories = new Map();
-        rawQuestions.forEach(q => {
-            if (q.categoryID && q.categoryName) {
-                categories.set(q.categoryID, q.categoryName);
-            }
+        // Collect distinct category IDs from loaded questions
+        const categoryIds = [...new Set(rawQuestions.map(q => q.categoryID).filter(Boolean))];
+
+        categorySelectEl.innerHTML = `<option value="ALL">All Categories</option>`;
+        categoryIds.forEach(id => {
+            categorySelectEl.innerHTML += `<option value="${id}">Category ${id}</option>`;
         });
 
-        categorySelectEl.innerHTML = `<option value="all">All Categories</option>`;
-        categories.forEach((name, id) => {
-            categorySelectEl.innerHTML += `<option value="${id}">${name}</option>`;
-        });
+        // Reset filter to match the default option
+        currentFilter.categoryId = "ALL";
     }
 
     function getFilteredQuestions() {
-        // get questions on current test variant
+        console.log("Current Filter State:", currentFilter);
+        console.log("Raw questions count:", rawQuestions.length);
+
         const usedIdsOnActiveVariant = window.TestManager
             ? window.TestManager.getActiveVariantQuestionIDs()
             : new Set();
@@ -102,26 +102,30 @@ const QuestionPoolModal = (function () {
         console.log(usedIdsOnActiveVariant);
 
         return rawQuestions.filter(q => {
-            // 1. Filter out if already in active variant (or kept for dimming)
+            // Test Category
+            if (currentFilter.categoryId && currentFilter.categoryId !== "ALL") {
+                if (String(q.categoryID) !== String(currentFilter.categoryId)) {
+                    console.log(`Q#${q.questionID} rejected by Category. Q has: ${q.categoryID}, Filter wants: ${currentFilter.categoryId}`);
+                    return false;
+                }
+            }
+
+            // Test Used in Active Variant
             if (currentFilter.hideAlreadyAdded && usedIdsOnActiveVariant.has(q.questionID)) {
+                console.log(`Q#${q.questionID} rejected: already in active variant`);
                 return false;
             }
 
-            // 2. Category filter
-            if (currentFilter.categoryId !== "all" && q.categoryID !== parseInt(currentFilter.categoryId)) {
-                return false;
+            // Test Search
+            if (currentFilter.search) {
+                const assignmentMatch = q.assignment && q.assignment.toLowerCase().includes(currentFilter.search);
+                if (!assignmentMatch) {
+                    console.log(`Q#${q.questionID} rejected by Search`);
+                    return false;
+                }
             }
 
-            // 3. Search filter (matches assignment or answer texts)
-            if (currentFilter.search !== "") {
-                const matchesAssignment = q.assignment.toLowerCase().includes(currentFilter.search);
-                const matchesAnyAnswer = q.answers && q.answers.some(a =>
-                    (a.answerText || a).toLowerCase().includes(currentFilter.search)
-                );
-                if (!matchesAssignment && !matchesAnyAnswer) return false;
-            }
-
-            return true;
+            return true; // Keep question
         });
     }
 
@@ -143,28 +147,28 @@ const QuestionPoolModal = (function () {
 
         questionsToShow.forEach(q => {
             const usedVariants = variantUsageMap[q.questionID] || [];
-            const cardEl = createQuestionCardElement(q, usedVariants);
+            const cardEl = createQuestionElement(q, usedVariants);
             containerEl.appendChild(cardEl);
         });
     }
 
-    function createQuestionElement(question, usedVariants) {
+    function createQuestionElement(q, usedVariants) {
         const card = document.createElement("div");
         card.className = "question-pool-card";
         card.dataset.questionId = q.questionID;
 
         // Check if question is used in variants A, B, C
-        const variantPills = ["A", "B", "C"].map(v =>
+        const variantPills = window.TestManager.getAllVariantLetters().map(v =>
             `<span class="v-dot ${usedVariants.includes(v) ? 'active' : ''}">${v}</span>`
         ).join("");
 
         // Format answers (correct answer highlighted first)
-        const sortedAnswers = [...(q.answers || [])].sort((a, b) => (b.isCorrect ? 1 : 0) - (a.isCorrect ? 1 : 0));
+        const sortedAnswers = [...(q.answers || [])].sort((a, b) => (b.correct ? 1 : 0) - (a.correct ? 1 : 0));
         const answersHtml = sortedAnswers.map((ans, idx) => `
-            <div class="answer-row ${ans.isCorrect ? 'correct' : ''}">
+            <div class="answer-row ${ans.correct ? 'correct' : ''}">
                 <span class="option-label">${String.fromCharCode(65 + idx)})</span>
                 <span class="option-text">${ans.answerText || ans}</span>
-                ${ans.isCorrect ? '<i class="fa-solid fa-check check-icon"></i>' : ''}
+                ${ans.correct ? '<i class="fa-solid fa-check check-icon"></i>' : ''}
             </div>
         `).join("");
 
