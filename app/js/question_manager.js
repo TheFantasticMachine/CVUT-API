@@ -70,6 +70,7 @@ class TestVariant {
 
         let questionListPreview = document.createElement("div");
         questionListPreview.id = "preview-questions-list";
+        parent.appendChild(questionListPreview);
 
         if (this.questions.length === 0) {
             questionListPreview.innerHTML =
@@ -81,55 +82,87 @@ class TestVariant {
                 `;
         }
         else {
+
+            console.info(this.questions);
             this.questions.forEach(question => {
                 console.info(question);
                 const q = document.createElement("div");
                 q.classList.add("question");
                 let html = `
                 <div id="flex-row-one">
-                   <textarea type="text" class="assignment"> ${question.assignment} </textarea>
+                   <textarea type="text" name="assignment" class="assignment"> ${question.assignment} </textarea>
                    <button class="remove" title="remove">
                    </button>
                </div>
                <div id="flex-row-two">
                 `;
-
                 question.answers.forEach (answer => {
                     console.info(answer);
                     html += `
                     <div class="answer ${answer.correct ? "correct" : ""}">
                        <span class="letter">${String.fromCharCode(65 + question.answers.indexOf(answer))}</span>
-                       <input type="text" placeholder="${answer.answerText}">
+                       <input name="answer" type="text" value="${answer.answerText}">
                        <i class="fa-solid fa-grip-lines"></i>
                    </div>`;
                 });
 
                 html += `</div>
-                    <button disabled class="change">Change</button>`
+                    <button class="change">Change</button>`
                 q.innerHTML = html;
-                parent.appendChild(q);
-
-
+                q.dataset.questionID = question.questionID;
+                questionListPreview.appendChild(q);
             });
         }
+        questionListPreview.querySelectorAll(".question").forEach(element => {
+            element.querySelector('button.change').addEventListener("click", (e) =>  this.updateQuestion(element));
+            element.querySelector('button.remove').addEventListener("click", (e) =>  this.removeQuestion(element));
+        });
 
-        parent.appendChild(questionListPreview);
     }
 
 // question handlers
 
     addQuestion(question) {
         if ( this.questions.find( ({questionID}) => questionID === question.questionID) === undefined ) {
+            question.answers.sort(() => Math.random() - 0.5);
             this.questions.push(question);
+            console.info(`new question to variant ${this.letter} ...` +question);
         }
         this.render();
     }
 
-    removeQuestion() {}
+    removeQuestion(question) {
+        let effected = this.questions.find(obj => obj.questionID === parseInt( question.dataset.questionID ));
+        this.questions = this.questions.filter((obj) => obj !== effected);
+        console.warn(`deleted question in variant ${this.letter}`);
+        this.render();
+    }
 
     moveQuestion() {}
 
-    updateQuestion() {}
+    updateQuestion(question) {
+        let effected = this.questions.find(obj => obj.questionID === parseInt( question.dataset.questionID )) || null;
+        console.warn (`updated question in variant ${this.letter}`);
+        if (effected === null) {
+            return null;
+        }
+        effected.assignment = question.querySelector('textarea[name="assignment"]').value.trim();
+        let index = 0;
+        question.querySelectorAll('.answer').forEach(element => {
+            effected.answers[index].correct = element.classList.contains("correct") ? true : false;
+            effected.answers[index].answerText = element.querySelector('input[name = "answer"]').value.trim();
+            index++;
+        });
+
+        for (let i = 0; i < this.questions.length; i++) {
+            if (this.questions[i].questionID === effected.questionID) {
+                this.questions[i] = effected;
+            }
+        }
+
+        console.warn(`updated question in variant ${this.letter} ...` + effected);
+        this.render();
+    }
 }
 
 // define subject, category and question

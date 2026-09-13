@@ -77,4 +77,8 @@ public class QuestionService {
         }
         return Optional.of(questionRepo.save(question));
     }
+
+    public List<Optional<Question>> findNotApproved() {
+        return null;
+    }
 }
