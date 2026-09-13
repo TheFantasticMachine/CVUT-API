@@ -180,7 +180,7 @@ const QuestionPoolModal = (function () {
                 <p class="question-assignment">${q.assignment}</p>
                 <div class="card-footer-meta">
                     <span class="meta-tag category-tag">${q.categoryName || 'Category ' + q.categoryID}</span>
-                    <span class="meta-tag difficulty-tag">Diff: ${q.difficulty || 1}/5</span>
+                    <span class="meta-tag difficulty-tag">Diff: ${q.difficulty || 1}/10</span>
                     <div class="variant-indicators" title="Used in variants">${variantPills}</div>
                     <button type="button" class="btn-toggle-answers">
                         <span>Options</span>
