@@ -109,7 +109,7 @@ class TestVariant {
                 html += `</div>
                     <button class="change">Change</button>`
                 q.innerHTML = html;
-                q.dataset.questionID = question.questionID;
+                q.dataset.instanceId = question.instanceId;
                 questionListPreview.appendChild(q);
             });
         }
@@ -123,16 +123,16 @@ class TestVariant {
 // question handlers
 
     addQuestion(question) {
-        if ( this.questions.find( ({questionID}) => questionID === question.questionID) === undefined ) {
-            question.answers.sort(() => Math.random() - 0.5);
+        if ( this.questions.find( ({instanceId}) => instanceId === question.instanceId) === undefined ) {
             this.questions.push(question);
-            console.info(`new question to variant ${this.letter} ...` +question);
+            console.info(`new question to variant ${this.letter}`);
+            console.info(question);
         }
         this.render();
     }
 
     removeQuestion(question) {
-        let effected = this.questions.find(obj => obj.questionID === parseInt( question.dataset.questionID ));
+        let effected = this.questions.find(obj => obj.instanceId === parseInt( question.dataset.instanceId ));
         this.questions = this.questions.filter((obj) => obj !== effected);
         console.warn(`deleted question in variant ${this.letter}`);
         this.render();
@@ -141,7 +141,7 @@ class TestVariant {
     moveQuestion() {}
 
     updateQuestion(question) {
-        let effected = this.questions.find(obj => obj.questionID === parseInt( question.dataset.questionID )) || null;
+        let effected = this.questions.find(obj => obj.instanceId === parseInt( question.dataset.instanceId )) || null;
         console.warn (`updated question in variant ${this.letter}`);
         if (effected === null) {
             return null;
@@ -253,7 +253,7 @@ window.TestManager = {
         return map;
     },
 
-    addQuestionToActive: function (question) {
+    addQuestionToActiveVariant: function (question) {
         this.getActiveVariant().addQuestion(question);
     },
 

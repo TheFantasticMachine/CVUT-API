@@ -203,11 +203,32 @@ const QuestionPoolModal = (function () {
         const addBtn = card.querySelector(".btn-add-circle");
         addBtn.addEventListener("click", () => {
             if (window.TestManager) {
-                window.TestManager.addQuestionToActive(q);
-                // Re-render modal to immediately hide/dim this question
-                render();
+                // 1. Deep-clone the question object so mutations don't leak
+                const questionCopy = structuredClone(q);
+
+                // 2. Assign a unique instance ID for this specific paper card
+                questionCopy.instanceId = crypto.randomUUID();
+
+                // 3. Shuffle choices immediately for this variant if desired
+                questionCopy.answers = shuffleArray(questionCopy.answers);
+
+                // 4. Add to active variant
+                window.TestManager.addQuestionToActiveVariant(questionCopy); //
+
+                // Re-render modal to dim or hide the question[cite: 13]
+                render(); //[cite: 13]
             }
         });
+
+        function shuffleArray(array) {
+            if (!Array.isArray(array)) return [];
+            const copy = [...array];
+            for (let i = copy.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [copy[i], copy[j]] = [copy[j], copy[i]];
+            }
+            return copy;
+        }
 
         return card;
     }
