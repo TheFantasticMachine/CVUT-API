@@ -1,0 +1,655 @@
+// ==========================================================================
+// Question Approval & Moderation System Theme
+// ==========================================================================
+
+$bg-body: #f8fafc;
+$bg-nav: #0f172a;
+$surface-card: #ffffff;
+$border-color: #e2e8f0;
+$border-dark: #334155;
+
+$text-main: #0f172a;
+$text-muted: #64748b;
+$text-light: #94a3b8;
+
+$primary: #4f46e5;
+$primary-hover: #4338ca;
+$primary-light: #eef2ff;
+
+$success: #10b981;
+$success-hover: #059669;
+$success-bg: #ecfdf5;
+
+$warning: #f59e0b;
+$warning-hover: #d97706;
+$warning-bg: #fffbeb;
+
+$danger: #ef4444;
+$danger-hover: #dc2626;
+$danger-bg: #fef2f2;
+
+$radius-md: 10px;
+$radius-lg: 16px;
+$shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+$shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body.approval-page {
+  background-color: $bg-body;
+  color: $text-main;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+// --------------------------------------------------------------------------
+// Navigation Bar
+// --------------------------------------------------------------------------
+.approval-navbar {
+  background-color: $bg-nav;
+  color: #ffffff;
+  padding: 0.85rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+
+    .btn-back {
+      color: $text-light;
+      background: #1e293b;
+      width: 40px;
+      height: 40px;
+      border-radius: $radius-md;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: #334155;
+        color: #ffffff;
+        transform: translateX(-2px);
+      }
+    }
+
+    .brand-info {
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 800;
+        letter-spacing: -0.3px;
+      }
+      .hub-subtitle {
+        font-size: 0.8rem;
+        color: $text-light;
+      }
+    }
+  }
+
+  .nav-actions {
+    .user-chip {
+      background: #1e293b;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #e2e8f0;
+
+      i {
+        color: #818cf8;
+      }
+    }
+  }
+}
+
+// --------------------------------------------------------------------------
+// Layout Container
+// --------------------------------------------------------------------------
+.approval-layout {
+  max-width: 1050px;
+  width: 100%;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+// --------------------------------------------------------------------------
+// Toolbar & Segmented Controls
+// --------------------------------------------------------------------------
+.toolbar-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+
+  .status-filters {
+    display: flex;
+    background-color: #e2e8f0;
+    padding: 4px;
+    border-radius: 12px;
+    gap: 4px;
+
+    .filter-tab {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1rem;
+      border: none;
+      background: transparent;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: $text-muted;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      .counter-badge {
+        background-color: $primary;
+        color: #ffffff;
+        font-size: 0.75rem;
+        font-weight: 800;
+        padding: 0.15rem 0.5rem;
+        border-radius: 10px;
+
+        &.neutral {
+          background-color: #cbd5e1;
+          color: #334155;
+        }
+      }
+
+      &.active {
+        background-color: #ffffff;
+        color: $text-main;
+        box-shadow: $shadow-sm;
+
+        .counter-badge.neutral {
+          background-color: #0f172a;
+          color: #ffffff;
+        }
+      }
+    }
+  }
+
+  .search-sort-box {
+    .search-input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+
+      .search-icon {
+        position: absolute;
+        left: 1rem;
+        color: $text-light;
+        font-size: 0.85rem;
+      }
+
+      input {
+        padding: 0.65rem 1rem 0.65rem 2.4rem;
+        border-radius: 10px;
+        border: 1px solid $border-color;
+        background-color: #ffffff;
+        font-size: 0.85rem;
+        color: $text-main;
+        outline: none;
+        width: 260px;
+        transition: all 0.2s ease;
+
+        &:focus {
+          border-color: $primary;
+          box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+        }
+      }
+    }
+  }
+}
+
+// --------------------------------------------------------------------------
+// Question Moderation Card
+// --------------------------------------------------------------------------
+.approval-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+
+  .loading-state, .empty-state {
+    background-color: $surface-card;
+    border-radius: $radius-lg;
+    padding: 3rem;
+    text-align: center;
+    color: $text-muted;
+    border: 1px dashed $border-color;
+
+    i {
+      font-size: 2rem;
+      color: $text-light;
+      margin-bottom: 0.75rem;
+    }
+  }
+}
+
+.approval-card {
+  background-color: $surface-card;
+  border-radius: $radius-lg;
+  border: 1px solid $border-color;
+  box-shadow: $shadow-sm;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+
+  &:hover {
+    box-shadow: $shadow-md;
+    border-color: #cbd5e1;
+  }
+
+  // Header meta bar
+  .card-top-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+
+    .meta-pills {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+
+      .badge {
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 0.25rem 0.6rem;
+        border-radius: 6px;
+      }
+
+      .badge-category {
+        background-color: #f1f5f9;
+        color: #334155;
+      }
+
+      .badge-difficulty {
+        background-color: #f8fafc;
+        border: 1px solid $border-color;
+        color: $text-muted;
+      }
+
+      .badge-revision {
+        background-color: #fdf4ff;
+        color: #a21caf;
+        border: 1px solid #f0abfc;
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+      }
+    }
+
+    .status-indicator {
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
+
+      &.pending {
+        background-color: $warning-bg;
+        color: $warning-hover;
+      }
+      &.approved {
+        background-color: $success-bg;
+        color: $success-hover;
+      }
+      &.rejected {
+        background-color: $danger-bg;
+        color: $danger-hover;
+      }
+    }
+  }
+
+  // Question Assignment
+  .assignment-content {
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.5;
+    color: #1e293b;
+  }
+
+  // Answers Presentation Grid
+  .answers-review-box {
+    background-color: #f8fafc;
+    border: 1px solid $border-color;
+    border-radius: $radius-md;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .box-title {
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: $text-light;
+      margin-bottom: 0.25rem;
+    }
+
+    .answer-choice-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #ffffff;
+      padding: 0.6rem 0.85rem;
+      border-radius: 8px;
+      border: 1px solid $border-color;
+      font-size: 0.9rem;
+
+      .answer-content {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+
+        .letter {
+          font-weight: 700;
+          color: $text-muted;
+          min-width: 20px;
+        }
+
+        .text {
+          color: #334155;
+        }
+      }
+
+      &.is-correct {
+        border-color: #6ee7b7;
+        background-color: #f0fdf4;
+
+        .letter {
+          color: $success;
+        }
+        .text {
+          font-weight: 600;
+          color: #065f46;
+        }
+
+        .correct-tag {
+          font-size: 0.75rem;
+          font-weight: 800;
+          color: $success-hover;
+          display: flex;
+          align-items: center;
+          gap: 0.3rem;
+        }
+      }
+    }
+  }
+
+  // Review Feedback Banner (if rejected or edits requested)
+  .review-feedback-callout {
+    background-color: #fffbeb;
+    border-left: 4px solid $warning;
+    padding: 0.85rem 1rem;
+    border-radius: 4px;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+
+    i {
+      color: $warning-hover;
+      margin-top: 0.15rem;
+    }
+
+    .feedback-body {
+      strong {
+        font-size: 0.8rem;
+        color: #92400e;
+        display: block;
+        text-transform: uppercase;
+      }
+      p {
+        font-size: 0.85rem;
+        color: #78350f;
+        margin-top: 0.2rem;
+      }
+    }
+  }
+
+  // Card Bottom Footer & Action Toolbar
+  .card-footer-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 1rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    .author-stamp {
+      font-size: 0.8rem;
+      color: $text-muted;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+
+      i {
+        color: $text-light;
+      }
+    }
+
+    .action-button-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      .btn-action {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.55rem 0.95rem;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        cursor: pointer;
+        border: none;
+        transition: all 0.15s ease;
+
+        &:active {
+          transform: scale(0.98);
+        }
+      }
+
+      .btn-approve {
+        background-color: $success;
+        color: #ffffff;
+
+        &:hover {
+          background-color: $success-hover;
+        }
+      }
+
+      .btn-request-edits {
+        background-color: #ffffff;
+        color: #b45309;
+        border: 1px solid #fde68a;
+
+        &:hover {
+          background-color: #fef3c7;
+        }
+      }
+
+      .btn-reject {
+        background-color: #ffffff;
+        color: $danger;
+        border: 1px solid #fecaca;
+
+        &:hover {
+          background-color: $danger-bg;
+        }
+      }
+    }
+  }
+}
+
+// --------------------------------------------------------------------------
+// Feedback & Revision Modal Dialog
+// --------------------------------------------------------------------------
+.feedback-modal {
+  margin: auto;
+  border: none;
+  border-radius: $radius-lg;
+  padding: 0;
+  box-shadow: $shadow-lg;
+  max-width: 480px;
+  width: 90%;
+  background: transparent;
+
+  &::backdrop {
+    background-color: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+  }
+
+  .modal-content {
+    background-color: #ffffff;
+    border-radius: $radius-lg;
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+
+      .modal-title-group {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+
+        .icon-bubble.warning {
+          width: 42px;
+          height: 42px;
+          background-color: $warning-bg;
+          color: $warning;
+          border-radius: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1.1rem;
+        }
+
+        h2 {
+          font-size: 1.15rem;
+          font-weight: 800;
+          color: $text-main;
+        }
+
+        .modal-subtitle {
+          font-size: 0.8rem;
+          color: $text-muted;
+          margin-top: 0.15rem;
+        }
+      }
+
+      .btn-close-modal {
+        background: transparent;
+        border: none;
+        color: $text-light;
+        font-size: 1.1rem;
+        cursor: pointer;
+
+        &:hover {
+          color: $text-main;
+        }
+      }
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+
+      .input-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+
+        label {
+          font-size: 0.8rem;
+          font-weight: 700;
+          color: #334155;
+        }
+
+        textarea {
+          padding: 0.75rem;
+          border-radius: $radius-md;
+          border: 1px solid $border-color;
+          font-size: 0.85rem;
+          outline: none;
+          resize: vertical;
+          transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+          &:focus {
+            border-color: $warning;
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+          }
+        }
+      }
+
+      .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 0.75rem;
+
+        button {
+          padding: 0.65rem 1.1rem;
+          border-radius: 8px;
+          font-size: 0.85rem;
+          font-weight: 700;
+          cursor: pointer;
+          border: none;
+          transition: background-color 0.15s ease;
+        }
+
+        .btn-secondary {
+          background-color: #f1f5f9;
+          color: #475569;
+
+          &:hover {
+            background-color: #e2e8f0;
+          }
+        }
+
+        .btn-warning {
+          background-color: $warning;
+          color: #ffffff;
+          display: flex;
+          align-items: center;
+          gap: 0.4rem;
+
+          &:hover {
+            background-color: $warning-hover;
+          }
+        }
+      }
+    }
+  }
+}

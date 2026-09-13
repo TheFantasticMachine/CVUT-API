@@ -1,3 +1,5 @@
+// noinspection D
+
 document.addEventListener("DOMContentLoaded", () => {
     const questionForm = document.getElementById("question-form");
 
@@ -10,8 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const assignmentEl = document.getElementById("assignment") || document.querySelector(".assignment");
         const categorySelect = document.getElementById("categoryID");
         const difficultyInput = document.getElementById("difficulty");
-        const checkedRadio = document.querySelector('input[name="correctAnswerIndex"]:checked');
-
         // Safety check to ensure element exists
         if (!assignmentEl) {
             console.error("Assignment input element not found!");
@@ -20,15 +20,21 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // 2. Collect answer texts from all answer input fields
-        const answerInputs = document.querySelectorAll('input[name="answers[]"]');
-        const answersList = Array.from(answerInputs).map(input => input.value.trim());
+        let answersList = [];
+        const answerRows = document.querySelectorAll('.answer-row');
+        answerRows.forEach(row => {
+            answersList.push({
+                isCorrect: row.querySelector('input[name="correctAnswer"]:checked') ? true : false,
+                answerText: row.querySelector('input[name="answerText"]').value.trim()
+            });
+        });
+
 
         // 3. Build JSON payload matching QuestionRequest.java
         const payload = {
             assignment: assignmentEl.value.trim(),
             categoryID: parseInt(categorySelect ? categorySelect.value : 1, 10),
             difficulty: parseInt(difficultyInput ? difficultyInput.value : 5, 10),
-            correctAnswerIndex: checkedRadio ? parseInt(checkedRadio.value, 10) : 0,
             answers: answersList
         };
 
@@ -36,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
             // 4. POST to Spring Boot endpoint
-            const response = await fetch('/question/add', {
+            const response = await fetch('/api/question/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

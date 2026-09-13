@@ -44,4 +44,13 @@ public class IndexController {
         // 3. Send browser back to the login screen
         return "redirect:/login";
     }
+
+    @GetMapping("/admin/approval")
+    public String approvalPage(HttpSession session) {
+        // Restrict access to logged-in users or ADMIN roles
+        if (session == null || session.getAttribute("currentUser") == null) {
+            return "redirect:/login";
+        }
+        return "question_approval";
+    }
 }

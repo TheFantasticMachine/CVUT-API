@@ -1,47 +1,86 @@
 package com.testgen.restapi.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.ArrayList;
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TestRequest {
-    private String variant;
-    private String subject;
-    private String title;
-    private List<Question> questions;
 
-    // 🔑 REQUIRED by Jackson for JSON deserialization
+    private String title;
+    private String subject;
+    private String variant;
+    private List<QuestionData> questions = new ArrayList<>();
+
     public TestRequest() {}
 
-    public TestRequest(String testName, String subject, String title, List<Question> questions) {
-        this.variant = testName;
-        this.subject = subject;
-        this.title = title;
-        this.questions = questions;
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
+
+    public String getSubject() { return subject; }
+    public void setSubject(String subject) { this.subject = subject; }
+
+    public String getVariant() { return variant; }
+    public void setVariant(String variant) { this.variant = variant; }
+
+    public List<QuestionData> getQuestions() { return questions; }
+    public void setQuestions(List<QuestionData> questions) { this.questions = questions; }
+
+    // Nested Question DTO
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class QuestionData {
+        private Integer questionID;
+        private String assignment;
+        private Integer categoryID;
+        private Integer difficulty;
+        private String status;
+        private List<AnswerData> answers = new ArrayList<>();
+
+        public QuestionData() {}
+
+        public Integer getQuestionID() { return questionID; }
+        public void setQuestionID(Integer questionID) { this.questionID = questionID; }
+
+        public String getAssignment() { return assignment; }
+        public void setAssignment(String assignment) { this.assignment = assignment; }
+
+        public Integer getCategoryID() { return categoryID; }
+        public void setCategoryID(Integer categoryID) { this.categoryID = categoryID; }
+
+        public Integer getDifficulty() { return difficulty; }
+        public void setDifficulty(Integer difficulty) { this.difficulty = difficulty; }
+
+        public String getStatus() { return status; }
+        public void setStatus(String status) { this.status = status; }
+
+        public List<AnswerData> getAnswers() { return answers; }
+        public void setAnswers(List<AnswerData> answers) { this.answers = answers; }
     }
 
-    public String getSubject() {
-        return subject;
-    }
+    // Nested Answer DTO (Handles both "correct" and "isCorrect")
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class AnswerData {
+        private Integer answerID;
+        private String answerText;
 
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
+        @JsonProperty("correct")
+        private boolean correct;
 
-    public String getTitle() {
-        return title;
-    }
+        public AnswerData() {}
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+        public Integer getAnswerID() { return answerID; }
+        public void setAnswerID(Integer answerID) { this.answerID = answerID; }
 
-    public String getVariant() {
-        return variant;
-    }
+        public String getAnswerText() { return answerText; }
+        public void setAnswerText(String answerText) { this.answerText = answerText; }
 
-    public void setVariant(String variant) {
-        this.variant = variant;
-    }
+        public boolean isCorrect() { return correct; }
+        public boolean getCorrect() { return correct; }
 
-    public List<Question> getQuestions() { return questions; }
-    public void setQuestions(List<Question> questions) { this.questions = questions; }
+        public void setCorrect(boolean correct) { this.correct = correct; }
+
+        @JsonProperty("isCorrect")
+        public void setIsCorrect(boolean isCorrect) { this.correct = isCorrect; }
+    }
 }

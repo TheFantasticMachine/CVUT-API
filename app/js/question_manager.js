@@ -104,10 +104,12 @@ class TestVariant {
                    </div>`;
                 });
 
-                html += "</div>" +
-                    "<button class=\"change\">Change</button>";
+                html += `</div>
+                    <button disabled class="change">Change</button>`
                 q.innerHTML = html;
                 parent.appendChild(q);
+
+
             });
         }
 

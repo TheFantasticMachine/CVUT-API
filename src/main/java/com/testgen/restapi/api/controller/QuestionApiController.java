@@ -1,18 +1,30 @@
 package com.testgen.restapi.api.controller;
 
+import com.testgen.restapi.api.model.Answer;
 import com.testgen.restapi.api.model.Question;
+import com.testgen.restapi.api.model.User;
 import com.testgen.restapi.api.service.QuestionService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.lang.model.util.AbstractElementVisitor14;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/question")
 public class QuestionApiController {
+
+    public record AddQuestionRequest(
+            Integer categoryID,
+            String assignment,
+            Integer difficulty,
+            List<Answer> answers
+    ){}
 
     private final QuestionService questionService;
 
@@ -56,5 +68,19 @@ public class QuestionApiController {
     public ResponseEntity<List<Question>> getAllQuestions() {
         List<Question> questions = questionService.getAllQuestions();
         return ResponseEntity.ok(questions);
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<?> addQuestion(@RequestBody AddQuestionRequest request, HttpSession session) {
+        User user = (User) session.getAttribute("currentUser");
+        Optional<Question> question = questionService.addQuestion(request, user);
+        if (question.isPresent()) {
+            return ResponseEntity.ok(Map.of(
+                    "status", "success",
+                    "questionID", question.get().getQuestionID()
+            ));
+        }
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("status", "fail"));
     }
 }

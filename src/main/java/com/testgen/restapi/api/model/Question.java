@@ -59,6 +59,31 @@ public class Question {
     }
 
     // Getters and Setters for all fields...
+
+    public Integer getUserID() {
+        return userID;
+    }
+
+    public void setUserID(Integer userID) {
+        this.userID = userID;
+    }
+
+    public Integer getParentID() {
+        return parentID;
+    }
+
+    public void setParentID(Integer parentID) {
+        this.parentID = parentID;
+    }
+
+    public String getReviewMessage() {
+        return reviewMessage;
+    }
+
+    public void setReviewMessage(String reviewMessage) {
+        this.reviewMessage = reviewMessage;
+    }
+
     public Integer getQuestionID() { return questionID; }
     public void setQuestionID(Integer questionID) { this.questionID = questionID; }
     public String getAssignment() { return assignment; }
@@ -69,11 +94,9 @@ public class Question {
     public void setStatus(String status) { this.status = status; }
     public Integer getCategoryID() { return categoryID; }
     public void setCategoryID(Integer categoryID) { this.categoryID = categoryID; }
-
     public Integer getDifficulty() {
         return difficulty;
     }
-
     public void setDifficulty(Integer difficulty) {
         this.difficulty = difficulty;
     }

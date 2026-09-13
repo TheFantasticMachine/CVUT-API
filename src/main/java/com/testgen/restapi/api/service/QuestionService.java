@@ -1,9 +1,8 @@
 // src/main/java/com/testgen/restapi/api/service/QuestionService.java
 package com.testgen.restapi.api.service;
 
-import com.testgen.restapi.api.model.Category;
-import com.testgen.restapi.api.model.Question;
-import com.testgen.restapi.api.model.Subject;
+import com.testgen.restapi.api.controller.QuestionApiController;
+import com.testgen.restapi.api.model.*;
 import com.testgen.restapi.api.repo.CategoryRepo;
 import com.testgen.restapi.api.repo.QuestionRepo;
 import com.testgen.restapi.api.repo.SubjectRepo;
@@ -65,5 +64,17 @@ public class QuestionService {
         Optional<Category> category = categoryRepo.findById(categoryId);
 
         return category.map(value -> questionRepo.findByCategoryIDAndStatus(value.getCategoryID(), "APPROVED")).orElse(null);
+    }
+
+    public Optional<Question> addQuestion(QuestionApiController.AddQuestionRequest request, User user) {
+        Question question = new Question();
+        question.setCategoryID(request.categoryID());
+        question.setDifficulty(request.difficulty());
+        question.setAssignment(request.assignment());
+        question.setUserID(user.getId());
+        for (Answer answer : request.answers()) {
+            question.addAnswer(answer);
+        }
+        return Optional.of(questionRepo.save(question));
     }
 }

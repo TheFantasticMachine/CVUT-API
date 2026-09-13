@@ -1,9 +1,9 @@
 package com.testgen.restapi.api.controller;
 
-import com.testgen.restapi.api.model.Question;
 import com.testgen.restapi.api.model.TestRequest;
 import com.testgen.restapi.core.managers.PdfManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,7 +13,8 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.io.IOException;
-import java.util.List;
+import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.Map;
 
 @RestController
@@ -30,42 +31,41 @@ public class GeneratePdfController {
         this.pdfManager = pdfManager;
     }
 
-    public record GenTestRequest(
-        String variant,
-        String subject,
-        String  title,
-        Map<String, ?> questions
-    ){};
-
-    @PostMapping("/generate")
-    public ResponseEntity<byte[]> generateTestPdf(@RequestBody GenTestRequest request) {
+    @PostMapping(value = {"/generate", ""}, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> generatePdf(@RequestBody TestRequest request) {
         try {
-            // 1. Prepare Thymeleaf Context with data from the frontend
+            // 1. Bind variables matching your payload names
             Context context = new Context();
-            context.setVariable("variant", request.variant);
-            context.setVariable( "subject", request.subject);
-            context.setVariable("questions", request.questions);
+            context.setVariable("title", request.getTitle() != null ? request.getTitle() : "Examination Paper");
+            context.setVariable("subject", request.getSubject() != null ? request.getSubject() : "");
+            context.setVariable("variant", request.getVariant() != null ? request.getVariant() : "A");
+            context.setVariable("questions", request.getQuestions() != null ? request.getQuestions() : Collections.emptyList());
 
-            // 2. Render templates/test_template.html to a raw HTML string
+            // 2. Render templates/test_template.html
             String renderedHtml = templateEngine.process("test_template", context);
 
-            // 3. Convert rendered HTML to PDF binary
+            // 3. Convert HTML to PDF byte stream
             byte[] pdfBytes = pdfManager.generatePdfFromHtml(renderedHtml);
 
-            // 4. Build HTTP response headers for browser download
+            // 4. Send attachment
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_PDF);
 
-            String safeFileName = (request.title != null ? request.title : "exam")
-                    .replaceAll("[^a-zA-Z0-9-_\\.]", "_") + ".pdf";
-            headers.setContentDispositionFormData("attachment", safeFileName);
+            String safeName = (request.getTitle() != null && !request.getTitle().isBlank()
+                    ? request.getTitle().replaceAll("[^a-zA-Z0-9-_\\.]", "_")
+                    : "exam") + "_Var_" + (request.getVariant() != null ? request.getVariant() : "A") + ".pdf";
+
+            headers.setContentDisposition(ContentDisposition.attachment()
+                    .filename(safeName, StandardCharsets.UTF_8)
+                    .build());
             headers.setContentLength(pdfBytes.length);
 
             return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
 
-        } catch (IOException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(("PDF Generation Failed: " + e.getMessage()).getBytes());
+                    .body(Map.of("error", "PDF generation failed: " + e.getMessage()));
         }
     }
 }

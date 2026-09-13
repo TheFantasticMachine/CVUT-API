@@ -42,10 +42,10 @@ document.addEventListener("DOMContentLoaded", () => {
         row.className = "answer-row";
         row.innerHTML = `
             <span class="answer-letter">${nextLetter}</span>
-            <input class="question_text" type="text" name="answers[]" placeholder="Enter answer text..." required />
+            <input class="question_text" type="text" name="answerText" placeholder="Enter answer text..." required />
             
             <label class="correct-radio-label" title="Mark as correct answer">
-                <input type="radio" name="correctAnswerIndex" value="${currentCount}" required />
+                <input type="radio" name="correctAnswer" required />
                 <span class="radio-custom">Correct</span>
             </label>
 

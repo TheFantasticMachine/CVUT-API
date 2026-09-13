@@ -10,16 +10,10 @@ import java.io.IOException;
 @Component
 public class PdfManager {
 
-    /**
-     * Converts a processed HTML document string into a binary PDF byte array.
-     */
     public byte[] generatePdfFromHtml(String htmlContent) throws IOException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-
         ConverterProperties properties = new ConverterProperties();
-        // Generates the PDF document directly into memory
         HtmlConverter.convertToPdf(htmlContent, outputStream, properties);
-
         return outputStream.toByteArray();
     }
 }
