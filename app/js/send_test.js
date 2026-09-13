@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             const payload = {
-                title: document.getElementById("display-test-name")?.value || "Assessment",
+                title: document.getElementById("display-test-name").value || "Assessment",
                 subject: sessionStorage.getItem("subject") || "General",
                 variant: activeLetter,
                 questions: questions

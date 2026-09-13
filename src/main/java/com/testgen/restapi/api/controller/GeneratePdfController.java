@@ -13,6 +13,7 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.io.IOException;
+import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Map;
@@ -34,6 +35,8 @@ public class GeneratePdfController {
     @PostMapping(value = {"/generate", ""}, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> generatePdf(@RequestBody TestRequest request) {
         try {
+            PrintStream stream = new PrintStream(System.out);
+            stream.print(request.getSubject());
             // 1. Bind variables matching your payload names
             Context context = new Context();
             context.setVariable("title", request.getTitle() != null ? request.getTitle() : "Examination Paper");
