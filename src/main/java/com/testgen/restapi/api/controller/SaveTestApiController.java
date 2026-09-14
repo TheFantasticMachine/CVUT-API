@@ -5,12 +5,14 @@ import com.testgen.restapi.api.model.User;
 import com.testgen.restapi.api.repo.SaveTestRepo;
 import com.testgen.restapi.api.service.SavedTestService;
 import jakarta.servlet.http.HttpSession;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -24,6 +26,16 @@ public class SaveTestApiController {
             String title,
             String subject_name,
             String subject_id
+    ){}
+
+    public record TestSummary(
+            int testId,
+            String title,
+            String subjectName,
+            String status,
+            LocalDateTime dueDate,
+            LocalDateTime lastEditAt,
+            List<?> variants
     ){}
 
     private final SavedTestService savedTestService;
@@ -50,11 +62,13 @@ public class SaveTestApiController {
     }
 
     @GetMapping("/summaries-by-user-id")
-    public ResponseEntity<?> getSummariesByUserID (@RequestParam (required = false, defaultValue = "1") Integer userId) {
-        List<?> summaries = savedTestService.getTestSummariesByUserId(userId);
+    public ResponseEntity<?> getSummariesByUserID (@RequestParam (required = false, defaultValue = "2") Integer userId) {
+        List<TestSummary> summaries = savedTestService.getTestSummariesByUserId(userId);
         if (summaries == null) {
+            System.out.println("summaries not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("status", "fail", "error", "no test found"));
         }
+        System.out.println("summaries found");
         return ResponseEntity.ok(summaries);
     }
 

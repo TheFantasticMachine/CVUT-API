@@ -1,5 +1,6 @@
 package com.testgen.restapi.api.service;
 
+import com.testgen.restapi.api.controller.SaveTestApiController;
 import com.testgen.restapi.api.model.SavedTest;
 import com.testgen.restapi.api.repo.SaveTestRepo;
 import com.testgen.restapi.api.repo.SettingsRepo;
@@ -20,7 +21,7 @@ public class SavedTestService {
     private final SettingsRepo settingsRepo;
 
     @Autowired
-    public SavedTestService(SaveTestRepo saveTestRepo, SettingsRepo settingsRepo ) {
+    public SavedTestService(SaveTestRepo saveTestRepo, SettingsRepo settingsRepo) {
         this.saveTestRepo = saveTestRepo;
         this.settingsRepo = settingsRepo;
     }
@@ -61,20 +62,24 @@ public class SavedTestService {
         return saveTestRepo.save(test);
     }
 
-    public List<?> getTestSummariesByUserId (int userId) {
-        List<JSONObject> result = new ArrayList<>();
+    public List<SaveTestApiController.TestSummary> getTestSummariesByUserId (int userId) {
+        List<SaveTestApiController.TestSummary> result = new ArrayList<>();
         List<SavedTest> savedTests = saveTestRepo.findAllByUserId(userId);
+        System.out.println(savedTests.size());
 
         for (SavedTest test : savedTests) {
             JSONObject config = new JSONObject(test.getTestConfig());
-            JSONObject summary = new JSONObject();
-            summary.put("testId", test.getTestId());
-            summary.put("title", config.getString("title"));
-            summary.put("subjectName", config.getString("subject_name"));
-            summary.put("status", test.getStatus());
-            summary.put("dueDate", test.getDueDate());
-            summary.put("lastEditAt", test.getLastEditAt());
-            summary.put("variants", config.getJSONArray("variants"));
+
+            SaveTestApiController.TestSummary summary = new SaveTestApiController.TestSummary(
+                    test.getTestId(),
+                    config.getString("title"),
+                    config.getString("subject_name"),
+                    test.getStatus(),
+                    test.getDueDate(),
+                    test.getLastEditAt(),
+                    config.getJSONArray("variants").toList()
+            );
+
             result.add(summary);
         }
 

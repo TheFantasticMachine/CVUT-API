@@ -1,3 +1,5 @@
+// noinspection D
+
 document.addEventListener("DOMContentLoaded", async () => {
     const dialog = document.getElementById("new-test-dialog");
     const openButtons = document.querySelectorAll(".open-new-test-btn");
@@ -34,7 +36,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     subject_id: subjectId
                 };
 
-                const response = await fetch("api/test_save/new", {
+                const response = await fetch("/api/test_save/new", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -56,44 +58,27 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     }
 
-    try {
-        const response = await fetch("api/user/current");
-        if (!response.ok) {
-            throw new Error()
-        }
-        const result = await response.json();
-        console.log(result);
-        document.querySelector(".user-name").innerText = result.username;
-        document.querySelector(".user-role").innerText = result.role.toLowerCase();
-    } catch (error) {
-        console.error(error.message);
-    }
-
-    TestLoader.loadSavedTests;
-});
-
-const TestLoader = (function () {
     let loadedTestSummaries = null;
-
-    async function loadSavedTests() {
-        try {
-            const userResponse = await fetch("api/user/current");
-            if (!userResponse.ok) {
-                throw new Error("user not loaded")
-            }
-            const user = await userResponse.json();
-
-
-            const testSummariesResponse = await fetch(`/api/test_save/summaries-by-user-id?userId=${user.id}`);
-            if (!testSummariesResponse.ok) {
-                throw new Error("summaries not found");
-            }
-            loadedTestSummaries = await testSummariesResponse.json();
-            crateTestCardElements();
+    try {
+        const userResponse = await fetch("/api/user/current");
+        if (!userResponse.ok) {
+            throw new Error("user not loaded")
         }
-        catch (error) {
-            console.error(error.message);
+        const user = await userResponse.json();
+
+        document.querySelector(".user-name").innerText = user.username;
+        document.querySelector(".user-role").innerText = user.role.toLowerCase();
+
+
+        const testSummariesResponse = await fetch(`/api/test_save/summaries-by-user-id?userId=${user.Id}`);
+        if (!testSummariesResponse.ok) {
+            throw new Error("summaries not found");
         }
+        loadedTestSummaries = await testSummariesResponse.json();
+        crateTestCardElements();
+    }
+    catch (error) {
+        console.error(error.message);
     }
 
     function getVariantLetters(summary) {
@@ -120,8 +105,8 @@ const TestLoader = (function () {
             testCard.classList.add("test-item-card");
             testCard.innerHTML = `
             <div class="test-card-top">
-                    <span class="subject-badge math">${summary.subject}</span>
-                    <span class="test-status draft">${summary.status}</span>
+                    <span class="subject-badge math">${summary.subjectName}</span>
+                    <span class="test-status ${summary.status.toLowerCase()}">${summary.status}</span>
                 </div>
                 <h3 class="test-title">${summary.title}</h3>
                 <div class="test-meta-info">
@@ -140,8 +125,4 @@ const TestLoader = (function () {
             });
         });
     }
-
-    return {
-        loadSavedTests: loadSavedTests
-    };
 });
