@@ -25,7 +25,8 @@ public class SaveTestApiController {
             String title,
             String subject_name,
             String subject_id
-    ){}
+    ) {
+    }
 
     public record TestSummary(
             int testId,
@@ -35,12 +36,14 @@ public class SaveTestApiController {
             LocalDateTime dueDate,
             LocalDateTime lastEditAt,
             List<?> variants
-    ){}
+    ) {
+    }
 
     public record UpdateRequest(
-            @JsonProperty("config") JsonNode config,
-            @JsonProperty("data") JsonNode data
-    ){}
+            Map config,
+            Object data
+    ) {
+    }
 
     private final SavedTestService savedTestService;
 
@@ -52,21 +55,20 @@ public class SaveTestApiController {
     @PostMapping("/new")
     public ResponseEntity<?> createNewTest(@RequestBody NewTestRequest request, HttpSession session) {
         User user = (User) session.getAttribute("currentUser");
-        if  (user == null) {
+        if (user == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("status", "fail", "error", "user not logged in"));
         }
 
         try {
             SavedTest createdTest = savedTestService.createNewTest(user.getId(), request.title, request.subject_name, Integer.parseInt(request.subject_id));
             return ResponseEntity.ok(createdTest);
-        }
-        catch (IllegalArgumentException exception) {
+        } catch (IllegalArgumentException exception) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("status", "fail", "error", exception.getMessage()));
         }
     }
 
     @GetMapping("/summaries-by-user-id")
-    public ResponseEntity<?> getSummariesByUserID (@RequestParam (required = false, defaultValue = "2") Integer userId) {
+    public ResponseEntity<?> getSummariesByUserID(@RequestParam(required = false, defaultValue = "2") Integer userId) {
         List<TestSummary> summaries = savedTestService.getTestSummariesByUserId(userId);
         if (summaries == null) {
             System.out.println("summaries not found");
@@ -77,7 +79,7 @@ public class SaveTestApiController {
     }
 
     @GetMapping("/test-by-id")
-    public ResponseEntity<?> getTestById (@RequestParam (required = false, defaultValue = "1") Integer testId) {
+    public ResponseEntity<?> getTestById(@RequestParam(required = false, defaultValue = "1") Integer testId) {
         Optional<SavedTest> test = savedTestService.getTestByID(testId);
 
         if (test.isEmpty()) {
@@ -88,7 +90,16 @@ public class SaveTestApiController {
     }
 
     @PutMapping("/save/{id}")
-    public String updateTest(@PathVariable int id, @RequestBody UpdateRequest request) {
-        return "Updated test with id: " + id + " effected rows: " + savedTestService.updateTest(id, request);
+    public ResponseEntity<?> updateTest(
+            @PathVariable("id") Integer id,
+            @RequestBody UpdateRequest request) {
+        try {
+            SavedTest updated = savedTestService.updateTest(id, request);
+            return ResponseEntity.ok(Map.of("message", "Test updated successfully", "testId", updated.getTestId()));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
     }
 }

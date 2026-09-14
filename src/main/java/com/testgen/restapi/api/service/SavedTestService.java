@@ -1,5 +1,6 @@
 package com.testgen.restapi.api.service;
 
+import tools.jackson.databind.ObjectMapper;
 import com.testgen.restapi.api.controller.SaveTestApiController;
 import com.testgen.restapi.api.model.SavedTest;
 import com.testgen.restapi.api.repo.SaveTestRepo;
@@ -19,11 +20,13 @@ public class SavedTestService {
 
     private final SaveTestRepo saveTestRepo;
     private final SettingsRepo settingsRepo;
+    private final ObjectMapper objectMapper;
 
     @Autowired
-    public SavedTestService(SaveTestRepo saveTestRepo, SettingsRepo settingsRepo) {
+    public SavedTestService(SaveTestRepo saveTestRepo, SettingsRepo settingsRepo, ObjectMapper objectMapper) {
         this.saveTestRepo = saveTestRepo;
         this.settingsRepo = settingsRepo;
+        this.objectMapper = objectMapper;
     }
 
     public SavedTest createNewTest(int userId, String title, String subjectName, int subjectId) {
@@ -87,17 +90,21 @@ public class SavedTestService {
     }
 
     @Transactional
-    public int updateTest(int testId, SaveTestApiController.UpdateRequest request) {
-        if (request.config() == null) {
-            throw new IllegalArgumentException("no config");
-        }
-        if (request.data() == null) {
-            throw new IllegalArgumentException("no data");
-        }
+    public SavedTest updateTest(Integer testId, SaveTestApiController.UpdateRequest request) throws Exception {
+        // 1. Fetch the existing entity by ID (Hibernate tracks this managed entity)
+        SavedTest existingTest = saveTestRepo.findById(testId)
+                .orElseThrow(() -> new IllegalArgumentException("Test not found with ID: " + testId));
 
-        int update = saveTestRepo.updateConfigAndData(testId, request.config().toString(), request.data().toString());
-        System.out.println("updating rows: " + update);
-        return update;
+        // 2. Convert incoming objects to JSON strings
+        String configJson = objectMapper.writeValueAsString(request.config());
+        String dataJson = objectMapper.writeValueAsString(request.data());
+
+        // 3. Mutate fields on the tracked entity
+        existingTest.setTestConfig(configJson);
+        existingTest.setTestData(dataJson);
+
+        // 4. Save triggers SQL UPDATE, keeping testId intact
+        return saveTestRepo.save(existingTest);
     }
 
     public Optional<SavedTest> getTestByID (int testId) {
