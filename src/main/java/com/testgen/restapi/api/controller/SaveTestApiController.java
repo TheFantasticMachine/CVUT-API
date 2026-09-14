@@ -1,12 +1,11 @@
 package com.testgen.restapi.api.controller;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.testgen.restapi.api.model.SavedTest;
 import com.testgen.restapi.api.model.User;
-import com.testgen.restapi.api.repo.SaveTestRepo;
 import com.testgen.restapi.api.service.SavedTestService;
 import jakarta.servlet.http.HttpSession;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,8 +38,8 @@ public class SaveTestApiController {
     ){}
 
     public record UpdateRequest(
-            String config,
-            String data
+            @JsonProperty("config") JsonNode config,
+            @JsonProperty("data") JsonNode data
     ){}
 
     private final SavedTestService savedTestService;
@@ -90,6 +89,6 @@ public class SaveTestApiController {
 
     @PutMapping("/save/{id}")
     public String updateTest(@PathVariable int id, @RequestBody UpdateRequest request) {
-        return "Updated test with id: " + id + " effected rows: " + savedTestService.updateTest(id, request.config, request.data);
+        return "Updated test with id: " + id + " effected rows: " + savedTestService.updateTest(id, request);
     }
 }

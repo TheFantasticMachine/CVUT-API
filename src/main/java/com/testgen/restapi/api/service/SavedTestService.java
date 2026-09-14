@@ -4,6 +4,7 @@ import com.testgen.restapi.api.controller.SaveTestApiController;
 import com.testgen.restapi.api.model.SavedTest;
 import com.testgen.restapi.api.repo.SaveTestRepo;
 import com.testgen.restapi.api.repo.SettingsRepo;
+import jakarta.transaction.Transactional;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,8 +86,16 @@ public class SavedTestService {
         return result;
     }
 
-    public int updateTest(int testId, String config, String data) {
-        int update = saveTestRepo.updateConfigAndData(testId, config, data);
+    @Transactional
+    public int updateTest(int testId, SaveTestApiController.UpdateRequest request) {
+        if (request.config() == null) {
+            throw new IllegalArgumentException("no config");
+        }
+        if (request.data() == null) {
+            throw new IllegalArgumentException("no data");
+        }
+
+        int update = saveTestRepo.updateConfigAndData(testId, request.config().toString(), request.data().toString());
         System.out.println("updating rows: " + update);
         return update;
     }
