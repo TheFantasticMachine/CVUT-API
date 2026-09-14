@@ -1,0 +1,28 @@
+{
+  "A": [
+    {
+      "instance_id": "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+      "questionID": 1,
+      "assignment": "What is the determinant of a 2x2 identity matrix?",
+      "difficulty": 1,
+      "answers": [
+        { "answerText": "1", "correct": true },
+        { "answerText": "0", "correct": false },
+        { "answerText": "-1", "correct": false },
+        { "answerText": "2", "correct": false }
+      ]
+    }
+  ],
+  "B": [
+    {
+      "instance_id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+      "questionID": 2,
+      "assignment": "Which condition indicates that a square matrix A has no inverse?",
+      "difficulty": 2,
+      "answers": [
+        { "answerText": "det(A) = 0", "correct": true },
+        { "answerText": "det(A) = 1", "correct": false }
+      ]
+    }
+  ]
+}

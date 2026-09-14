@@ -1,0 +1,7 @@
+{
+  "title": "Operating Systems Midterm",
+  "subject_name": "Operating Systems",
+  "variants": ["A", "B"],
+  "question_max": 15,
+  "variant_max": 3
+}
