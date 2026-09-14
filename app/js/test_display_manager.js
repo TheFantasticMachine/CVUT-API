@@ -68,6 +68,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     } catch (error) {
         console.error(error.message);
     }
+
+    TestLoader.loadSavedTests;
 });
 
 const TestLoader = (function () {
@@ -87,6 +89,7 @@ const TestLoader = (function () {
                 throw new Error("summaries not found");
             }
             loadedTestSummaries = await testSummariesResponse.json();
+            crateTestCardElements();
         }
         catch (error) {
             console.error(error.message);
@@ -137,4 +140,8 @@ const TestLoader = (function () {
             });
         });
     }
+
+    return {
+        loadSavedTests: loadSavedTests
+    };
 });

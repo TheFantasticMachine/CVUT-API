@@ -11,16 +11,16 @@ public class Settings {
     private String settingsKey;
 
     @Column(name = "setting_value", nullable = false)
-    private String value;
+    private String settingsValue;
 
     @Column(name = "description")
     private String description;
 
     public Settings() {}
 
-    public Settings(String settingsKey, String value, String description) {
+    public Settings(String settingsKey, String settingsValue, String description) {
         this.settingsKey = settingsKey;
-        this.value = value;
+        this.settingsValue = settingsValue;
         this.description = description;
     }
 
@@ -32,12 +32,12 @@ public class Settings {
         this.settingsKey = settingsKey;
     }
 
-    public String getValue() {
-        return value;
+    public String getSettingsValue() {
+        return settingsValue;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setSettingsValue(String value) {
+        this.settingsValue = value;
     }
 
     public String getDescription() {

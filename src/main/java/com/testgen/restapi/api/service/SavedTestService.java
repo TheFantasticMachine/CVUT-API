@@ -26,7 +26,7 @@ public class SavedTestService {
     }
 
     public SavedTest createNewTest(int userId, String title, String subjectName, int subjectId) {
-        int testLimit = Integer.parseInt(settingsRepo.getBySettingsKeyIgnoreCase("MAX_TESTS_PER_TEACHER"));
+        int testLimit = Integer.parseInt(settingsRepo.getSettingValueByKey("MAX_TESTS_PER_TEACHER"));
         int userTestCount = saveTestRepo.countByUserId(userId);
 
         if (userTestCount >= testLimit) {
