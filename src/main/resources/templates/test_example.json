@@ -1,0 +1,31 @@
+{
+  "title": "Operating Systems Midterm",
+  "subject": "Operating Systems",
+  "subject_id": 3,
+  "status": "READY",
+  "settings": {
+    "question_max": 10,
+    "variant_max": 3,
+    "shuffle_answers": true
+  },
+  "variants": [
+    {
+      "variant_letter": "A",
+      "questions": [
+        {
+          "instance_id": "c1f8a845-...",
+          "question_id": 12,
+          "assignment": "What causes internal fragmentation?",
+          "answers": [
+            { "text": "Fixed-size partition allocation", "is_correct": true },
+            { "text": "Variable-size dynamic segmentation", "is_correct": false }
+          ]
+        }
+      ]
+    },
+    {
+      "variant_letter": "B",
+      "questions": []
+    }
+  ]
+}
