@@ -240,13 +240,13 @@ document.getElementById("btn-save").addEventListener("click", async (e) => {
 
         console.log(testData);
 
-
         const response = await fetch(`/api/test_save/save/${parseInt(sessionStorage.getItem("current_test_id"))}`, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
             },
-            body: JSON.stringify({config: testConfig, data: testData})
+            body: JSON.stringify({config: testConfig, data: Object.fromEntries(testData)})
         });
 
         if (!response.ok) {

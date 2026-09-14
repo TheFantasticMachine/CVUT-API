@@ -86,7 +86,9 @@ public class SavedTestService {
     }
 
     public int updateTest(int testId, String config, String data) {
-        return saveTestRepo.updateConfigAndData(testId, config, data);
+        int update = saveTestRepo.updateConfigAndData(testId, config, data);
+        System.out.println("updating rows: " + update);
+        return update;
     }
 
     public Optional<SavedTest> getTestByID (int testId) {
