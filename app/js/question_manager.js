@@ -163,6 +163,30 @@ class TestVariant {
         console.warn(`updated question in variant ${this.letter} ...` + effected);
         this.render();
     }
+
+    delete() {
+        console.warn(allVariants);
+        allVariants = allVariants.filter((variant) => variant !== this);
+
+        document.getElementById("variant-tab-container").innerHTML = "";
+        allVariants.forEach(variant => {
+            // set the letter
+            variant.letter = String.fromCharCode(65 + allVariants.indexOf(variant));
+
+            // create the tab in the variant selector
+            let tab = document.createElement("button");
+            tab.classList.add("variant-tab");
+            tab.innerText = `variant ${variant.letter}`;
+            tab.style.order = allVariants.indexOf(variant).toString();
+            tab.addEventListener("click", () => {variant.setActive()});
+            variant.tabElement = tab;
+            document.getElementById("variant-tab-container").appendChild(variant.tabElement);
+        });
+
+        console.warn(allVariants);
+
+        allVariants[0].setActive();
+    }
 }
 
 // define subject, category and question
@@ -260,6 +284,10 @@ document.getElementById("btn-save").addEventListener("click", async (e) => {
         console.error(error.message);
     }
 });
+
+document.getElementById("btn-delete-variant").addEventListener("click", (e) => {
+    window.TestManager.getActiveVariant().delete();
+})
 
 
 // share data
