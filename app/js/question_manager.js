@@ -1,6 +1,6 @@
 // variables
 let allVariants = [];
-
+let testConfig = null;
 let testSubject;
 
 // define a test variant
@@ -201,7 +201,10 @@ window.addEventListener("load", async (e) => {
         const test = await response.json();
         console.info(test);
 
-        const testConfig = JSON.parse(test.testConfig);
+        testConfig = JSON.parse(test.testConfig);
+        window.TestManager.testData.subjectId = test.subjectId;
+        window.TestManager.testData.title = testConfig.title;
+
         const testData = JSON.parse(test.testData);
 
         testSubject = new Subject(test.subjectId, testConfig.subject_name);
@@ -233,7 +236,33 @@ window.addEventListener("load", async (e) => {
 });
 
 document.getElementById("btn-save").addEventListener("click", async (e) => {
+    try {
+        let testData = new Map();
+        allVariants.forEach(variant => {
+            testData.set(variant.letter, variant.questions);
+        });
 
+        console.log(testData);
+
+
+        const response = await fetch(`/api/test_save/save/${parseInt(sessionStorage.getItem("current_test_id"))}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({config: testConfig, data: testData})
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to save");
+        }
+
+        const request = await response.json();
+        console.log(request);
+    }
+    catch (error) {
+        console.error(error.message);
+    }
 });
 
 
@@ -241,8 +270,8 @@ document.getElementById("btn-save").addEventListener("click", async (e) => {
 
 window.TestManager = {
     testData: {
-        title: sessionStorage.getItem("active_test_title") || "New Exam",
-        subjectId: sessionStorage.getItem("active_test_subject_id") || 1
+        title: null,
+        subjectId: null
     },
 
     getActiveVariant: function () {

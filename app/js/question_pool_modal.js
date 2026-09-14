@@ -253,7 +253,7 @@ document.addEventListener("DOMContentLoaded", () => {
     QuestionPoolModal.init();
 
     // Load the questions when test_maker initializes
-    const activeSubjectId = sessionStorage.getItem("active_test_subject_id") || 1;
+    const activeSubjectId = window.TestManager.testData.subjectId || 1;
     QuestionPoolModal.loadQuestions(activeSubjectId);
 });
 

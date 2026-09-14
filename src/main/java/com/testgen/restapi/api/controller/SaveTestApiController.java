@@ -38,6 +38,11 @@ public class SaveTestApiController {
             List<?> variants
     ){}
 
+    public record UpdateRequest(
+            String config,
+            String data
+    ){}
+
     private final SavedTestService savedTestService;
 
     @Autowired
@@ -81,5 +86,10 @@ public class SaveTestApiController {
         }
 
         return ResponseEntity.ok(test.get());
+    }
+
+    @PutMapping("/save/{id}")
+    public String updateTest(@PathVariable int id, @RequestBody UpdateRequest request) {
+        return "Updated test with id: " + id + " effected rows: " + savedTestService.updateTest(id, request.config, request.data);
     }
 }

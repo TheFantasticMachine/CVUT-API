@@ -4,7 +4,6 @@ import com.testgen.restapi.api.controller.SaveTestApiController;
 import com.testgen.restapi.api.model.SavedTest;
 import com.testgen.restapi.api.repo.SaveTestRepo;
 import com.testgen.restapi.api.repo.SettingsRepo;
-import com.testgen.restapi.api.repo.SubjectRepo;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,6 +83,10 @@ public class SavedTestService {
         }
 
         return result;
+    }
+
+    public int updateTest(int testId, String config, String data) {
+        return saveTestRepo.updateConfigAndData(testId, config, data);
     }
 
     public Optional<SavedTest> getTestByID (int testId) {
