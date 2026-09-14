@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Handle submission: store chosen title & subject, then navigate to test maker
     if (form) {
-        form.addEventListener("submit", (e) => {
+        form.addEventListener("submit", async (e) => {
             e.preventDefault();
             const titleInput = document.getElementById("new-test-title").value.trim();
             const subjectSelect = document.getElementById("new-test-subject");
@@ -23,12 +23,36 @@ document.addEventListener("DOMContentLoaded", async () => {
             const subjectId = subjectSelect.value;
 
             // Stash in session storage for test_maker.html to pick up
-            sessionStorage.setItem("test-name", titleInput);
-            sessionStorage.setItem("subject", subjectName);
-            sessionStorage.setItem("subject-id", subjectId);
+            // sessionStorage.setItem("test-name", titleInput);
+            // sessionStorage.setItem("subject", subjectName);
+            // sessionStorage.setItem("subject-id", subjectId);
 
-            // Redirect to test maker with params
-            window.location.href = `/test_maker`;
+            try {
+                const payload = {
+                    title: titleInput,
+                    subject_name: subjectName,
+                    subject_id: subjectId
+                };
+
+                const response = await fetch("api/test_save/new", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error("test was not created");
+                }
+
+                const request = await response.json();
+                sessionStorage.setItem("current_test_id", request.testId);
+                window.location.href = `/test_maker`;
+            }
+            catch (error) {
+                console.error(error.message);
+            }
         });
     }
 

@@ -20,9 +20,10 @@ import java.util.Optional;
 @RequestMapping("/api/test_save")
 public class SaveTestApiController {
 
-    private record NewTestRequest(
+    public record NewTestRequest(
             String title,
-            String subject_name
+            String subject_name,
+            String subject_id
     ){}
 
     private final SavedTestService savedTestService;
@@ -40,7 +41,7 @@ public class SaveTestApiController {
         }
 
         try {
-            SavedTest createdTest = savedTestService.createNewTest(user.getId(), request.title, request.subject_name);
+            SavedTest createdTest = savedTestService.createNewTest(user.getId(), request.title, request.subject_name, Integer.parseInt(request.subject_id));
             return ResponseEntity.ok(createdTest);
         }
         catch (IllegalArgumentException exception) {

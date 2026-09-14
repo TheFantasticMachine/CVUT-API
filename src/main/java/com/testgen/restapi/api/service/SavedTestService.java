@@ -18,16 +18,14 @@ public class SavedTestService {
 
     private final SaveTestRepo saveTestRepo;
     private final SettingsRepo settingsRepo;
-    private final SubjectRepo subjectRepo;
 
     @Autowired
-    public SavedTestService(SaveTestRepo saveTestRepo, SettingsRepo settingsRepo, SubjectRepo subjectRepo) {
+    public SavedTestService(SaveTestRepo saveTestRepo, SettingsRepo settingsRepo ) {
         this.saveTestRepo = saveTestRepo;
         this.settingsRepo = settingsRepo;
-        this.subjectRepo = subjectRepo;
     }
 
-    public SavedTest createNewTest(int userId, String title, String subjectName) {
+    public SavedTest createNewTest(int userId, String title, String subjectName, int subjectId) {
         int testLimit = Integer.parseInt(settingsRepo.getBySettingsKeyIgnoreCase("MAX_TESTS_PER_TEACHER"));
         int userTestCount = saveTestRepo.countByUserId(userId);
 
@@ -54,7 +52,7 @@ public class SavedTestService {
 
         SavedTest test = new SavedTest();
         test.setUserId(userId);
-        test.setSubjectId(subjectRepo.findBySubjectName(subjectName).getSubjectID());
+        test.setSubjectId(subjectId);
         test.setStatus("DRAFT");
         test.setDueDate(null);
         test.setTestConfig(configJson.toString());
