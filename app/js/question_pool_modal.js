@@ -249,13 +249,12 @@ const QuestionPoolModal = (function () {
 })();
 
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("testSaveLoaded", (e) => {
     QuestionPoolModal.init();
 
     // Load the questions when test_maker initializes
-    const activeSubjectId = window.TestManager.testData.subjectId || 1;
-    QuestionPoolModal.loadQuestions(activeSubjectId);
-});
+    QuestionPoolModal.loadQuestions(e.detail.subjectId);
+}, {once: true});
 
 document.getElementById('btn-add').addEventListener('click', () => {
     QuestionPoolModal.open();

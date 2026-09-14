@@ -220,15 +220,11 @@ window.addEventListener("load", async (e) => {
         }
         allVariants[0].setActive();
 
-        // // only after that create the first variant
-        // const first = new TestVariant();
-        // allVariants.push(first);
-        // const second = new TestVariant();
-        // allVariants.push(second);
-        // first.setActive();
+        document.dispatchEvent(new CustomEvent("testSaveLoaded", {
+            detail: { subjectId: test.subjectId }
+        }));
 
         console.log(allVariants);
-        // console.log(first);
     }
     catch (error) {
         console.error(error.message);
