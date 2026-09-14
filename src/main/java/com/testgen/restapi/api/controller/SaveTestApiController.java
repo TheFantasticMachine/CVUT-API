@@ -11,7 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -44,5 +46,25 @@ public class SaveTestApiController {
         catch (IllegalArgumentException exception) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("status", "fail", "error", exception.getMessage()));
         }
+    }
+
+    @GetMapping("/summaries-by-user-id")
+    public ResponseEntity<?> getSummariesByUserID (@RequestParam (required = false, defaultValue = "1") Integer userId) {
+        List<?> summaries = savedTestService.getTestSummariesByUserId(userId);
+        if (summaries == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("status", "fail", "error", "no test found"));
+        }
+        return ResponseEntity.ok(summaries);
+    }
+
+    @GetMapping("/test-by-id")
+    public ResponseEntity<?> getTestById (@RequestParam (required = false, defaultValue = "1") Integer testId) {
+        Optional<SavedTest> test = savedTestService.getTestByID(testId);
+
+        if (test.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("status", "fail", "error", "test with searched id not found"));
+        }
+
+        return ResponseEntity.ok(test.get());
     }
 }

@@ -192,8 +192,17 @@ document.getElementById("add-variant-btn").addEventListener("click", (e) => {
 
 // create variant (on load) if new test
 // ! for now created by default doesnt check for new test
-window.addEventListener("load", (e) => {
+window.addEventListener("load", async (e) => {
     try {
+        const testID = sessionStorage.getItem("current_test_id");
+        const response = await fetch(`/api/test_save/test-by-id?testId=${parseInt(testID)}`);
+        if (!response.ok) {
+            throw new Error("test not found");
+        }
+
+        const test = await response.json();
+        console.info(test);
+
         testSubject = new Subject();
         document.getElementById("display-subject-tag").innerText = testSubject.name;
         document.getElementById("display-test-name").innerText = sessionStorage.getItem("test-name");

@@ -1,0 +1,20 @@
+[
+  {
+    "testId": 12,
+    "title": "Matrix Algebra Midterm",
+    "subjectName": "Mathematics",
+    "status": "DRAFT",
+    "dueDate": "2026-10-15T23:59:00",
+    "lastEditAt": "2026-09-14T14:30:00",
+    "variants": ["A", "B"]
+  },
+  {
+    "testId": 15,
+    "title": "Operating Systems Quiz 1",
+    "subjectName": "Operating Systems",
+    "status": "READY",
+    "dueDate": "2026-11-01T12:00:00",
+    "lastEditAt": "2026-09-10T09:15:00",
+    "variants": ["A", "B", "C"]
+  }
+]

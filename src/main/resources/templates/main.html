@@ -165,54 +165,6 @@
     </div>
 </dialog>
 
-<script>
-    document.addEventListener("DOMContentLoaded", async () => {
-        const dialog = document.getElementById("new-test-dialog");
-        const openButtons = document.querySelectorAll(".open-new-test-btn");
-        const closeBtn = document.getElementById("btn-close-dialog");
-        const cancelBtn = document.getElementById("btn-cancel-dialog");
-        const form = document.getElementById("form-new-test");
-
-        openButtons.forEach(btn => {
-            btn.addEventListener("click", () => dialog.showModal());
-        });
-
-        const closeDialog = () => dialog.close();
-        if (closeBtn) closeBtn.addEventListener("click", closeDialog);
-        if (cancelBtn) cancelBtn.addEventListener("click", closeDialog);
-
-        // Handle submission: store chosen title & subject, then navigate to test maker
-        if (form) {
-            form.addEventListener("submit", (e) => {
-                e.preventDefault();
-                const titleInput = document.getElementById("new-test-title").value.trim();
-                const subjectSelect = document.getElementById("new-test-subject");
-                const subjectName = subjectSelect.options[subjectSelect.selectedIndex].text;
-                const subjectId = subjectSelect.value;
-
-                // Stash in session storage for test_maker.html to pick up
-                sessionStorage.setItem("test-name", titleInput);
-                sessionStorage.setItem("subject", subjectName);
-                sessionStorage.setItem("subject-id", subjectId);
-
-                // Redirect to test maker with params
-                window.location.href = `/test_maker`;
-            });
-        }
-
-        try {
-            const response = await fetch("api/user/current");
-            if (!response.ok) {
-                throw new Error()
-            }
-            const result = await response.json();
-            console.log(result);
-            document.querySelector(".user-name").innerText = result.username;
-            document.querySelector(".user-role").innerText = result.role.toLowerCase();
-        } catch (error) {
-            console.error(error.message);
-        }
-    });
-</script>
+<script th:src="@{/dist/test_display_manager.js}"></script>
 </body>
 </html>

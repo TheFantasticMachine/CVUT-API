@@ -4,7 +4,6 @@ import com.testgen.restapi.api.model.SavedTest;
 import com.testgen.restapi.api.repo.SaveTestRepo;
 import com.testgen.restapi.api.repo.SettingsRepo;
 import com.testgen.restapi.api.repo.SubjectRepo;
-import org.hibernate.mapping.Collection;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SavedTestService {
@@ -61,5 +61,33 @@ public class SavedTestService {
         test.setTestData(dataJson.toString());
 
         return saveTestRepo.save(test);
+    }
+
+    public List<?> getTestSummariesByUserId (int userId) {
+        List<JSONObject> result = new ArrayList<>();
+        List<SavedTest> savedTests = saveTestRepo.findAllByUserId(userId);
+
+        for (SavedTest test : savedTests) {
+            JSONObject config = new JSONObject(test.getTestConfig());
+            JSONObject summary = new JSONObject();
+            summary.put("testId", test.getTestId());
+            summary.put("title", config.getString("title"));
+            summary.put("subjectName", config.getString("subject_name"));
+            summary.put("status", test.getStatus());
+            summary.put("dueDate", test.getDueDate());
+            summary.put("lastEditAt", test.getLastEditAt());
+            summary.put("variants", config.getJSONArray("variants"));
+            result.add(summary);
+        }
+
+        return result;
+    }
+
+    public Optional<SavedTest> getTestByID (int testId) {
+        Optional<SavedTest> savedTest = saveTestRepo.getSavedTestByTestId(testId);
+        if (savedTest.isPresent()) {
+            return savedTest;
+        }
+        return Optional.empty();
     }
 }
