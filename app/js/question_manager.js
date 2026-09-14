@@ -169,13 +169,11 @@ class TestVariant {
 
 class Subject {
 
-    constructor() {
-    this.id = sessionStorage.getItem("subject-id");
-    this.name = sessionStorage.getItem("subject")
+    constructor(id, name) {
+        this.id = id;
+        this.name = name;
+    }
 }
-}
-
-class Category {}
 
 // set event triggers
 
@@ -203,24 +201,41 @@ window.addEventListener("load", async (e) => {
         const test = await response.json();
         console.info(test);
 
-        testSubject = new Subject();
-        document.getElementById("display-subject-tag").innerText = testSubject.name;
-        document.getElementById("display-test-name").innerText = sessionStorage.getItem("test-name");
+        const testConfig = JSON.parse(test.testConfig);
+        const testData = JSON.parse(test.testData);
 
-        // only after that create the first variant
-        const first = new TestVariant();
-        allVariants.push(first);
-        const second = new TestVariant();
-        allVariants.push(second);
-        first.setActive();
+        testSubject = new Subject(test.subjectId, testConfig.subject_name);
+        document.getElementById("display-subject-tag").innerText = testSubject.name;
+        document.getElementById("display-test-name").innerText = testConfig.title;
+
+        for (const data in testData) {
+            const variant = new TestVariant();
+            testData[data].forEach(question => {
+                variant.addQuestion(question);
+            });
+            allVariants.push(variant);
+        }
+        allVariants[0].setActive();
+
+        // // only after that create the first variant
+        // const first = new TestVariant();
+        // allVariants.push(first);
+        // const second = new TestVariant();
+        // allVariants.push(second);
+        // first.setActive();
 
         console.log(allVariants);
-        console.log(first);
+        // console.log(first);
     }
     catch (error) {
         console.error(error.message);
     }
 });
+
+document.getElementById("btn-save").addEventListener("click", async (e) => {
+
+});
+
 
 // share data
 
