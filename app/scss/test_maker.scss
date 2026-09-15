@@ -286,11 +286,12 @@ dialog {
                 color: #14532d;
                 font-weight: 600;
               }
-            }
-            &.picked {
-              border: #AAEEFF 1px solid;
-              background-color: #C6F3FF;
-              color: #02B5E2;
+
+              &.picked {
+                border: #AAEEFF 1px solid;
+                background-color: #C6F3FF;
+                color: #02B5E2;
+              }
             }
           }
         }

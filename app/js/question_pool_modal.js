@@ -202,7 +202,7 @@ const QuestionPoolModal = (function () {
         // 2. Add question click handler
         const addBtn = card.querySelector(".btn-add-circle");
 
-        const answerRows = card.querySelector(".preview-answers-drawer").querySelectorAll(".answer-row");
+        const answerRows = Array.from(card.querySelectorAll('.answer-row'));
         const marked = answerRows.filter((row)=> !row.classList.contains("correct"));
 
         marked.forEach(row => {
@@ -234,13 +234,20 @@ const QuestionPoolModal = (function () {
                 let answers = [];
                 questionCopy.answers.forEach((anw) => {
                     for (const index in marked) {
-                        if (anw.answerText === marked[index].querySelector('.option-text').innerText) {
+                        if (anw.answerText === marked[index].querySelector('.option-text').innerText && answers.length < 3) {
                             answers.push(anw);
+                            console.warn(anw)
                         }
                     }
                 });
 
+                console.warn(answers)
+
+                answers.push(questionCopy.answers.filter((anw) => anw.correct)[0]);
+
                 answers = shuffleArray(answers);
+
+                console.warn(answers)
 
                 questionCopy.answers = answers;
                 // 4. Add to active variant
