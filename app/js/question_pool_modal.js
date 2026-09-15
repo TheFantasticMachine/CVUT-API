@@ -201,6 +201,27 @@ const QuestionPoolModal = (function () {
 
         // 2. Add question click handler
         const addBtn = card.querySelector(".btn-add-circle");
+
+        const answerRows = card.querySelector(".preview-answers-drawer").querySelectorAll(".answer-row");
+        const marked = answerRows.filter((row)=> !row.classList.contains("correct"));
+
+        marked.forEach(row => {
+            row.classList.toggle("picked")
+        });
+
+        answerRows.forEach(row => {
+            if (!row.classList.contains("correct")) {
+                row.addEventListener("click", () => {
+                    row.classList.toggle("picked");
+                    if ( answerRows.filter((row) => row.classList.contains("picked")).length !== 3 ) {
+                        addBtn.disable = true;
+                    }
+                    else {
+                        addBtn.disable = false;
+                    }
+                });
+            }
+        })
         addBtn.addEventListener("click", () => {
             if (window.TestManager) {
                 // 1. Deep-clone the question object so mutations don't leak
@@ -210,8 +231,18 @@ const QuestionPoolModal = (function () {
                 questionCopy.instanceId = crypto.randomUUID();
 
                 // 3. Shuffle choices immediately for this variant if desired
-                questionCopy.answers = shuffleArray(questionCopy.answers);
+                let answers = [];
+                questionCopy.answers.forEach((anw) => {
+                    for (const index in marked) {
+                        if (anw.answerText === marked[index].querySelector('.option-text').innerText) {
+                            answers.push(anw);
+                        }
+                    }
+                });
 
+                answers = shuffleArray(answers);
+
+                questionCopy.answers = answers;
                 // 4. Add to active variant
                 window.TestManager.addQuestionToActiveVariant(questionCopy); //
 
