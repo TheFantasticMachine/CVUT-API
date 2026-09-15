@@ -132,8 +132,7 @@ class TestVariant {
     }
 
     removeQuestion(question) {
-        let effected = this.questions.find(obj => obj.instanceId === parseInt( question.dataset.instanceId ));
-        this.questions = this.questions.filter((obj) => obj !== effected);
+        this.questions = this.questions.filter((q) => q.instanceId !== question.dataset.instanceId)
         console.warn(`deleted question in variant ${this.letter}`);
         this.render();
     }

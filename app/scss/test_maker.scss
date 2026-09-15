@@ -552,13 +552,17 @@ dialog::backdrop {
   flex: 1;
   background-color: #94a3b8; // Grey workspace background from wireframe
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 2.5rem;
   display: flex;
   justify-content: center;
+  align-items: flex-start;
 
   .a4-sheet {
     background-color: #ffffff;
     width: 210mm;
+    height: auto !important;
+    overflow: visible;
     min-height: 297mm;
     padding: 20mm;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
@@ -614,6 +618,7 @@ dialog::backdrop {
       border: 1px solid rgba(255, 255, 255, 0.3);
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
       padding: 10px;
+      margin-bottom: 15px;
 
       #flex-row-one {
         display: flex;
