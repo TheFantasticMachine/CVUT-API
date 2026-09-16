@@ -114,7 +114,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <span><i class="fa-regular fa-clock"></i> Modified 2h ago</span>
                 </div>
                 <div class="test-card-actions">
-                    <a th:href="@{/test_maker}" class="btn-edit-test">Continue Editing</a>
+                    <a th:href="@{/test_maker}" class="btn-edit-test"> 
+                      ${summary.status !== 'DRAFT' ? 'Open Test' : 'Continue Editing' }  
+                    </a>
                 </div>
             `;
             testGrid.appendChild(testCard);

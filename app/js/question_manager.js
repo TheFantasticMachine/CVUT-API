@@ -177,7 +177,9 @@ class TestVariant {
             tab.classList.add("variant-tab");
             tab.innerText = `variant ${variant.letter}`;
             tab.style.order = allVariants.indexOf(variant).toString();
-            tab.addEventListener("click", () => {variant.setActive()});
+            tab.addEventListener("click", () => {
+                variant.setActive()
+            });
             variant.tabElement = tab;
             document.getElementById("variant-tab-container").appendChild(variant.tabElement);
         });
@@ -185,6 +187,23 @@ class TestVariant {
         console.warn(allVariants);
 
         allVariants[0].setActive();
+
+        const button =  document.createElement("button");
+        button.classList.add('add-variant-btn');
+        button.id = 'add-variant-btn';
+        button.title = 'Add Variant';
+        button.innerText = '+';
+        button.addEventListener("click", (e) => {
+            try {
+                const variant = new TestVariant();
+                allVariants.push(variant);
+            }
+            catch (error) {
+                console.error(error.message);
+            }
+        });
+        document.getElementById("variant-tab-container").appendChild(button);
+
     }
 }
 
