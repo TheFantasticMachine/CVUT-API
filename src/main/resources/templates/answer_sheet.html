@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Answers</title>
+</head>
+<body>
+
+<header>
+  <h2 th:text="${title}" class="title"></h2>
+  <h4 th:text="${subject}" class="subject"></h4>
+</header>
+
+<div th:each="variant : ${variants}" class="variant">
+  <h3 th:text="${variant.letter}" class="letter"></h3>
+  <div th:each="answer, iterator ${variant.answers}" class="answer">
+    <span> <span th:text="${iterator.index}"></span>: <span th:text="${answer}"></span>, </span>
+  </div>
+</div>
+
+</body>
+</html>

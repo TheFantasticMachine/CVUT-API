@@ -1,13 +1,17 @@
 package com.testgen.restapi.api.controller;
 
+import com.testgen.restapi.api.model.SavedTest;
 import com.testgen.restapi.api.model.TestRequest;
+import com.testgen.restapi.api.service.SavedTestService;
 import com.testgen.restapi.core.managers.PdfManager;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
@@ -15,8 +19,7 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
-import java.util.Collections;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/pdf")
@@ -25,11 +28,44 @@ public class GeneratePdfController {
 
     private final SpringTemplateEngine templateEngine;
     private final PdfManager pdfManager;
+    private final SavedTestService savedTestService;
 
     @Autowired
-    public GeneratePdfController(SpringTemplateEngine templateEngine, PdfManager pdfManager) {
+    public GeneratePdfController(SpringTemplateEngine templateEngine, PdfManager pdfManager, SavedTestService savedTestService) {
         this.templateEngine = templateEngine;
         this.pdfManager = pdfManager;
+        this.savedTestService = savedTestService;
+    }
+
+    public record VariantResult (
+            String letter,
+            List<String> answers
+    ){}
+
+    @PostMapping("/anwsers/{id}")
+    public String generateAnswerSheet(@PathVariable Integer test_id, Model model) {
+        // 1) get data
+        Optional<SavedTest> savedTest = savedTestService.getTestByID(test_id);
+        if (savedTest.isEmpty()) {
+            return null;
+        }
+        SavedTest test = savedTest.get();
+        JSONObject config = new JSONObject(test.getTestConfig());
+        JSONObject data = new JSONObject(test.getTestData());
+
+        // 2) evaluate data
+        List<VariantResult> variants = new ArrayList<>();
+        for (String letter : (List<String>) config.get("variants")) {
+            List<JSONObject> question = (List<JSONObject>) data.get(letter);
+
+            VariantResult variant = new VariantResult(letter, null);
+        }
+
+        // 3) set to pdf
+        model.addAttribute("subject", config.getString("subject_name"));
+        model.addAttribute("title", config.getString("title"));
+
+        return "answer_sheet";
     }
 
     @PostMapping(value = {"/generate", ""}, consumes = MediaType.APPLICATION_JSON_VALUE)

@@ -231,7 +231,6 @@ document.getElementById("add-variant-btn").addEventListener("click", (e) => {
 });
 
 // create variant (on load) if new test
-// ! for now created by default doesnt check for new test
 window.addEventListener("load", async (e) => {
     try {
         const testID = sessionStorage.getItem("current_test_id");
@@ -261,6 +260,9 @@ window.addEventListener("load", async (e) => {
             allVariants.push(variant);
         }
         allVariants[0].setActive();
+
+        window.TestManager.testData.data = testData;
+        window.TestManager.testConfig = testConfig;
 
         document.dispatchEvent(new CustomEvent("testSaveLoaded", {
             detail: { subjectId: test.subjectId }
@@ -313,8 +315,11 @@ document.getElementById("btn-delete-variant").addEventListener("click", (e) => {
 window.TestManager = {
     testData: {
         title: null,
-        subjectId: null
+        subjectId: null,
+        data: null
     },
+
+    testConfig: null,
 
     getActiveVariant: function () {
         let active = null;

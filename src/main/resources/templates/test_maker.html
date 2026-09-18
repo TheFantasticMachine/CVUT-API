@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test Maker - Generator</title>
     <link rel="stylesheet" th:href="@{/dist/test_maker.css}">
-    <link rel="stylesheet" th:href="@{dist/pdf-template.css}">
+    <link rel="stylesheet" th:href="@{/dist/pdf-template.css}">
+    <link rel="stylesheet" th:href="@{/dist/test_maker_modals.css}">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,6 +15,20 @@
 
 </head>
 <body>
+
+<dialog id="settings-popup-wrapper">
+    <div class="modal-header">
+        <i class="fa-solid fa-gear"></i>
+        <h3>Settings</h3>
+        <button class="btn-close">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form action="#" class="settings-form"></form>
+    </div>
+    <div class="modal-footer"></div>
+</dialog>
 
 <dialog id="question-popup-wrapper">
     <div class="excluded">
@@ -26,8 +41,6 @@
             <select id="pool-category-filter" class="add-question-category"></select>
             <input id="pool-search-input"  type="text" name="search" placeholder="question" />
         </form>
-
-
 
         <div class="content" id="add-question-popup-content">
             <div class="question-pool-card" data-question-id="1">
@@ -124,6 +137,10 @@
             <button class="action-btn export-btn" id="btn-export-pdf">
                 <i class="fa-solid fa-file-pdf"></i> Export PDF
             </button>
+
+            <button style="background-color: #02CCFF;" class="action-btn export-btn" id="btn-export-json">
+                <i class="fa-solid fa-file-export"></i> Export Test to JSON
+            </button>
         </div>
     </aside>
 
@@ -210,11 +227,10 @@
 
 </div>
 
-<!--<script defer th:src="@{/dist/question_fetch.js}"></script>-->
-<!--<script defer th:src="@{/dist/preview_manager.js}"></script>-->
 <script defer th:src="@{/dist/send_test.js}"></script>
 <script defer th:src="@{/dist/question_manager.js}"></script>
 <script defer th:src="@{/dist/question_pool_modal.js}"></script>
+<script defer th:src="@{/dist/test_maker_settings_modal.js}"></script>
 
 </body>
 </html>
