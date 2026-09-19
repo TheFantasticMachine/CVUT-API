@@ -1,286 +1,149 @@
 @use "sass:list";
 
-// variables
-$color-set-vhs-dream: #ff7ac7, #ffd5ff, #7bf2ff, #7d7bff, #1b1135, #00ffbf, #ff2975, #8d13ff, #00f0ff, #050816;
-$color-set-pastelle: #fff4c7, #ffd4c2, #d4f6ff, #e1d4ff, #90c2ff, #f3f4ff, #ffd7ef, #d2f2ff, #c9d6ff, #a3a3c2, #ffd1dc, #ffe8a3, #c5f5ff, #c9c0ff, #8fd3c8;
+// palettes
+$base-palette: [ #E8EEEE, #1EEBC9, #DAA1E5, #139983, #881C9E, #03322A ];
+$test-palette: [ #EFFCFF, #81EFD7, #02CCFF, #26AF91, #0D647A, #06322B ];
 
-$folder-color: #e2e8f0;        // Front folder face
-$folder-hover: #cbd5e1;
-$folder-edge: #94a3b8;
+$draft: #A3CFFF;
+$canceled: #FF745B;
+$finished: #87C95E;
+
+
+// sizes
+$navbar-height: 40px;
 
 * {
   margin: 0;
   box-sizing: border-box;
 }
 
-body {
-  background-color: black;
+.fa-star {
+  color:#FFDC00;
+}
 
+body {
   width: 100vw;
   height: 100vh;
+  font-family: "Poppins", sans-serif;
 
-  display: grid;
-  grid-template-areas: "aside main";
-  grid-template-rows: 1fr;
-  grid-template-columns: 1fr 4fr;
-
-  aside {
-    display: grid;
-    grid-area: aside;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 9fr;
-    grid-template-areas:
-          "user"
-          "action-menu";
-
-    background-color: list.nth($color-set-vhs-dream, 1);
-
-    // -- user profile
-    #user-profile-wrapper {
-      grid-area: user;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      column-gap: 15px;
-      padding: 20px;
-
-      background-color: list.nth($color-set-pastelle, 1);
-
-      .user-icon-wrapper {
-        border-radius: 100%;
-        aspect-ratio: 1 / 1;
-        width: 60px;
-        padding: 5px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: blueviolet;
-
-        i {
-          font-size: 40px;
-        }
-      }
-    }
-
-    // -- actions on side menu
-    #action-menu-wrapper {
-      grid-area: action-menu;
-
-      background-color: list.nth($color-set-pastelle, 2);
-
-      border-radius: 0 120px 0 0;
-      border: 2px solid list.nth($color-set-pastelle, 3);
-    }
+  .modals{
+    display: none;
   }
 
-  main {
-    grid-area: main;
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 3fr;
-    grid-template-areas: 'tests' 'questions';
-    row-gap: 20px;
+  nav {
+    width: 100%;
+    height: $navbar-height;
+    background-color: list.nth($base-palette, 1);
+    border-bottom: 1px solid black;
+  }
 
-    background-color: list.nth($color-set-vhs-dream, 4);
+  .content {
+    width: 100%;
+    height: calc(100% - $navbar-height);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 
-    padding: 64px 64px 0 64px;
+    main {
+      width: calc((100%/3)*2);
+      height: 100%;
+      background-color: list.nth($base-palette, 2);
 
-    .folder-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.75rem;
-      padding-top: 22px; // Extra top space so tab isn't clipped
-    }
-
-    .folder-card {
-      position: relative;
-
-      // 📐 Proportions Fix: Locks width & height to a compact folder shape
-      width: 230px;
-      height: 130px;
-
-      background-color: $folder-color;
-      border-radius: 0 12px 12px 12px; // Top-left corner flat for tab connection
-      padding: 1rem;
-      box-sizing: border-box;
-
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-
-      // 📂 Wireframe 3D Right Shadow Edge
-      border-right: 7px solid $folder-edge;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-      cursor: pointer;
-      transition: transform 0.2s ease, background-color 0.2s ease;
-
-      // 🏷️ Slanted Folder Tab (Matching Wireframe!)
-      &::before {
-        content: '';
-        position: absolute;
-        top: -18px;
-        left: 0;
-        width: 110px;
-        height: 19px;
-        background-color: $folder-color;
-        border-radius: 6px 6px 0 0;
-
-        // Creates the authentic diagonal tab cut on the right side
-        clip-path: polygon(0 0, 80% 0, 100% 100%, 0 100%);
-        transition: background-color 0.2s ease;
-      }
-
-      // Hover Effect
-      &:hover {
-        transform: translateY(-3px);
-        background-color: $folder-hover;
-
-        &::before {
-          background-color: $folder-hover;
-        }
-      }
-
-      .folder-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-
-        .folder-title {
-          font-size: 0.9rem;
-          font-weight: 700;
-          color: #0f172a;
-          line-height: 1.3;
-          padding-right: 0.25rem;
-
-          // Truncate long titles with ellipsis so they don't break folder height
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-
-        .menu-btn {
-          background: none;
-          border: none;
-          font-size: 1.1rem;
-          color: #64748b;
-          cursor: pointer;
-          padding: 0;
-          line-height: 1;
-
-          &:hover {
-            color: #0f172a;
-          }
-        }
-      }
-
-      .folder-body {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        .question-count {
-          font-size: 0.75rem;
-          color: #475569;
-          font-weight: 600;
-        }
-
-        .status-badge {
-          font-size: 0.68rem;
-          font-weight: 700;
-          padding: 0.2rem 0.5rem;
-          border-radius: 10px;
-
-          &.draft {
-            background-color: #ffffff;
-            color: #475569;
-          }
-
-          &.active {
-            background-color: #dbeafe;
-            color: #1d4ed8;
-          }
-        }
-      }
-    }
-
-    #question-wrapper {
-
-      grid-area: questions;
-      background-color: list.nth($color-set-pastelle, 7);
-
-      #question-upper {
-
+      .tests-files-wrapper {
         display: flex;
         flex-direction: row;
-        align-items: center;
-        column-gap: 10px;
+        column-gap: 20px;
+        padding: 20px;
+        .test  {
+          background-color: grey;
+          font-weight: 700;
+          height: 250px;
+          width: 200px;
 
-        .header {
-          font-weight: 900;
-          font-size: 2rem;
-        }
+          &.draft {
+            background-color: $draft;
+          }
 
-        #new-question-button {
-          padding: 5px;
-          border: none;
+          &.finished {
+            background-color: $finished;
+            color: white;
+          }
+
+          &.canceled {
+            background-color: $canceled;
+            color: white;
+          }
+
         }
       }
 
-      #all-subjects-wrapper {
-        border: blueviolet 2px solid;
 
-        .subject-wrapper {
+      .variable-display-wrapper {
+        background-color: list.nth($base-palette, 4);
+        overflow-y: auto;
+        overflow-x: hidden;
 
-          .subject-showcase {
+        &.test {
+          padding: 20px;
+
+          header {
             display: flex;
             flex-direction: row;
+            justify-content: space-between;
             align-items: center;
-            column-gap: 10px;
 
-            background-color: #A9A9A9;
-
-            height: 60px;
-            width: 100%;
-            padding: 7px 4px;
-
-            .subject-icon {
-
-              aspect-ratio: 1 / 1;
-              width: 40px;
-              border-radius: 5px;
-              background-color: blueviolet;
+            span {
+              font-size: 25px;
+              font-weight: 700;
             }
+
           }
 
-          .subject-children {
-
+          .content {
             display: flex;
-            row-gap: 10px;
-            justify-content: center;
-            align-items: end;
             flex-direction: column;
+            align-items: center;
+            justify-content: start;
 
-            padding: 10px 0;
-
-            .category-wrapper {
+            .test-row {
               display: flex;
               flex-direction: row;
               align-items: center;
-              column-gap: 10px;
+              justify-content: center;
+              width: 100%;
+              height: 75px;
+              padding: 0 10px;
 
-              background-color: #A9A9A9;
+              .flex-start  {
+                width: 25%;
 
-              height: 60px;
-              width: 90%;
-              padding: 7px 4px;
+                .test-status {
+                  border-radius: 25px;
+                  padding: 5px 10px;
 
-              .category-icon {
+                  &.draft {
+                    background-color: $draft;
+                  }
 
-                aspect-ratio: 1 / 1;
-                width: 40px;
-                border-radius: 5px;
-                background-color: blueviolet;
+                  &.finished {
+                    background-color: $finished;
+                    color: white;
+                  }
+
+                  &.canceled {
+                    background-color: $canceled;
+                    color: white;
+                  }
+                }
+              }
+
+              .flex-middle {
+                width: 65%;
+              }
+
+              .flex-end {
+                width: 10%;
               }
             }
           }
@@ -288,5 +151,25 @@ body {
       }
     }
 
+    aside {
+      width: calc((100%/3)*1);
+      height: 100%;
+      background-color: list.nth($base-palette, 3);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      hr {
+        width: 80%;
+      }
+
+      .subjects-display-wrapper {
+        .subject {
+          border-radius: 25px;
+        }
+      }
+    }
   }
 }

@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
                 // Redirect on success
-                window.location.href = "/main";
+                window.location.href = "/main2";
 
             } catch (err) {
                 showError(err.message);
