@@ -34,6 +34,16 @@ public class IndexController {
         return "main";
     }
 
+    @GetMapping("/main2")
+    public String main2Page() {
+//        if (session == null || session.getAttribute("currentUser") == null) {
+//            return "redirect:/login";
+//        }
+//        // Pass subjects into template so the "New Test" modal can list them dynamically
+//        model.addAttribute("subjects", Globals.subjects);
+        return "main2";
+    }
+
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
         // 1. Fetch current session without creating a new one if missing

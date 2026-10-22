@@ -18,6 +18,10 @@ public class Category {
     @Column(name = "subject_id", nullable = false)
     private Integer subjectID;
 
+    @Column(name = "style_data", columnDefinition = "LONGTEXT", nullable = true)
+    private String styleData;
+
+
     public Category(String categoryName, int categoryID, int subjectID) {
         this.categoryName = categoryName;
         this.categoryID = categoryID;

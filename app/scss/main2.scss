@@ -1,0 +1,545 @@
+// ==========================================
+// Dashboard Theme & Component Styling
+// ==========================================
+
+$bg-page: #f8fafc;
+$card-bg: #ffffff;
+$primary: #4f46e5;
+$primary-hover: #4338ca;
+$text-main: #0f172a;
+$text-muted: #64748b;
+$border-color: #e2e8f0;
+$radius: 16px;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body.dashboard-body {
+  background-color: $bg-page;
+  color: $text-main;
+  min-height: 100vh;
+}
+
+// ------------------------------------------
+// Navigation Bar
+// ------------------------------------------
+.dashboard-navbar {
+  background-color: #ffffff;
+  border-bottom: 1px solid $border-color;
+  padding: 0.85rem 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    .brand-icon {
+      font-size: 1.5rem;
+      color: $primary;
+    }
+
+    .brand-name {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+  }
+
+  .nav-user-profile {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+
+    .user-meta {
+      display: flex;
+      flex-direction: column;
+      text-align: right;
+
+      .user-name {
+        font-weight: 700;
+        font-size: 0.9rem;
+      }
+      .user-role {
+        font-size: 0.75rem;
+        color: $text-muted;
+      }
+    }
+
+    .btn-logout {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background-color: #f1f5f9;
+      color: $text-muted;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background-color: #fee2e2;
+        color: #ef4444;
+      }
+    }
+  }
+}
+
+// ------------------------------------------
+// Container & Layout
+// ------------------------------------------
+.dashboard-container {
+  max-width: 1200px;
+  margin: 2.5rem auto;
+  padding: 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+// ------------------------------------------
+// Overview Hero Banner
+// ------------------------------------------
+.overview-banner {
+  padding: 2.2rem 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+
+  .subject {
+    padding: 10px;
+    border-radius: $radius;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 5px 10px 20px rgb(0 0 0 / 0.5);
+
+    .first-row {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: end;
+      align-items: center;
+      column-gap: 15px;
+      margin-bottom: 15px;
+
+      .icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 5px;
+        border-radius: 15px;
+        color: white;
+        background-color: mediumpurple;
+        font-weight: 900;
+        font-size: 35px;
+        flex: 1 1 25%;
+        box-shadow: 2px 2px 5px black;
+        aspect-ratio: 1 / 1;
+      }
+      .subject-name {
+        flex: 1 1 75%;
+        font-weight: 700;
+        font-size: 30px;
+      }
+    }
+
+    .second-row {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 10px;
+      width: 95%;
+      text-align: center ;
+
+      .admin-name {
+        flex: 1 1 100%;
+        background-color: rgb(12 205 239 / 0.5);
+      }
+      .categories {
+        background-color: rgb(255 140 0 / 0.75);
+      }
+      .questions {
+        background-color: rgb(149 245 4 / 0.5);
+      }
+      span {
+        flex: 1 1 34%;
+
+        color: white;
+        font-weight: 500;
+        padding: 1px;
+        border-radius: 15px;
+      }
+    }
+    .subject:hover {
+      background-color: rgb(128 128 128 / 0.75);
+    }
+  }
+
+  .quick-stats-group {
+    display: flex;
+    gap: 1.5rem;
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 0.8rem 1.4rem;
+      text-align: center;
+      min-width: 110px;
+
+      .stat-number {
+        display: block;
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #38bdf8;
+      }
+
+      .stat-label {
+        font-size: 0.75rem;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+    }
+  }
+}
+
+// ------------------------------------------
+// Quick Tool Action Cards
+// ------------------------------------------
+.tools-grid {
+  display: grid;
+  //grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+
+  .tool-card {
+    background-color: $card-bg;
+    border: 1px solid $border-color;
+    border-radius: $radius;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+      border-color: #cbd5e1;
+    }
+
+    .tool-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background-color: #e0e7ff;
+      color: $primary;
+      font-size: 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &.q-icon {
+        background-color: #fef3c7;
+        color: #d97706;
+      }
+    }
+
+    .tool-info {
+      flex: 1;
+
+      h3 {
+        font-size: 1.05rem;
+        font-weight: 700;
+        margin-bottom: 0.2rem;
+      }
+
+      p {
+        font-size: 0.85rem;
+        color: $text-muted;
+        line-height: 1.35;
+      }
+    }
+
+    .btn-tool-action {
+      padding: 0.55rem 1rem;
+      background-color: $primary;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+
+      &.secondary {
+        background-color: #f1f5f9;
+        color: $text-main;
+      }
+    }
+  }
+}
+
+// ------------------------------------------
+// Tests & Drafts Section
+// ------------------------------------------
+.tests-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h2 {
+      font-size: 1.35rem;
+      font-weight: 800;
+    }
+
+    .section-subtitle {
+      font-size: 0.85rem;
+      color: $text-muted;
+    }
+
+    .btn-primary-add {
+      background-color: $primary;
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      padding: 0.65rem 1.25rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: background-color 0.2s ease, transform 0.1s ease;
+
+      &:hover {
+        background-color: $primary-hover;
+        transform: translateY(-1px);
+      }
+    }
+  }
+
+  .tests-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.25rem;
+
+    .test-item-card {
+      background-color: $card-bg;
+      border: 1px solid $border-color;
+      border-radius: $radius;
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+
+      .test-card-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .subject-badge {
+          font-size: 0.75rem;
+          font-weight: 700;
+          padding: 0.25rem 0.65rem;
+          border-radius: 6px;
+          background-color: #e0e7ff;
+          color: #4338ca;
+
+          &.os {
+            background-color: #e0f2fe;
+            color: #0369a1;
+          }
+        }
+
+        .test-status {
+          font-size: 0.75rem;
+          font-weight: 700;
+          padding: 0.2rem 0.5rem;
+          border-radius: 6px;
+
+          &.draft {
+            background-color: #f1f5f9;
+            color: #64748b;
+          }
+          &.complete {
+            background-color: #dcfce7;
+            color: #15803d;
+          }
+        }
+      }
+
+      .test-title {
+        font-size: 1.05rem;
+        font-weight: 700;
+        line-height: 1.4;
+      }
+
+      .test-meta-info {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.8rem;
+        color: $text-muted;
+      }
+
+      .test-card-actions {
+        padding-top: 0.5rem;
+        border-top: 1px solid $border-color;
+
+        .btn-edit-test {
+          display: block;
+          text-align: center;
+          background-color: #f8fafc;
+          border: 1px solid $border-color;
+          color: $text-main;
+          padding: 0.5rem;
+          border-radius: 8px;
+          text-decoration: none;
+          font-size: 0.85rem;
+          font-weight: 700;
+          transition: all 0.15s ease;
+
+          &:hover {
+            background-color: #f1f5f9;
+            border-color: #cbd5e1;
+          }
+        }
+      }
+    }
+  }
+}
+
+// ------------------------------------------
+// Modal Popup Dialog
+// ------------------------------------------
+dialog.modal-dialog {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  border: none;
+  border-radius: $radius;
+  padding: 0;
+  background-color: transparent;
+  max-width: 480px;
+  width: 90vw;
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25);
+
+  &::backdrop {
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(5px);
+  }
+
+  .dialog-box {
+    background: #ffffff;
+    border-radius: $radius;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    .dialog-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      h3 {
+        font-size: 1.25rem;
+        font-weight: 800;
+      }
+
+      .btn-close-modal {
+        background: transparent;
+        border: none;
+        font-size: 1.1rem;
+        color: $text-muted;
+        cursor: pointer;
+
+        &:hover { color: $text-main; }
+      }
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+
+        label {
+          font-size: 0.85rem;
+          font-weight: 700;
+          color: #334155;
+        }
+
+        input, select {
+          padding: 0.75rem 1rem;
+          border-radius: 10px;
+          border: 1px solid $border-color;
+          background-color: #f8fafc;
+          font-size: 0.95rem;
+          color: $text-main;
+          outline: none;
+
+          &:focus {
+            background-color: #ffffff;
+            border-color: $primary;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+          }
+        }
+      }
+
+      .dialog-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.75rem;
+        margin-top: 0.5rem;
+
+        button {
+          padding: 0.65rem 1.25rem;
+          border-radius: 10px;
+          font-size: 0.9rem;
+          font-weight: 700;
+          cursor: pointer;
+          border: none;
+
+          &.btn-modal-cancel {
+            background-color: #f1f5f9;
+            color: $text-main;
+            &:hover { background-color: #e2e8f0; }
+          }
+
+          &.btn-modal-confirm {
+            background-color: $primary;
+            color: #ffffff;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            &:hover { background-color: $primary-hover; }
+          }
+        }
+      }
+    }
+  }
+}

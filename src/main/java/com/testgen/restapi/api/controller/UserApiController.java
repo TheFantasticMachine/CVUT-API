@@ -1,6 +1,7 @@
 package com.testgen.restapi.api.controller;
 
 import com.testgen.restapi.api.model.AuthRequest;
+import com.testgen.restapi.api.model.Question;
 import com.testgen.restapi.api.model.User;
 import com.testgen.restapi.api.service.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -33,6 +35,23 @@ public class UserApiController {
         }
 
         return ResponseEntity.ok(session.getAttribute("currentUser"));
+    }
+
+    @GetMapping("/by-id")
+    public ResponseEntity<?> getUserById(@RequestParam(required = false, defaultValue = "1") Integer userId, HttpSession session) {
+        if (session == null || session.getAttribute("currentUser") == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of(
+                    "error", "Session is UNAUTHORIZED"
+            ));
+        }
+
+        User user = userService.findById(userId);
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of(
+                    "error", "User not found"
+            ));
+        }
+        return ResponseEntity.ok(user);
     }
 
     // POST /api/user/register

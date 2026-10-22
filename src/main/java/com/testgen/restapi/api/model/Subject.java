@@ -19,6 +19,9 @@ public class Subject {
     @Column(name = "admin_id")
     private Integer adminID;
 
+    @Column(name = "style_data", columnDefinition = "LONGTEXT", nullable = true)
+    private String styleData;
+
     @OneToMany
     @JoinColumn(name = "subject_id")
     private List<Category> categories = new ArrayList<>();
@@ -55,5 +58,13 @@ public class Subject {
 
     public void setCategories(ArrayList<Category> categories) {
         this.categories = categories;
+    }
+
+    public String getStyleData() {
+        return styleData;
+    }
+
+    public void setStyleData(String styleData) {
+        this.styleData = styleData;
     }
 }

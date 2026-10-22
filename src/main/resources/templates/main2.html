@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Test Generator</title>
+    <link rel="stylesheet" th:href="@{/dist/main2.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="dashboard-body">
+
+<!-- Top Navigation Header -->
+<header class="dashboard-navbar">
+    <div class="nav-brand">
+        <i class="fa-solid fa-graduation-cap brand-icon"></i>
+        <span class="brand-name">TestGen</span>
+    </div>
+    <div class="nav-user-profile">
+        <div class="user-meta">
+            <span class="user-name">Teacher</span>
+            <span class="user-role">Administrator</span>
+        </div>
+        <a th:href="@{/logout}" class="btn-logout" title="Sign Out" onclick="sessionStorage.clear();">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </a>
+    </div>
+</header>
+
+<main class="dashboard-container">
+
+    <!-- Welcome Banner / Quick Stats -->
+    <section class="overview-banner">
+<!--        <div class="banner-text">-->
+<!--            <h1>Workspace Overview</h1>-->
+<!--            <p>Build, manage, and export multi-variant exams with automated scoring.</p>-->
+<!--        </div>-->
+<!--        <div class="quick-stats-group">-->
+<!--            <div class="stat-card">-->
+<!--                <span class="stat-number">4</span>-->
+<!--                <span class="stat-label">Subjects</span>-->
+<!--            </div>-->
+<!--            <div class="stat-card">-->
+<!--                <span class="stat-number">100+</span>-->
+<!--                <span class="stat-label">Question Pool</span>-->
+<!--            </div>-->
+<!--        </div>-->
+    </section>
+
+    <!-- Quick Access Action Cards -->
+    <section class="tools-grid">
+        <div class="tool-card launch-test-card" id="card-launch-test">
+            <div class="tool-icon"><i class="fa-solid fa-file-circle-plus"></i></div>
+            <div class="tool-info">
+                <h3>Create New Exam</h3>
+                <p>Build multi-variant test papers from approved questions.</p>
+            </div>
+            <button type="button" class="btn-tool-action open-new-test-btn">New Test</button>
+        </div>
+
+        <a th:href="@{/question_maker}" class="tool-card link-card">
+            <div class="tool-icon q-icon"><i class="fa-solid fa-pen-ruler"></i></div>
+            <div class="tool-info">
+                <h3>Question Maker</h3>
+                <p>Author and submit questions to the pool for approval.</p>
+            </div>
+            <span class="btn-tool-action secondary">Open Builder</span>
+        </a>
+
+<!--        <a th:href="@{/admin/approval}" class="tool-card link-card">-->
+<!--            <div class="tool-icon q-icon"><i class="fa-solid fa-pen-ruler"></i></div>-->
+<!--            <div class="tool-info">-->
+<!--                <h3>Question Approval</h3>-->
+<!--                <p>Author and submit questions to the pool for approval.</p>-->
+<!--            </div>-->
+<!--            <span class="btn-tool-action secondary">Open Builder</span>-->
+<!--        </a>-->
+    </section>
+
+    <!-- Tests Display Section -->
+    <section class="tests-section">
+        <div class="section-header">
+            <div>
+                <h2>Tests & Drafts</h2>
+                <p class="section-subtitle">Recent exam papers and in-progress builds.</p>
+            </div>
+            <button type="button" class="btn-primary-add open-new-test-btn" id="btn-open-new-test">
+                <i class="fa-solid fa-plus"></i>
+                <span>New Test</span>
+            </button>
+        </div>
+
+        <!-- Test Cards Grid -->
+        <div class="tests-grid">
+<!--            <article class="test-item-card">-->
+<!--                <div class="test-card-top">-->
+<!--                    <span class="subject-badge math">Mathematics</span>-->
+<!--                    <span class="test-status draft">Draft</span>-->
+<!--                </div>-->
+<!--                <h3 class="test-title">Calculus & Linear Algebra Midterm</h3>-->
+<!--                <div class="test-meta-info">-->
+<!--                    <span><i class="fa-solid fa-layer-group"></i> 3 Variants (A, B, C)</span>-->
+<!--                    <span><i class="fa-regular fa-clock"></i> Modified 2h ago</span>-->
+<!--                </div>-->
+<!--                <div class="test-card-actions">-->
+<!--                    <a th:href="@{/test_maker}" class="btn-edit-test">Continue Editing</a>-->
+<!--                </div>-->
+<!--            </article>-->
+
+<!--            <article class="test-item-card">-->
+<!--                <div class="test-card-top">-->
+<!--                    <span class="subject-badge os">Operating Systems</span>-->
+<!--                    <span class="test-status complete">Ready</span>-->
+<!--                </div>-->
+<!--                <h3 class="test-title">Processes, Threads & Memory Exam</h3>-->
+<!--                <div class="test-meta-info">-->
+<!--                    <span><i class="fa-solid fa-layer-group"></i> 2 Variants (A, B)</span>-->
+<!--                    <span><i class="fa-regular fa-clock"></i> Yesterday</span>-->
+<!--                </div>-->
+<!--                <div class="test-card-actions">-->
+<!--                    <a th:href="@{/test_maker}" class="btn-edit-test">Open Test</a>-->
+<!--                </div>-->
+<!--            </article>-->
+
+        </div>
+    </section>
+
+</main>
+
+<!-- Modal: Show questions from subject -->
+<dialog class="modal-dialog" id="show-questions">
+    <h1 class="subject-name">subject</h1>
+    <div class="categories"></div>
+    <div class="question-display"></div>
+</dialog>
+
+<!-- Modal: New Test Creation Popup -->
+<dialog class="modal-dialog" id="new-test-dialog">
+    <div class="dialog-box">
+        <div class="dialog-header">
+            <h3>Start New Test</h3>
+            <button type="button" class="btn-close-modal" id="btn-close-dialog">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <form id="form-new-test" method="dialog">
+            <div class="form-group">
+                <label for="new-test-title">Test Name</label>
+                <input type="text" id="new-test-title" placeholder="e.g. Operating Systems Final Exam" required>
+            </div>
+
+            <div class="form-group">
+                <label for="new-test-subject">Subject</label>
+                <select id="new-test-subject" required>
+                    <option value="" disabled selected>Select Subject...</option>
+                    <option th:each="sub : ${subjects}" th:value="${sub.subjectID}" th:text="${sub.subjectName}">Subject</option>
+                    <!-- Fallback options if subjects list isn't ready in model -->
+                    <option th:if="${#lists.isEmpty(subjects)}" value="1">Mathematics</option>
+                    <option th:if="${#lists.isEmpty(subjects)}" value="2">Operating Systems</option>
+                    <option th:if="${#lists.isEmpty(subjects)}" value="3">Computer Networks</option>
+                    <option th:if="${#lists.isEmpty(subjects)}" value="4">Java Programming</option>
+                </select>
+            </div>
+
+            <div class="dialog-actions">
+                <button type="button" class="btn-modal-cancel" id="btn-cancel-dialog">Cancel</button>
+                <button type="submit" class="btn-modal-confirm" id="btn-confirm-test">
+                    Create & Open <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</dialog>
+
+<script th:src="@{/dist/test_display_manager.js}"></script>
+</body>
+</html>
