@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="cs">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In - Test Generator</title>
+    <title>Přihlášení - Generátor testů</title>
     <link rel="stylesheet" th:href="@{/dist/login.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
@@ -12,18 +12,19 @@
     <!-- Brand Header -->
     <header class="auth-header">
         <div class="brand-badge">
-            <i class="fa-solid fa-graduation-cap"></i>
+<!--            <i class="fa-solid fa-graduation-cap"></i>-->
+            <img  th:src="@{/dist/icon.png}" class="brand-icon" alt="logo">
         </div>
         <h1>TestGen</h1>
-        <p class="auth-subtitle">Teacher Test Maker & Question Bank</p>
+        <p class="auth-subtitle">Tvorba testů a banka otázek pro učitele</p>
     </header>
 
     <!-- Main Auth Card -->
     <div class="auth-card">
         <!-- Segmented Switcher Tabs -->
         <div class="auth-tabs" role="tablist">
-            <button type="button" class="tab-btn active" id="tab-login" role="tab">Sign In</button>
-            <button type="button" class="tab-btn" id="tab-register" role="tab">Register</button>
+            <button type="button" class="tab-btn active" id="tab-login" role="tab">Přihlášení</button>
+            <button type="button" class="tab-btn" id="tab-register" role="tab">Registrace</button>
         </div>
 
         <!-- Error Banner -->
@@ -35,30 +36,30 @@
         <!-- Auth Form -->
         <form id="auth-form" novalidate>
             <div class="input-group">
-                <label for="username">Username</label>
+                <label for="username">Uživatelské jméno</label>
                 <div class="input-field">
                     <i class="fa-regular fa-user field-icon"></i>
-                    <input type="text" id="username" name="username" placeholder="e.g. teacher_novak" required autocomplete="username">
+                    <input type="text" id="username" name="username" placeholder="např. ucitel_novak" required autocomplete="username">
                 </div>
             </div>
 
             <div class="input-group">
-                <label for="password">Password</label>
+                <label for="password">Heslo</label>
                 <div class="input-field">
                     <i class="fa-solid fa-lock field-icon"></i>
-                    <input type="password" id="password" name="password" placeholder="Enter password" required autocomplete="current-password">
+                    <input type="password" id="password" name="password" placeholder="Zadejte heslo" required autocomplete="current-password">
                 </div>
             </div>
 
             <button type="submit" id="btn-submit-auth" class="btn-auth-submit">
-                <span>Sign In</span>
+                <span>Přihlásit se</span>
                 <i class="fa-solid fa-arrow-right"></i>
             </button>
         </form>
     </div>
 
     <footer class="auth-footer">
-        <span>Secure Academic Portal</span> &bull; <span>v2.0 Alpha</span>
+        <span>Zabezpečený akademický portál</span> &bull; <span>v2.0 Alpha</span>
     </footer>
 </div>
 

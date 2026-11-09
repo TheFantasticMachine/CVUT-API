@@ -1,21 +1,104 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="cs" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Answers</title>
+    <meta charset="UTF-8" />
+    <title>Správné odpovědi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
+    <style>
+        @page {
+            size: A4;
+            margin: 15mm;
+        }
+        body {
+            font-family: "Poppins", Arial, sans-serif;
+            color: #0f172a;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            margin-bottom: 16px;
+        }
+        .header-top {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .header-sub {
+            font-size: 15px;
+            color: #334155;
+            margin-bottom: 8px;
+        }
+        hr {
+            border: none;
+            border-top: 1.5px solid #0f172a;
+            margin: 8px 0 16px 0;
+        }
+        .variant-block {
+            margin-bottom: 20px;
+        }
+        .variant-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        table.answers-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table.answers-table th,
+        table.answers-table td {
+            border: 1px solid #cbd5e1;
+            padding: 8px 10px;
+            text-align: left;
+            font-size: 13px;
+        }
+        table.answers-table th {
+            background-color: #f1f5f9;
+            font-weight: 700;
+        }
+        .col-num {
+            width: 50px;
+            font-weight: 700;
+            text-align: center;
+        }
+        .col-letter {
+            width: 70px;
+            font-weight: 700;
+            color: #15803d;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 
 <header>
-  <h2 th:text="${title}" class="title"></h2>
-  <h4 th:text="${subject}" class="subject"></h4>
+    <div class="header-top">Klíč správných odpovědí – <span th:text="${title}">Název testu</span></div>
+    <div class="header-sub">Předmět: <span th:text="${subject}">Předmět</span></div>
+    <hr />
 </header>
 
-<div th:each="variant : ${variants}" class="variant">
-  <h3 th:text="${variant.letter}" class="letter"></h3>
-  <div th:each="answer, iterator ${variant.answers}" class="answer">
-    <span> <span th:text="${iterator.index}"></span>: <span th:text="${answer}"></span>, </span>
-  </div>
+<div th:each="variant : ${variants}" class="variant-block">
+    <div class="variant-title">Varianta: <span th:text="${variant.letter}">A</span></div>
+    <table class="answers-table">
+        <thead>
+        <tr>
+            <th class="col-num">#</th>
+            <th>Otázka</th>
+            <th class="col-letter">Volba</th>
+            <th>Správná odpověď</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="ans : ${variant.answers}">
+            <td class="col-num" th:text="${ans.questionNumber} + '.'">1.</td>
+            <td th:text="${ans.assignment}">Zadání otázky</td>
+            <td class="col-letter" th:text="${ans.correctLetters}">A</td>
+            <td th:text="${ans.correctTexts}">Text správné odpovědi</td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 
 </body>

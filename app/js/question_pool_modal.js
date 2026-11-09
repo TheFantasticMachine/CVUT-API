@@ -1,12 +1,4 @@
-/*
-<div id="add-question-error" class="default-error">
-            <i class="fa-solid fa-school-circle-exclamation"></i>
-            <span>Please select the subject of the test before picking a question</span>
-        </div>
- */
-
 const QuestionPoolModal = (function () {
-    // Private vars
     let rawQuestions = [];
     let subjectID = null;
     let currentFilter = {
@@ -15,7 +7,6 @@ const QuestionPoolModal = (function () {
         hideAlreadyAdded: true
     };
 
-    // DOM Elements
     let dialogEl = null;
     let containerEl = null;
     let searchInputEl = null;
@@ -29,7 +20,6 @@ const QuestionPoolModal = (function () {
 
         if (!dialogEl || !containerEl) return;
 
-        // Instant search on typing
         if (searchInputEl) {
             searchInputEl.addEventListener("input", (e) => {
                 currentFilter.search = e.target.value.trim().toLowerCase();
@@ -37,7 +27,6 @@ const QuestionPoolModal = (function () {
             });
         }
 
-        // Category dropdown/tabs filter
         if (categorySelectEl) {
             categorySelectEl.addEventListener("change", (e) => {
                 currentFilter.categoryId = e.target.value;
@@ -61,71 +50,55 @@ const QuestionPoolModal = (function () {
                 `/api/question/by-subject-id?subjectId=${subjectID}`
             );
 
-            console.log("subject id" +  subjectID);
-
             if (!response.ok) {
-                throw new Error("failed to load questions");
+                throw new Error("Nepodařilo se načíst otázky");
             }
             rawQuestions = await response.json();
-            console.log(rawQuestions);
             populateCategoryFilter();
         }
         catch (error) {
             console.error(error.message);
-            containerEl.innerHTML = `<p class="error-msg">Could not load questions: ${err.message}</p>`;
+            containerEl.innerHTML = `<p class="error-msg">Nepodařilo se načíst otázky: ${error.message}</p>`;
         }
     }
 
     function populateCategoryFilter() {
         if (!categorySelectEl) return;
 
-        // Collect distinct category IDs from loaded questions
         const categoryIds = [...new Set(rawQuestions.map(q => q.categoryID).filter(Boolean))];
 
-        categorySelectEl.innerHTML = `<option value="ALL">All Categories</option>`;
+        categorySelectEl.innerHTML = `<option value="ALL">Všechny kategorie</option>`;
         categoryIds.forEach(id => {
-            categorySelectEl.innerHTML += `<option value="${id}">Category ${id}</option>`;
+            categorySelectEl.innerHTML += `<option value="${id}">Kategorie ${id}</option>`;
         });
 
-        // Reset filter to match the default option
         currentFilter.categoryId = "ALL";
     }
 
     function getFilteredQuestions() {
-        console.log("Current Filter State:", currentFilter);
-        console.log("Raw questions count:", rawQuestions.length);
-
         const usedIdsOnActiveVariant = window.TestManager
             ? window.TestManager.getActiveVariantQuestionIDs()
             : new Set();
 
-        console.log(usedIdsOnActiveVariant);
-
         return rawQuestions.filter(q => {
-            // Test Category
             if (currentFilter.categoryId && currentFilter.categoryId !== "ALL") {
                 if (String(q.categoryID) !== String(currentFilter.categoryId)) {
-                    console.log(`Q#${q.questionID} rejected by Category. Q has: ${q.categoryID}, Filter wants: ${currentFilter.categoryId}`);
                     return false;
                 }
             }
 
-            // Test Used in Active Variant
             if (currentFilter.hideAlreadyAdded && usedIdsOnActiveVariant.has(q.questionID)) {
-                console.log(`Q#${q.questionID} rejected: already in active variant`);
                 return false;
             }
 
-            // Test Search
             if (currentFilter.search) {
                 const assignmentMatch = q.assignment && q.assignment.toLowerCase().includes(currentFilter.search);
                 if (!assignmentMatch) {
-                    console.log(`Q#${q.questionID} rejected by Search`);
                     return false;
                 }
             }
 
-            return true; // Keep question
+            return true;
         });
     }
 
@@ -133,14 +106,11 @@ const QuestionPoolModal = (function () {
         const questionsToShow = getFilteredQuestions();
         containerEl.innerHTML = "";
 
-        console.log(getFilteredQuestions());
-
         if (questionsToShow.length === 0) {
-            containerEl.innerHTML = `<div class="empty-pool-state">No questions found matching your criteria.</div>`;
+            containerEl.innerHTML = `<div class="empty-pool-state">Nebyly nalezeny žádné otázky odpovídající zadaným kritériím.</div>`;
             return;
         }
 
-        // Fetch variants using each question across test (for the A, B, C dots)
         const variantUsageMap = window.TestManager
             ? window.TestManager.getQuestionVariantUsageMap()
             : {};
@@ -157,12 +127,10 @@ const QuestionPoolModal = (function () {
         card.className = "question-pool-card";
         card.dataset.questionId = q.questionID;
 
-        // Check if question is used in variants A, B, C
         const variantPills = window.TestManager.getAllVariantLetters().map(v =>
             `<span class="v-dot ${usedVariants.includes(v) ? 'active' : ''}">${v}</span>`
         ).join("");
 
-        // Format answers (correct answer highlighted first)
         const sortedAnswers = [...(q.answers || [])].sort((a, b) => (b.correct ? 1 : 0) - (a.correct ? 1 : 0));
         const answersHtml = sortedAnswers.map((ans, idx) => `
             <div class="answer-row ${ans.correct ? 'correct' : ''}">
@@ -173,17 +141,17 @@ const QuestionPoolModal = (function () {
         `).join("");
 
         card.innerHTML = `
-            <button type="button" class="btn-add-circle" title="Add to current variant">
+            <button type="button" class="btn-add-circle" title="Přidat do aktuální varianty">
                 <i class="fa-solid fa-plus"></i>
             </button>
             <div class="card-body">
                 <p class="question-assignment">${q.assignment}</p>
                 <div class="card-footer-meta">
-                    <span class="meta-tag category-tag">${q.categoryName || 'Category ' + q.categoryID}</span>
-                    <span class="meta-tag difficulty-tag">Diff: ${q.difficulty || 1}/10</span>
-                    <div class="variant-indicators" title="Used in variants">${variantPills}</div>
+                    <span class="meta-tag category-tag">${q.categoryName || 'Kategorie ' + q.categoryID}</span>
+                    <span class="meta-tag difficulty-tag">Obtížnost: ${q.difficulty || 1}/10</span>
+                    <div class="variant-indicators" title="Použito ve variantách">${variantPills}</div>
                     <button type="button" class="btn-toggle-answers">
-                        <span>Options</span>
+                        <span>Možnosti</span>
                         <i class="fa-solid fa-chevron-down"></i>
                     </button>
                 </div>
@@ -191,7 +159,6 @@ const QuestionPoolModal = (function () {
             </div>
         `;
 
-        // 1. Accordion preview toggle
         const toggleBtn = card.querySelector(".btn-toggle-answers");
         const drawer = card.querySelector(".preview-answers-drawer");
         toggleBtn.addEventListener("click", () => {
@@ -199,14 +166,13 @@ const QuestionPoolModal = (function () {
             drawer.classList.toggle("open");
         });
 
-        // 2. Add question click handler
         const addBtn = card.querySelector(".btn-add-circle");
 
         const answerRows = Array.from(card.querySelectorAll('.answer-row'));
         const marked = answerRows.filter((row)=> !row.classList.contains("correct"));
 
         marked.forEach(row => {
-            row.classList.toggle("picked")
+            row.classList.toggle("picked");
         });
 
         answerRows.forEach(row => {
@@ -221,40 +187,28 @@ const QuestionPoolModal = (function () {
                     }
                 });
             }
-        })
+        });
+
         addBtn.addEventListener("click", () => {
             if (window.TestManager) {
-                // 1. Deep-clone the question object so mutations don't leak
                 const questionCopy = structuredClone(q);
-
-                // 2. Assign a unique instance ID for this specific paper card
                 questionCopy.instanceId = crypto.randomUUID();
 
-                // 3. Shuffle choices immediately for this variant if desired
                 let answers = [];
                 questionCopy.answers.forEach((anw) => {
                     for (const index in marked) {
                         if (anw.answerText === marked[index].querySelector('.option-text').innerText && answers.length < 3) {
                             answers.push(anw);
-                            console.warn(anw)
                         }
                     }
                 });
 
-                console.warn(answers)
-
                 answers.push(questionCopy.answers.filter((anw) => anw.correct)[0]);
-
                 answers = shuffleArray(answers);
 
-                console.warn(answers)
-
                 questionCopy.answers = answers;
-                // 4. Add to active variant
-                window.TestManager.addQuestionToActiveVariant(questionCopy); //
-
-                // Re-render modal to dim or hide the question[cite: 13]
-                render(); //[cite: 13]
+                window.TestManager.addQuestionToActiveVariant(questionCopy);
+                render();
             }
         });
 
@@ -275,7 +229,6 @@ const QuestionPoolModal = (function () {
         init: init,
         open: function () {
             if (!dialogEl) return;
-            // Refresh list when opened so newly added questions disappear
             render();
             dialogEl.showModal();
         },
@@ -286,11 +239,8 @@ const QuestionPoolModal = (function () {
     };
 })();
 
-
 document.addEventListener("testSaveLoaded", (e) => {
     QuestionPoolModal.init();
-
-    // Load the questions when test_maker initializes
     QuestionPoolModal.loadQuestions(e.detail.subjectId);
 }, {once: true});
 

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="cs">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test Maker - Generator</title>
+    <title>Tvorba testu - TestGen</title>
     <link rel="stylesheet" th:href="@{/dist/test_maker.css}">
     <link rel="stylesheet" th:href="@{/dist/pdf-template.css}">
     <link rel="stylesheet" th:href="@{/dist/test_maker_modals.css}">
@@ -12,70 +12,48 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Stack+Sans+Notch:wght@200..700&display=swap" rel="stylesheet">
-
 </head>
 <body>
-
-<!--<dialog id="settings-popup-wrapper">-->
-<!--    <div class="modal-header">-->
-<!--        <i class="fa-solid fa-gear"></i>-->
-<!--        <h3>Settings</h3>-->
-<!--        <button class="btn-close">-->
-<!--            <i class="fa-solid fa-xmark"></i>-->
-<!--        </button>-->
-<!--    </div>-->
-<!--    <div class="modal-body">-->
-<!--        <form action="#" class="settings-form"></form>-->
-<!--    </div>-->
-<!--    <div class="modal-footer"></div>-->
-<!--</dialog>-->
 
 <dialog id="question-popup-wrapper">
     <div class="excluded">
         <div class="heading">
             <i class="fa-solid fa-circle-plus"></i>
-            <h2>Add question</h2>
+            <h2>Přidat otázku</h2>
         </div>
         <form action="" class="search-form">
             <span class="subject"></span>
             <select id="pool-category-filter" class="add-question-category"></select>
-            <input id="pool-search-input"  type="text" name="search" placeholder="question" />
+            <input id="pool-search-input" type="text" name="search" placeholder="Hledat otázku..." />
         </form>
 
         <div class="content" id="add-question-popup-content">
             <div class="question-pool-card" data-question-id="1">
-                <!-- Big Circle Add Button -->
-                <button type="button" class="btn-add-circle" title="Add to current variant">
+                <button type="button" class="btn-add-circle" title="Přidat do aktuální varianty">
                     <i class="fa-solid fa-plus"></i>
                 </button>
 
-                <!-- Content & Controls Area -->
                 <div class="card-body">
-                    <!-- Top Row: Assignment Text -->
                     <p class="question-assignment">
-                        What is the volume formula for a perfect sphere with radius r?
+                        Jaký je vzorec pro objem koule o poloměru r?
                     </p>
 
-                    <!-- Bottom Row: Metadata & Expand Action -->
                     <div class="card-footer-meta">
-                        <span class="meta-tag category-tag">Geometry</span>
-                        <span class="meta-tag difficulty-tag">Diff: 3/5</span>
+                        <span class="meta-tag category-tag">Geometrie</span>
+                        <span class="meta-tag difficulty-tag">Obtížnost: 3/5</span>
 
-                        <!-- Variant Usage Badges (Lit up if used in that variant) -->
-                        <div class="variant-indicators" title="Usage in variants">
+                        <div class="variant-indicators" title="Použití ve variantách">
                             <span class="v-dot active">A</span>
                             <span class="v-dot">B</span>
                             <span class="v-dot">C</span>
                         </div>
 
-                        <!-- Preview Toggle Button -->
                         <button type="button" class="btn-toggle-answers">
-                            <span>View Options</span>
+                            <span>Zobrazit možnosti</span>
                             <i class="fa-solid fa-chevron-down"></i>
                         </button>
                     </div>
 
-                    <!-- Collapsible Answer List (Matches the Question UI on the test) -->
                     <div class="preview-answers-drawer">
                         <div class="answer-row correct">
                             <span class="option-label">A)</span>
@@ -107,40 +85,32 @@
     <aside class="sidebar-tools">
 
         <div class="sidebar-header">
-            <a th:href="@{/main}" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back</a>
+            <a th:href="@{/main2}" class="back-link"><i class="fa-solid fa-arrow-left"></i> Zpět</a>
         </div>
 
         <div class="tool-group">
-            <span class="tool-group-label">Tools</span>
-<!--            <button class="tool-btn" id="btn-pool" title="Browse Question Pool">-->
-<!--                <i class="fa-solid fa-list-check"></i>-->
-<!--                <span>Question Pool</span>-->
-<!--            </button>-->
-            <button class="tool-btn" id="btn-add" title="Add Question to the Pool">
+            <span class="tool-group-label">Nástroje</span>
+            <button class="tool-btn" id="btn-add" title="Přidat otázku z banky">
                 <i class="fa-solid fa-circle-plus"></i>
-                <span>Add Question</span>
+                <span>Přidat otázku</span>
             </button>
-            <button style="color: #F36E51;" class="tool-btn" id="btn-delete-variant" title="Delete this variant">
+            <button class="tool-btn" id="btn-export-answers" title="Exportovat PDF se správnými odpověďmi pro tuto variantu">
+                <i class="fa-solid fa-file-circle-check"></i>
+                <span>Export Odpovědí</span>
+            </button>
+            <button style="color: #F36E51;" class="tool-btn" id="btn-delete-variant" title="Smazat tuto variantu">
                 <i style="color: #F36E51" class="fa-solid fa-trash"></i>
-                <span>Delete variant</span>
+                <span>Smazat variantu</span>
             </button>
-<!--            <button class="tool-btn" id="btn-settings" title="Test Settings & Points">-->
-<!--                <i class="fa-solid fa-sliders"></i>-->
-<!--                <span>Settings</span>-->
-<!--            </button>-->
         </div>
 
         <div class="tool-group bottom-actions">
             <button class="action-btn save-btn" id="btn-save">
-                <i class="fa-solid fa-floppy-disk"></i> Save Draft
+                <i class="fa-solid fa-floppy-disk"></i> Uložit návrh
             </button>
             <button class="action-btn export-btn" id="btn-export-pdf">
-                <i class="fa-solid fa-file-pdf"></i> Export PDF
+                <i class="fa-solid fa-file-pdf"></i> Exportovat PDF
             </button>
-
-<!--            <button style="background-color: #02CCFF;" class="action-btn export-btn" id="btn-export-json">-->
-<!--                <i class="fa-solid fa-file-export"></i> Export Test to JSON-->
-<!--            </button>-->
         </div>
     </aside>
 
@@ -150,76 +120,21 @@
         <!-- Top Header: Test Name & Subject Selector -->
         <header class="workspace-top-bar">
             <div class="test-identity-display">
-                <h1 class="display-test-name" id="display-test-name">Computer Architecture Exam 1</h1>
-                <span class="display-subject-tag" id="display-subject-tag">Operating Systems</span>
+                <h1 class="display-test-name" id="display-test-name">Architektura počítačů – Test 1</h1>
+                <span class="display-subject-tag" id="display-subject-tag">Operační systémy</span>
             </div>
         </header>
 
         <!-- Sub-Header: Dark Ribbon with Variant Switcher Tabs -->
         <nav class="variant-ribbon">
             <div class="variant-tabs" id="variant-tab-container">
-                <button class="add-variant-btn" id="add-variant-btn" title="Add Variant">+</button>
+                <button class="add-variant-btn" id="add-variant-btn" title="Přidat variantu">+</button>
             </div>
         </nav>
 
         <!-- Preview Canvas Area -->
         <section class="test-preview-canvas" id="preview-canvas">
             <div class="a4-sheet" id="a4-preview-sheet">
-                <!-- Test Header Preview -->
-<!--                <header>-->
-<!--                    <span class="header-test-variant">Variant</span>-->
-<!--                    <hr>-->
-<!--                    <div class="header-row-one">-->
-<!--                        <span class="header-test-subject">Subject</span>-->
-<!--                        <span class="header-test-date">Date: </span>-->
-<!--                    </div>-->
-<!--                    <span class="header-name">Name: </span>-->
-<!--                    <hr>-->
-<!--                </header>-->
-<!--                <hr class="preview-divider" />-->
-
-                <!-- Dynamic Question List in Active Variant -->
-<!--                <div class="preview-questions-list" id="preview-questions-list">-->
-
-<!--                    <div class="question">-->
-<!--                        <div id="flex-row-one">-->
-<!--                            <input type="text" class="assignment" placeholder="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis facilis fugit impedit laudantium libero maiores molestias, mollitia quidem voluptate voluptatibus!" />-->
-<!--                            <button class="remove" title="remove">-->
-<!--                            </button>-->
-<!--                        </div>-->
-<!--                        <div id="flex-row-two">-->
-<!--                            <div class="answer">-->
-<!--                                <span class="letter">A)</span>-->
-<!--                                <input type="text" placeholder="Lorem ipsum dolor sit amet.">-->
-<!--                                <i class="fa-solid fa-grip-lines"></i>-->
-<!--                            </div>-->
-
-<!--                            <div class="answer correct">-->
-<!--                                <span class="letter">B)</span>-->
-<!--                                <input class="correct" type="text" placeholder="Lorem ipsum dolor sit amet.">-->
-<!--                                <i class="correct fa-solid fa-grip-lines"></i>-->
-<!--                            </div>-->
-
-<!--                            <div class="answer">-->
-<!--                                <span class="letter">C)</span>-->
-<!--                                <input type="text" placeholder="Lorem ipsum dolor sit amet.">-->
-<!--                                <i class="fa-solid fa-grip-lines"></i>-->
-<!--                            </div>-->
-
-<!--                            <div class="answer">-->
-<!--                                <span class="letter">D)</span>-->
-<!--                                <input type="text" placeholder="Lorem ipsum dolor sit amet.">-->
-<!--                                <i class="fa-solid fa-grip-lines"></i>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <button class="change">Change</button>-->
-<!--                    </div>-->
-
-<!--&lt;!&ndash;                    <div class="empty-state-notice">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <i class="fa-regular fa-file-lines"></i>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <p>No questions added to this variant yet. Use the question pool or auto-generator to add questions.</p>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--                </div>-->
             </div>
         </section>
 

@@ -1,37 +1,37 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="cs">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Question Maker</title>
+    <title>Tvorba otázek</title>
     <link rel="stylesheet" th:href="@{dist/question_style.css}">
 </head>
 <body>
 
 <div class="question-maker-container">
     <div class="card-header">
-        <h2>Create Question</h2>
-        <p class="subtitle">Fill in the assignment, answer choices, and metadata below.</p>
+        <h2>Vytvořit otázku</h2>
+        <p class="subtitle">Vyplňte zadání otázky, možnosti odpovědí a metadata níže.</p>
     </div>
 
     <form id="question-form" class="question-form">
 
         <!-- 1. Question Assignment -->
         <div class="form-group">
-            <label for="assignment">Question Assignment</label>
+            <label for="assignment">Zadání otázky</label>
             <textarea id="assignment" name="assignment" rows="3"
-                      placeholder="e.g., Which protocol operates at the Transport layer of the OSI model?" required></textarea>
+                      placeholder="např. Který protokol pracuje na transportní vrstvě modelu ISO/OSI?" required></textarea>
         </div>
 
         <!-- 2. Category Selection (From Globals) -->
         <div class="form-group">
-            <label for="categoryID">Category</label>
+            <label for="categoryID">Kategorie</label>
             <select id="categoryID" name="categoryID" required>
-                <option value="" disabled selected>-- Select Category --</option>
+                <option value="" disabled selected>-- Vyberte kategorii --</option>
                 <option th:each="cat : ${categories}"
                         th:value="${cat.categoryID}"
                         th:text="${cat.categoryName}">
-                    Networking
+                    Sítě
                 </option>
             </select>
         </div>
@@ -39,7 +39,7 @@
         <!-- 3. Difficulty Slider (1 to 10) -->
         <div class="form-group">
             <div class="label-row">
-                <label for="difficulty">Difficulty Level</label>
+                <label for="difficulty">Úroveň obtížnosti</label>
                 <span id="difficulty-val" class="slider-badge">5</span>
             </div>
             <div class="slider-wrapper">
@@ -54,21 +54,20 @@
         <!-- 4. Question Answers List -->
         <div class="answers-section">
             <div class="answers-header">
-                <label>Answer Options</label>
-                <span class="hint">Select the radio button next to the correct answer.</span>
+                <label>Možnosti odpovědí</label>
+                <span class="hint">Označte přepínač u správné odpovědi.</span>
             </div>
 
             <div id="answers-list" class="answers-list">
-
-                <!-- by default red when correct then green -->
+            </div>
 
             <!-- Add Answer Button -->
-            <button type="button" id="add-answer-btn" class="btn-secondary">+ Add Choice</button>
+            <button type="button" id="add-answer-btn" class="btn-secondary">+ Přidat možnost</button>
         </div>
 
         <!-- 5. Form Submission Buttons -->
         <div class="form-actions">
-            <button type="submit" class="btn-primary">Save Question</button>
+            <button type="submit" class="btn-primary">Uložit otázku</button>
         </div>
 
     </form>
