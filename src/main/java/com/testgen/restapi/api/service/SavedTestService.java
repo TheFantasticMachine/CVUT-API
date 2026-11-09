@@ -19,24 +19,15 @@ import java.util.Optional;
 public class SavedTestService {
 
     private final SaveTestRepo saveTestRepo;
-    private final SettingsRepo settingsRepo;
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public SavedTestService(SaveTestRepo saveTestRepo, SettingsRepo settingsRepo, ObjectMapper objectMapper) {
+    public SavedTestService(SaveTestRepo saveTestRepo, ObjectMapper objectMapper) {
         this.saveTestRepo = saveTestRepo;
-        this.settingsRepo = settingsRepo;
         this.objectMapper = objectMapper;
     }
 
     public SavedTest createNewTest(int userId, String title, String subjectName, int subjectId) {
-        int testLimit = Integer.parseInt(settingsRepo.getSettingValueByKey("MAX_TESTS_PER_TEACHER"));
-        int userTestCount = saveTestRepo.countByUserId(userId);
-
-        if (userTestCount >= testLimit) {
-            throw new IllegalStateException("Test quota reached. Maximum allowed: " + testLimit);
-        }
-
         List<String> variantLetters = new ArrayList<>();
         variantLetters.add("A");
         variantLetters.add("B");

@@ -1,5 +1,3 @@
-// noinspection D
-
 document.addEventListener("DOMContentLoaded", async () => {
     const dialog = document.getElementById("new-test-dialog");
     const openButtons = document.querySelectorAll(".open-new-test-btn");
@@ -35,6 +33,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                     subject_name: subjectName,
                     subject_id: subjectId
                 };
+
+                console.table(payload)
 
                 const response = await fetch("/api/test_save/new", {
                     method: 'POST',
@@ -111,7 +111,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <h3 class="test-title">${summary.title}</h3>
                 <div class="test-meta-info">
                     <span><i class="fa-solid fa-layer-group"></i> ${summary.variants.length} Variants ${getVariantLetters(summary)}</span>
-                    <span><i class="fa-regular fa-clock"></i> Modified 2h ago</span>
                 </div>
                 <div class="test-card-actions">
                     <a th:href="@{/test_maker}" class="btn-edit-test"> 

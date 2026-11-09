@@ -35,12 +35,12 @@ public class IndexController {
     }
 
     @GetMapping("/main2")
-    public String main2Page() {
-//        if (session == null || session.getAttribute("currentUser") == null) {
-//            return "redirect:/login";
-//        }
-//        // Pass subjects into template so the "New Test" modal can list them dynamically
-//        model.addAttribute("subjects", Globals.subjects);
+    public String main2Page(Model model, HttpSession session) {
+        if (session == null || session.getAttribute("currentUser") == null) {
+            return "redirect:/login";
+        }
+        // Pass subjects into template so the "New Test" modal can list them dynamically
+        model.addAttribute("subjects", Globals.subjects);
         return "main2";
     }
 
